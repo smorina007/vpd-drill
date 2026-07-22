@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { FaStar, FaStarHalf, FaQuoteLeft, FaUser } from 'react-icons/fa'
+import ModalVleresime from './ModalVleresime'
 
 const vleresimetFillestare = [
   {
@@ -40,17 +41,17 @@ const vleresimetFillestare = [
 
 export default function Vleresimet() {
   const [vleresimet, setVleresimet] = useState(vleresimetFillestare)
-  const [vleresimiTotal, setVleresimiTotal] = useState(4.8)
-  const [numriVleresimeve, setNumriVleresimeve] = useState(47)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
-  // Simulimi i vlerësimeve të reja
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setNumriVleresimeve(prev => prev + 1)
-    }, 3600000) // Çdo orë
+  // Funksioni për të shtuar një vlerësim të ri
+  const handleNewVleresim = (newVleresim: any) => {
+    setVleresimet(prev => [newVleresim, ...prev]) // Shton në fillim të listës
+  }
 
-    return () => clearInterval(timer)
-  }, [])
+  // Llogarit vlerësimin mesatar dhe numrin total
+  const totalVleresime = vleresimet.length
+  const shumaVleresimeve = vleresimet.reduce((acc, curr) => acc + curr.vleresimi, 0)
+  const vleresimiTotal = (shumaVleresimeve / totalVleresime).toFixed(1)
 
   const renderYjet = (vleresimi: number) => {
     const yjet = []
@@ -76,18 +77,18 @@ export default function Vleresimet() {
           <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
             Çfarë thonë klientët tanë për punën tonë
           </p>
-          
+
           {/* Statistikat e vlerësimeve */}
           <div className="flex items-center justify-center space-x-8">
             <div className="text-center">
               <div className="text-4xl font-bold text-[#256D7B]">{vleresimiTotal}</div>
               <div className="flex items-center justify-center mt-1">
-                {renderYjet(vleresimiTotal)}
+                {renderYjet(parseFloat(vleresimiTotal))}
               </div>
               <div className="text-sm text-gray-500 mt-1">Vlerësim mesatar</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-[#256D7B]">{numriVleresimeve}</div>
+              <div className="text-4xl font-bold text-[#256D7B]">{totalVleresime}</div>
               <div className="text-sm text-gray-500 mt-1">Vlerësime totale</div>
             </div>
           </div>
@@ -123,10 +124,20 @@ export default function Vleresimet() {
 
         {/* Butoni për të lënë vlerësim */}
         <div className="text-center mt-10">
-          <button className="bg-[#256D7B] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#1a4f5a] transition">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="bg-[#256D7B] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#1a4f5a] transition"
+          >
             Lini një vlerësim
           </button>
         </div>
+
+        {/* Modal për vlerësim të ri */}
+        <ModalVleresime
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSubmit={handleNewVleresim}
+        />
       </div>
     </section>
   )

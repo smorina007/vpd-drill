@@ -10,7 +10,7 @@ const sherbimet = [
     features: [
       'Terrene të forta (shkëmbore) - deri 500m',
       'Terrene të buta (argjilë, rërë) - deri 55m diametër',
-      'Makineri Casagrande, Mait, XCMG',
+      'Makineri Casagrande, Mait, XCMG, Masenzza, Puntell',
       'Sondazhe gjeologjike'
     ],
     link: '/sherbimet/shpime-puse'
@@ -21,7 +21,7 @@ const sherbimet = [
     description: 'Themele të sigurta me pilota të thellë për çdo lloj objekti. Nga ndërtesat individuale deri te komplekset industriale.',
     icon: FaBuilding,
     features: [
-      'Pilota të derdhur në vend',
+      'Pilota',
       'Metoda CFA',
       'Konstruksione pilotash',
       'Testime të ngarkesës'

@@ -1,145 +1,260 @@
 'use client'
 
 import { useState } from 'react'
-import { FaCalculator, FaRuler, FaWeight, FaCube } from 'react-icons/fa'
+import { FaCalculator, FaRuler, FaWeight, FaCube, FaArrowRight, FaInfoCircle } from 'react-icons/fa'
 
 export default function LlogaritesMuriL() {
-  const [gjatesia, setGjatesia] = useState<number>(2)
-  const [lartesia, setLartesia] = useState<number>(1.5)
-  const [trashesia, setTrashesia] = useState<number>(20)
+  // Dimensionet e përbashkëta
+  const [gjatesia, setGjatesia] = useState<number>(2) // m
+
+  // Pjesa vertikale (muri)
+  const [lartesiaMurit, setLartesiaMurit] = useState<number>(1.5) // m
+  const [trashesiaMurit, setTrashesiaMurit] = useState<number>(12) // cm
+
+  // Pjesa horizontale (këmba/fondi)
+  const [gjatesiaKembes, setGjatesiaKembes] = useState<number>(0.8) // m
+  const [trashesiaKembes, setTrashesiaKembes] = useState<number>(20) // cm
+
   const [rezultati, setRezultati] = useState<{
-    vellimi: number
+    vellimiTotal: number
     pesha: number
     hekuri: number
     forca: number
+    vellimiMurit: number
+    vellimiKembes: number
   } | null>(null)
 
   const densitetiBetoni = 2400 // kg/m³
   const hekuriPerM3 = 120 // kg/m³ beton (mesatare)
+  const forcaPerM3 = 250 // kN/m³ (kapacitet mbajtës i përafërt)
 
   const llogarit = () => {
-    const gjatesiaM = gjatesia
-    const lartesiaM = lartesia
-    const trashesiaM = trashesia / 100 // konverto cm në m
+    // Konvertimi i trashësive nga cm në m
+    const tMurit = trashesiaMurit / 100
+    const tKembes = trashesiaKembes / 100
 
-    const vellimi = gjatesiaM * lartesiaM * trashesiaM
-    const pesha = vellimi * densitetiBetoni
-    const hekuri = vellimi * hekuriPerM3
-    const forca = vellimi * 250 // kN/m³ (përllogaritje e thjeshtë)
+    // Vëllimet
+    const vellimiMurit = gjatesia * lartesiaMurit * tMurit
+    const vellimiKembes = gjatesia * gjatesiaKembes * tKembes
+    const vellimiTotal = vellimiMurit + vellimiKembes
+
+    // Llogaritjet
+    const pesha = (vellimiTotal * densitetiBetoni) / 1000 // ton
+    const hekuri = vellimiTotal * hekuriPerM3
+    const forca = vellimiTotal * forcaPerM3
 
     setRezultati({
-      vellimi: Number(vellimi.toFixed(2)),
-      pesha: Number((pesha / 1000).toFixed(2)), // konverto në ton
+      vellimiTotal: Number(vellimiTotal.toFixed(2)),
+      pesha: Number(pesha.toFixed(2)),
       hekuri: Number(hekuri.toFixed(2)),
-      forca: Number(forca.toFixed(2))
+      forca: Number(forca.toFixed(2)),
+      vellimiMurit: Number(vellimiMurit.toFixed(2)),
+      vellimiKembes: Number(vellimiKembes.toFixed(2))
     })
   }
 
+  const handleInputChange = (setter: (value: number) => void, value: string) => {
+    const numValue = parseFloat(value)
+    if (!isNaN(numValue) && numValue > 0) {
+      setter(numValue)
+    }
+  }
+
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             Llogaritësi i Murit L
           </h2>
-          <p className="text-lg text-gray-600">
-            Llogarit shpejt peshën dhe sasinë e materialit për murin L
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Llogarit vëllimin, peshën dhe armaturën duke përfshirë murin vertikal dhe këmbën horizontale
           </p>
+          <div className="w-32 h-1.5 bg-gradient-to-r from-[#256D7B] to-[#1a4f5a] mx-auto mt-6 rounded-full"></div>
         </div>
 
-        <div className="bg-white rounded-2xl p-8 shadow-lg">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+          {/* Informacion teknik */}
+          <div className="mb-6 p-4 bg-[#256D7B]/5 rounded-lg border border-[#256D7B]/20">
+            <div className="flex items-start">
+              <FaInfoCircle className="text-[#256D7B] text-xl mt-0.5 mr-3 flex-shrink-0" />
+              <div className="text-sm text-gray-600">
+                <p className="font-medium text-[#256D7B] mb-1">Parametrat teknikë:</p>
+                <ul className="list-disc list-inside space-y-1">
+                  <li>Densiteti i betonit: 2400 kg/m³</li>
+                  <li>Armatura: ~120 kg/m³ beton</li>
+                  <li>Kapaciteti mbajtës: ~250 kN/m³</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* Input fields */}
+          <div className="space-y-6">
+            {/* Gjatësia e përbashkët */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 <FaRuler className="inline mr-2 text-[#256D7B]" />
-                Gjatësia (m)
+                Gjatësia e murit (m)
               </label>
               <input
                 type="number"
                 min="0.1"
+                max="10"
                 step="0.1"
                 value={gjatesia}
-                onChange={(e) => setGjatesia(Number(e.target.value))}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#256D7B]"
+                onChange={(e) => handleInputChange(setGjatesia, e.target.value)}
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#256D7B] focus:border-transparent transition"
               />
+              <p className="text-xs text-gray-400 mt-1">Min: 0.1m, Max: 10m</p>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                <FaRuler className="inline mr-2 text-[#256D7B]" />
-                Lartësia (m)
-              </label>
-              <input
-                type="number"
-                min="0.1"
-                step="0.1"
-                value={lartesia}
-                onChange={(e) => setLartesia(Number(e.target.value))}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#256D7B]"
-              />
+            {/* Pjesa vertikale */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <FaRuler className="inline mr-2 text-[#256D7B]" />
+                  Lartësia e murit (m)
+                </label>
+                <input
+                  type="number"
+                  min="0.1"
+                  max="5"
+                  step="0.1"
+                  value={lartesiaMurit}
+                  onChange={(e) => handleInputChange(setLartesiaMurit, e.target.value)}
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#256D7B] focus:border-transparent transition"
+                />
+                <p className="text-xs text-gray-400 mt-1">Min: 0.1m, Max: 5m</p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <FaRuler className="inline mr-2 text-[#256D7B]" />
+                  Trashësia e murit (cm)
+                </label>
+                <input
+                  type="number"
+                  min="5"
+                  max="50"
+                  step="1"
+                  value={trashesiaMurit}
+                  onChange={(e) => handleInputChange(setTrashesiaMurit, e.target.value)}
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#256D7B] focus:border-transparent transition"
+                />
+                <p className="text-xs text-gray-400 mt-1">Min: 5cm, Max: 50cm</p>
+              </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                <FaRuler className="inline mr-2 text-[#256D7B]" />
-                Trashësia (cm)
-              </label>
-              <input
-                type="number"
-                min="10"
-                max="50"
-                step="5"
-                value={trashesia}
-                onChange={(e) => setTrashesia(Number(e.target.value))}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#256D7B]"
-              />
+            {/* Pjesa horizontale (këmba) */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <FaRuler className="inline mr-2 text-[#256D7B]" />
+                  Gjatësia e këmbës (m)
+                </label>
+                <input
+                  type="number"
+                  min="0.1"
+                  max="2"
+                  step="0.1"
+                  value={gjatesiaKembes}
+                  onChange={(e) => handleInputChange(setGjatesiaKembes, e.target.value)}
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#256D7B] focus:border-transparent transition"
+                />
+                <p className="text-xs text-gray-400 mt-1">Min: 0.1m, Max: 2m</p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <FaRuler className="inline mr-2 text-[#256D7B]" />
+                  Trashësia e këmbës (cm)
+                </label>
+                <input
+                  type="number"
+                  min="5"
+                  max="50"
+                  step="1"
+                  value={trashesiaKembes}
+                  onChange={(e) => handleInputChange(setTrashesiaKembes, e.target.value)}
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#256D7B] focus:border-transparent transition"
+                />
+                <p className="text-xs text-gray-400 mt-1">Min: 5cm, Max: 50cm</p>
+              </div>
             </div>
           </div>
 
           <button
             onClick={llogarit}
-            className="w-full bg-[#256D7B] text-white px-6 py-4 rounded-lg font-semibold hover:bg-[#1a4f5a] transition flex items-center justify-center mb-8"
+            className="w-full bg-gradient-to-r from-[#256D7B] to-[#1a4f5a] text-white px-6 py-4 rounded-lg font-semibold hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center group mt-8 mb-8"
           >
-            <FaCalculator className="mr-2" />
-            Llogarit
+            <FaCalculator className="mr-2 group-hover:rotate-12 transition" />
+            Llogarit Murin L
           </button>
 
           {rezultati && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-gray-50 p-6 rounded-lg">
-                <div className="flex items-center mb-2">
-                  <FaCube className="text-2xl text-[#256D7B] mr-3" />
-                  <h3 className="font-semibold text-gray-900">Vëllimi</h3>
+            <div className="space-y-6">
+              {/* Rezultatet kryesore */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-gradient-to-br from-[#256D7B]/10 to-transparent p-6 rounded-xl border border-[#256D7B]/20">
+                  <div className="flex items-center mb-3">
+                    <div className="w-10 h-10 bg-[#256D7B]/20 rounded-lg flex items-center justify-center mr-3">
+                      <FaCube className="text-xl text-[#256D7B]" />
+                    </div>
+                    <h3 className="font-semibold text-gray-900">Vëllimi total</h3>
+                  </div>
+                  <p className="text-3xl font-bold text-[#256D7B] mb-1">{rezultati.vellimiTotal} m³</p>
+                  <p className="text-sm text-gray-500">beton i armuar</p>
                 </div>
-                <p className="text-3xl font-bold text-[#256D7B]">{rezultati.vellimi} m³</p>
-                <p className="text-sm text-gray-500">beton</p>
+
+                <div className="bg-gradient-to-br from-[#256D7B]/10 to-transparent p-6 rounded-xl border border-[#256D7B]/20">
+                  <div className="flex items-center mb-3">
+                    <div className="w-10 h-10 bg-[#256D7B]/20 rounded-lg flex items-center justify-center mr-3">
+                      <FaWeight className="text-xl text-[#256D7B]" />
+                    </div>
+                    <h3 className="font-semibold text-gray-900">Pesha totale</h3>
+                  </div>
+                  <p className="text-3xl font-bold text-[#256D7B] mb-1">{rezultati.pesha} ton</p>
+                  <p className="text-sm text-gray-500">pesha totale</p>
+                </div>
               </div>
 
-              <div className="bg-gray-50 p-6 rounded-lg">
-                <div className="flex items-center mb-2">
-                  <FaWeight className="text-2xl text-[#256D7B] mr-3" />
-                  <h3 className="font-semibold text-gray-900">Pesha</h3>
+              {/* Vëllimet e ndara */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-sm text-gray-500 mb-1">Vëllimi i murit vertikal</p>
+                  <p className="text-xl font-semibold text-gray-900">{rezultati.vellimiMurit} m³</p>
                 </div>
-                <p className="text-3xl font-bold text-[#256D7B]">{rezultati.pesha} ton</p>
-                <p className="text-sm text-gray-500">pesha totale</p>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-sm text-gray-500 mb-1">Vëllimi i këmbës</p>
+                  <p className="text-xl font-semibold text-gray-900">{rezultati.vellimiKembes} m³</p>
+                </div>
               </div>
 
-              <div className="bg-gray-50 p-6 rounded-lg">
-                <div className="flex items-center mb-2">
-                  <FaWeight className="text-2xl text-[#256D7B] mr-3" />
-                  <h3 className="font-semibold text-gray-900">Hekuri</h3>
+              {/* Rezultatet sekondare */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-sm text-gray-500 mb-1">Hekuri (armaturë)</p>
+                  <p className="text-xl font-semibold text-gray-900">{rezultati.hekuri} kg</p>
                 </div>
-                <p className="text-3xl font-bold text-[#256D7B]">{rezultati.hekuri} kg</p>
-                <p className="text-sm text-gray-500">armaturë</p>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-sm text-gray-500 mb-1">Forca mbajtëse</p>
+                  <p className="text-xl font-semibold text-gray-900">{rezultati.forca} kN</p>
+                </div>
               </div>
 
-              <div className="bg-gray-50 p-6 rounded-lg">
-                <div className="flex items-center mb-2">
-                  <FaCube className="text-2xl text-[#256D7B] mr-3" />
-                  <h3 className="font-semibold text-gray-900">Forca</h3>
-                </div>
-                <p className="text-3xl font-bold text-[#256D7B]">{rezultati.forca} kN</p>
-                <p className="text-sm text-gray-500">kapacitet mbajtës</p>
+              {/* Informacion shtesë */}
+              <div className="mt-4 p-4 bg-green-50 rounded-lg border border-green-200">
+                <p className="text-sm text-green-800">
+                  <span className="font-semibold">Rekomandim:</span> Për këtë mur L, rekomandojmë 
+                  përdorimin e betonit të klasës C25/30 dhe armaturës ø10-14mm sipas projektit.
+                </p>
+              </div>
+
+              {/* Butoni për ofertë */}
+              <div className="flex justify-center mt-6">
+                <button className="bg-white border-2 border-[#256D7B] text-[#256D7B] px-6 py-3 rounded-lg font-semibold hover:bg-[#256D7B] hover:text-white transition-all duration-300 flex items-center group">
+                  Kërko ofertë për këtë mur
+                  <FaArrowRight className="ml-2 group-hover:translate-x-1 transition" />
+                </button>
               </div>
             </div>
           )}

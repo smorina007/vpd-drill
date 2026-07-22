@@ -1,11 +1,11 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import { 
   FaTimes, FaRobot, FaPaperPlane, FaSpinner, 
   FaWater, FaBuilding, FaAnchor, FaCube, 
-  FaRuler, FaWeight, FaCalculator, FaInfo,
-  FaPhone, FaEnvelope, FaMapMarkerAlt
+  FaRuler, FaCalculator, FaInfo,
+  FaPhone, FaEnvelope
 } from 'react-icons/fa'
 
 type ModalProps = {
@@ -22,14 +22,18 @@ type Mesazh = {
 type Sugjerim = {
   text: string
   icon: React.ReactNode
-  category: string
+  action: string
 }
 
 export default function ModalAI({ isOpen, onClose }: ModalProps) {
   const [pyetja, setPyetja] = useState('')
   const [mesazhet, setMesazhet] = useState<Mesazh[]>([
     { 
-      text: "Përshëndetje! Unë jam asistenti inteligjent i VPD DRILL. Mund të më pyesni për çdo gjë rreth shërbimeve, produkteve, llogaritjeve teknike ose të kërkoni ndihmë.", 
+      text: "Përshëndetje! Unë jam asistenti inteligjent i VPD DRILL. Mund të më pyesni për:\n\n" +
+            "🔹 Llogaritësit – vëllimi i ujit, muri L, pilota, etj.\n" +
+            "🔹 Pompa uji – rekomandime bazuar në thellësi\n" +
+            "🔹 Gjeologjia e tokës – llojet e terreneve\n" +
+            "🔹 Produktet dhe shërbimet tona",
       isUser: false,
       timestamp: new Date()
     }
@@ -37,175 +41,111 @@ export default function ModalAI({ isOpen, onClose }: ModalProps) {
   const [dukeTyp, setDukeTyp] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  // Baza e njohurive
+  // KnowledgeBase e plotë
   const knowledgeBase = {
-    'shpime': {
-      title: 'Shpime Puse Uji',
-      info: 'Specialistë në shpimin e puseve të ujit në çdo lloj terreni.',
+    gjeologji: {
+      title: '🏔️ Informacione Gjeologjike',
       specs: [
-        'Terrene të forta (shkëmbore) - Thellësi deri 200m',
-        'Terrene të buta (argjilë, rërë) - Thellësi deri 150m',
-        'Makineri: Casagrande, Soilmec',
-        'Sondazhe gjeologjike të detajuara'
+        'Terrene shkëmbore: Thellësi deri 500m',
+        'Terrene argjilore: Kërkojnë stabilizim',
+        'Terrene ranore: Rrezik shembjesh',
+        'Ujërat nëntokësore: Ndikojnë në shpim'
       ]
     },
-    'pilota': {
-      title: 'Pilota për Objekte',
-      info: 'Themele të sigurta me pilota të thellë për çdo lloj objekti.',
+    pompa: {
+      title: '💧 Rekomandime për Pompa',
       specs: [
-        'Pilota të derdhur në vend (diametrat: 400-1200mm)',
-        'Metoda CFA për thellësi deri 25m',
-        'Testime të ngarkesës deri 200 ton',
-        'Kapacitet mbajtës deri 150 ton/pilotë'
+        'Pompa sipërfaqësore: Deri 8m thellësi',
+        'Pompa zhytëse: 10-200m thellësi',
+        'Pompa me presion: Për rritje presioni',
+        'Pompa me inverter: Kursim energjie'
       ]
     },
-    'ankera': {
-      title: 'Ankera dhe Stabilizim',
-      info: 'Mbrojtje dhe stabilizim i themeleve dhe shpateve me ankera.',
+    uji: {
+      title: '💧 Informacione për Ujin',
       specs: [
-        'Ankera të tensionuar (kapacitet 30-100 ton)',
-        'Mbrojtje e themeleve ekzistuese',
-        'Stabilizim shpatesh deri 20m lartësi',
-        'Forcim i mureve mbajtëse'
+        'Thellësia e pusit ndikon në temperaturë',
+        'Diametri ndikon në kapacitet',
+        'Analiza e ujit rekomandohet çdo 6 muaj',
+        'Mirëmbajtja zgjat jetën e pusit'
       ]
     },
-    'muri l': {
-      title: 'Muri L',
-      info: 'Elemente betoni për mure mbajtëse dhe kanale.',
+    llogaritesit: {
+      title: '🧮 Llogaritësit',
       specs: [
-        'Lartësi: 1-4m',
-        'Gjatësi: 1-3m për element',
-        'Trashësi: 15-30cm',
-        'Pesha: 1.5-5 ton/element'
+        'Muri L: Vëllim, peshë, armaturë',
+        'Pilota: Beton dhe peshë',
+        'Konstruksion pilotash: Hekur',
+        'Uji në pus: Vëllim në litra'
       ]
     },
-    'gypa betoni': {
-      title: 'Gypa Betoni',
-      info: 'Për kanalizime dhe ujësjellës.',
+    kontakt: {
+      title: '📞 Kontakti',
       specs: [
-        'Diametrat: 300-2000mm',
-        'Gjatësi: 2-3m',
-        'Rezistencë ndaj presionit deri 10 bar',
-        'Lidhje hermetike'
-      ]
-    },
-    'gypa per puse': {
-      title: 'Gypa për Puse',
-      info: 'Gypa plastike dhe hekuri për puse uji.',
-      specs: [
-        'Gypa plastike: 125-300mm',
-        'Gypa hekuri të galvanizuar: 100-400mm',
-        'Gypa hekuri pa galvanizuar: 100-400mm',
-        'Rezistent ndaj korrozionit'
-      ]
-    },
-    'sajla': {
-      title: 'Sajla',
-      info: 'Shufra hekuri për konstruksione.',
-      specs: [
-        'Diametrat: 10-24mm',
-        'Gjatësi: 6-12m',
-        'Servis shtypjeje sipas kërkesës',
-        'Cilësi e lartë'
-      ]
-    },
-    'kontakt': {
-      title: 'Informacione Kontakti',
-      info: 'Na kontaktoni për çdo pyetje.',
-      specs: [
-        'Tel1: 044 184 1144',
-        'Tel2: 044 204 877',
-        'Tel3: 045 700 201',
+        'Tel: 044 184 114',
         'Email: info@vllezeritpaqarizi.com',
         'Adresa: Fsh Dragobil, Malisheve'
       ]
     }
   }
 
-  // Sugjerimet e shpejta
-  const sugjerimet: Sugjerim[] = [
-    { text: 'Çfarë lloj shpimesh bëni?', icon: <FaWater />, category: 'shpime' },
-    { text: 'Sa kushton një pilotë?', icon: <FaBuilding />, category: 'pilota' },
-    { text: 'Specifikimet e Murit L', icon: <FaCube />, category: 'muri l' },
-    { text: 'Kontakti dhe adresa', icon: <FaPhone />, category: 'kontakt' },
-    { text: 'Llogaritësi i pilotave', icon: <FaCalculator />, category: 'llogarites' },
-    { text: 'Ankera për stabilizim', icon: <FaAnchor />, category: 'ankera' }
-  ]
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  // Funksionet ndihmëse
+  const rekomandoPompen = (thellesia: number) => {
+    if (thellesia <= 8) return 'pompë sipërfaqësore'
+    if (thellesia <= 30) return 'pompë zhytëse (presion të ulët)'
+    if (thellesia <= 70) return 'pompë zhytëse (presion mesatar)'
+    return 'pompë zhytëse (presion të lartë)'
   }
 
-  useEffect(() => {
-    scrollToBottom()
-  }, [mesazhet])
+  const llogaritVelliminEUjit = (diametri: number, thellesia: number) => {
+    const rrezja = diametri / 1000 / 2
+    return (Math.PI * rrezja * rrezja * thellesia).toFixed(2)
+  }
 
+  const shembullMuriL = () => {
+    return "Shembull: Mur L 2m gjatësi, 1.5m lartësi, 12cm trashësi muri, 0.8m këmbë → 0.68m³ beton, 1.63 ton"
+  }
+
+  // Përgjigjet
   const gjejPergjigje = (pyetja: string): string => {
-    const pyetjaL = pyetja.toLowerCase()
-    
-    // Kontrollo për fjalë kyçe
-    if (pyetjaL.includes('shpim') || pyetjaL.includes('pus')) {
-      const k = knowledgeBase['shpime']
-      return `${k.title}:\n${k.info}\n\nSpecifikimet:\n${k.specs.map(s => `• ${s}`).join('\n')}`
+    const p = pyetja.toLowerCase()
+
+    if (p.includes('gjeologji')) 
+      return knowledgeBase.gjeologji.title + '\n' + knowledgeBase.gjeologji.specs.map(s => '• ' + s).join('\n')
+
+    if (p.includes('pompë') || p.includes('pompa')) {
+      const match = p.match(/(\d+)\s*m/)
+      if (match) return 'Rekomandojmë ' + rekomandoPompen(parseInt(match[1]))
+      return knowledgeBase.pompa.title + '\n' + knowledgeBase.pompa.specs.map(s => '• ' + s).join('\n')
     }
-    if (pyetjaL.includes('pilot')) {
-      const k = knowledgeBase['pilota']
-      return `${k.title}:\n${k.info}\n\nSpecifikimet teknike:\n${k.specs.map(s => `• ${s}`).join('\n')}`
+
+    if (p.includes('ujë') && p.includes('vëllim')) {
+      const diam = p.match(/(\d+)\s*mm/)
+      const thel = p.match(/(\d+)\s*m/)
+      if (diam && thel) return `Vëllimi: ${llogaritVelliminEUjit(parseInt(diam[1]), parseInt(thel[1]))} m³`
+      return 'Shembull: "diametri 300mm thellësia 50m"'
     }
-    if (pyetjaL.includes('anker')) {
-      const k = knowledgeBase['ankera']
-      return `${k.title}:\n${k.info}\n\nKapacitetet:\n${k.specs.map(s => `• ${s}`).join('\n')}`
-    }
-    if (pyetjaL.includes('muri l') || pyetjaL.includes('mur l')) {
-      const k = knowledgeBase['muri l']
-      return `${k.title}:\n${k.info}\n\nDimensionet:\n${k.specs.map(s => `• ${s}`).join('\n')}`
-    }
-    if (pyetjaL.includes('gypa betoni')) {
-      const k = knowledgeBase['gypa betoni']
-      return `${k.title}:\n${k.info}\n\nSpecifikimet:\n${k.specs.map(s => `• ${s}`).join('\n')}`
-    }
-    if (pyetjaL.includes('gypa per puse') || pyetjaL.includes('gypa për puse')) {
-      const k = knowledgeBase['gypa per puse']
-      return `${k.title}:\n${k.info}\n\nLlojet:\n${k.specs.map(s => `• ${s}`).join('\n')}`
-    }
-    if (pyetjaL.includes('sajl') || pyetjaL.includes('shufra')) {
-      const k = knowledgeBase['sajla']
-      return `${k.title}:\n${k.info}\n\nOpsionet:\n${k.specs.map(s => `• ${s}`).join('\n')}`
-    }
-    if (pyetjaL.includes('kontakt') || pyetjaL.includes('telefon') || pyetjaL.includes('email')) {
-      const k = knowledgeBase['kontakt']
-      return `${k.title}:\n${k.info}\n\n${k.specs.map(s => `• ${s}`).join('\n')}`
-    }
-    if (pyetjaL.includes('çmim') || pyetjaL.includes('kosto') || pyetjaL.includes('sa kushton')) {
-      return "Për çmime të sakta dhe oferta të personalizuara, ju lutem:\n\n• Plotësoni formularin e ofertës (kliko ikonën Oferta)\n• Na telefononi në 044 184 1144\n• Dërgoni email në info@vllezeritpaqarizi.com\n\nNjë nga përfaqësuesit tanë do t'ju kontaktojë brenda 24 orëve."
-    }
-    if (pyetjaL.includes('llogarit') || pyetjaL.includes('kalkulim')) {
-      return "Mund të përdorni llogaritësit tanë profesionalë:\n\n• 📐 Llogaritësi i Murit L (pesha, vëllimi, forca)\n• 📏 Llogaritësi i Pilotave (betoni, hekuri, kapaciteti)\n• 🔧 Llogaritësi i Konstruksioneve (armatura)\n\nKlikoni në ikonat përkatëse në header për t'i përdorur!"
-    }
-    
-    return "Faleminderit për pyetjen. Për informacion më të detajuar, mund të:\n\n• Përdorni llogaritësit tanë\n• Plotësoni formularin e ofertës\n• Na kontaktoni direkt në telefon\n\nSi tjetër mund t'ju ndihmoj?"
+
+    if (p.includes('mur') || p.includes('muri l')) return shembullMuriL()
+
+    if (p.includes('llogaritës')) 
+      return knowledgeBase.llogaritesit.title + '\n' + knowledgeBase.llogaritesit.specs.map(s => '• ' + s).join('\n')
+
+    if (p.includes('kontakt')) 
+      return knowledgeBase.kontakt.title + '\n' + knowledgeBase.kontakt.specs.map(s => '• ' + s).join('\n')
+
+    return "Për më shumë, na kontaktoni në 044 184 114"
   }
 
   const dergoPyetjen = () => {
     if (!pyetja.trim()) return
-
-    setMesazhet(prev => [...prev, { 
-      text: pyetja, 
-      isUser: true,
-      timestamp: new Date()
-    }])
+    setMesazhet(prev => [...prev, { text: pyetja, isUser: true, timestamp: new Date() }])
     setPyetja('')
     setDukeTyp(true)
-
     setTimeout(() => {
-      const pergjigja = gjejPergjigje(pyetja)
-      setMesazhet(prev => [...prev, { 
-        text: pergjigja, 
-        isUser: false,
-        timestamp: new Date()
-      }])
+      setMesazhet(prev => [...prev, { text: gjejPergjigje(pyetja), isUser: false, timestamp: new Date() }])
       setDukeTyp(false)
-    }, 1500)
+    }, 1000)
   }
 
   const handleSugjerimClick = (sugjerim: string) => {
@@ -215,99 +155,78 @@ export default function ModalAI({ isOpen, onClose }: ModalProps) {
 
   if (!isOpen) return null
 
+  const sugjerimet: Sugjerim[] = [
+    { text: 'Gjeologji', icon: <FaInfo />, action: '' },
+    { text: 'Pompa për 45m', icon: <FaCalculator />, action: '' },
+    { text: 'Llogarit vëllimin', icon: <FaWater />, action: '' },
+    { text: 'Shembull Muri L', icon: <FaCube />, action: '' },
+    { text: 'Llogaritësit', icon: <FaCalculator />, action: '' },
+    { text: 'Kontakt', icon: <FaPhone />, action: '' }
+  ]
+
   return (
     <div className="fixed inset-0 z-[60] overflow-y-auto">
-      <div className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-        <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-          <div className="absolute inset-0 bg-gray-900 opacity-75" onClick={onClose}></div>
-        </div>
+      <div className="flex items-end sm:items-center justify-center min-h-screen">
+        <div className="fixed inset-0 bg-gray-900/75" onClick={onClose} />
 
-        <div className="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full">
-          <div className="bg-white px-6 pt-6 pb-4 sm:p-8">
-            {/* Header */}
-            <div className="flex justify-between items-center mb-6">
-              <div className="flex items-center">
-                <div className="w-12 h-12 bg-gradient-to-r from-[#256D7B] to-[#1a4f5a] rounded-xl flex items-center justify-center mr-3">
-                  <FaRobot className="text-2xl text-white" />
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-gray-900">Asistenti AI</h3>
-                  <p className="text-sm text-gray-500">Pyetni çfarëdo rreth shërbimeve tona</p>
-                </div>
+        <div className="relative bg-white w-full sm:rounded-2xl sm:max-w-2xl sm:mx-4 rounded-t-2xl sm:my-8 max-h-[90vh] flex flex-col">
+          {/* Header */}
+          <div className="sticky top-0 bg-white border-b px-4 py-3 flex justify-between items-center">
+            <div className="flex items-center">
+              <div className="w-10 h-10 bg-gradient-to-r from-[#256D7B] to-[#1a4f5a] rounded-xl flex items-center justify-center mr-3">
+                <FaRobot className="text-white" />
               </div>
-              <button onClick={onClose} className="text-gray-400 hover:text-gray-500">
-                <FaTimes className="text-2xl" />
-              </button>
+              <h3 className="font-bold">Asistenti AI</h3>
+            </div>
+            <button onClick={onClose}><FaTimes /></button>
+          </div>
+
+          {/* Përmbajtja kryesore */}
+          <div className="flex-1 overflow-y-auto p-4">
+            {/* Sugjerimet */}
+            <div className="mb-4 flex flex-wrap gap-2">
+              {sugjerimet.map((s, i) => (
+                <button
+                  key={i}
+                  onClick={() => handleSugjerimClick(s.text)}
+                  className="flex items-center px-3 py-2 bg-gray-100 rounded-full text-xs"
+                >
+                  <span className="mr-1 text-[#256D7B]">{s.icon}</span>
+                  {s.text}
+                </button>
+              ))}
             </div>
 
-            {/* Sugjerimet e shpejta */}
-            <div className="mb-4">
-              <p className="text-xs text-gray-500 mb-2">SUGJERIME TË SHPEJTA:</p>
-              <div className="flex flex-wrap gap-2">
-                {sugjerimet.map((s, i) => (
-                  <button
-                    key={i}
-                    onClick={() => handleSugjerimClick(s.text)}
-                    className="flex items-center px-3 py-2 bg-gray-100 hover:bg-[#256D7B]/10 rounded-lg text-sm text-gray-700 hover:text-[#256D7B] transition"
-                  >
-                    <span className="mr-2 text-[#256D7B]">{s.icon}</span>
-                    {s.text}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Dritarja e chat-it */}
-            <div className="h-96 overflow-y-auto mb-4 space-y-4 p-4 bg-gray-50 rounded-lg">
+            {/* Mesazhet */}
+            <div className="space-y-4">
               {mesazhet.map((m, i) => (
                 <div key={i} className={`flex ${m.isUser ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-[80%] p-4 rounded-lg ${
-                    m.isUser 
-                      ? 'bg-gradient-to-r from-[#256D7B] to-[#1a4f5a] text-white rounded-br-none' 
-                      : 'bg-white text-gray-800 rounded-bl-none shadow'
+                  <div className={`max-w-[80%] p-3 rounded-xl ${
+                    m.isUser ? 'bg-[#256D7B] text-white' : 'bg-gray-100'
                   }`}>
                     <p className="text-sm whitespace-pre-line">{m.text}</p>
-                    <p className={`text-xs mt-1 ${m.isUser ? 'text-white/70' : 'text-gray-400'}`}>
-                      {m.timestamp.toLocaleTimeString('sq-AL', { hour: '2-digit', minute: '2-digit' })}
-                    </p>
                   </div>
                 </div>
               ))}
-              {dukeTyp && (
-                <div className="flex justify-start">
-                  <div className="bg-white p-4 rounded-lg rounded-bl-none shadow">
-                    <div className="flex items-center space-x-2">
-                      <FaSpinner className="animate-spin text-[#256D7B]" />
-                      <span className="text-sm text-gray-500">AI po shkruan...</span>
-                    </div>
-                  </div>
-                </div>
-              )}
+              {dukeTyp && <FaSpinner className="animate-spin text-[#256D7B]" />}
               <div ref={messagesEndRef} />
             </div>
+          </div>
 
-            {/* Input field */}
+          {/* Input */}
+          <div className="sticky bottom-0 bg-white border-t p-4">
             <div className="flex gap-2">
               <input
-                type="text"
                 value={pyetja}
                 onChange={(e) => setPyetja(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && dergoPyetjen()}
-                placeholder="Shkruani pyetjen tuaj..."
-                className="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#256D7B] focus:border-transparent"
+                placeholder="Shkruani pyetjen..."
+                className="flex-1 p-3 border rounded-xl text-sm"
               />
-              <button
-                onClick={dergoPyetjen}
-                className="bg-gradient-to-r from-[#256D7B] to-[#1a4f5a] text-white px-6 py-3 rounded-lg hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300"
-              >
+              <button onClick={dergoPyetjen} className="bg-[#256D7B] text-white px-4 rounded-xl">
                 <FaPaperPlane />
               </button>
             </div>
-
-            {/* Footer info */}
-            <p className="text-xs text-gray-400 mt-3 text-center">
-              Asistenti AI mund të ketë gabime. Për informacion zyrtar, na kontaktoni direkt.
-            </p>
           </div>
         </div>
       </div>

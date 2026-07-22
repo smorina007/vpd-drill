@@ -8,12 +8,155 @@
   --primary-dark: #1a4f5a;
 }
 
-@layer components {
-  .container-custom {
-    @apply container mx-auto px-4 sm:px-6 lg:px-8;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  color: #1f2937;
+  background: var(--background);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Container optimizuar për mobile */
+.container-custom {
+  @apply container mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* Butona të përshtatur për mobile */
+.btn-primary {
+  @apply bg-[#256D7B] text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-md hover:bg-[#1a4f5a] transition-all duration-300 font-semibold text-sm sm:text-base;
+}
+
+/* Title responsive */
+.section-title {
+  @apply text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4;
+}
+
+/* Subtitle responsive */
+.section-subtitle {
+  @apply text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl mx-auto px-4;
+}
+
+/* Grid optimizuar për mobile */
+.grid {
+  @apply gap-3 sm:gap-4 md:gap-6;
+}
+
+/* Animacione */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Butoni i ofertës - I dukshëm në mobile */
+.hero-button {
+  @apply inline-flex items-center justify-center bg-white text-[#256D7B] px-6 py-3 rounded-md font-semibold hover:bg-gray-100 transition w-full sm:w-auto text-base shadow-lg active:scale-95 touch-manipulation;
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  h1 {
+    @apply text-2xl leading-tight !important;
   }
   
-  .btn-primary {
-    @apply bg-[#256D7B] text-white px-6 py-3 rounded-md hover:bg-[#1a4f5a] transition-all duration-300 font-semibold;
+  h2 {
+    @apply text-xl leading-tight !important;
   }
+  
+  h3 {
+    @apply text-lg !important;
+  }
+  
+  p {
+    @apply text-sm !important;
+  }
+  
+  .container {
+    @apply px-3 !important;
+  }
+  
+  /* Rregullime për touch devices */
+  button, a {
+    @apply min-h-[44px] min-w-[44px];
+  }
+  
+  /* Hover efektet çaktivizohen në mobile */
+  .hover\:shadow-lg:hover {
+    @apply shadow-none;
+  }
+  
+  /* Bottom bar - për orën dhe statistikat */
+  .bottom-bar {
+    @apply bg-black/60 backdrop-blur-md border-t border-white/10 text-white;
+  }
+  
+  .bottom-bar-grid {
+    @apply grid grid-cols-2 gap-2 py-3;
+  }
+  
+  .bottom-bar-info {
+    @apply flex justify-between items-center py-2 border-t border-white/20 text-[10px] text-gray-300;
+  }
+}
+
+/* Tablet optimizations */
+@media (min-width: 641px) and (max-width: 768px) {
+  .container {
+    @apply px-5 !important;
+  }
+  
+  h1 {
+    @apply text-3xl !important;
+  }
+}
+
+/* Përmirësime për scroll */
+html {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Fix për 100vh në mobile */
+.min-h-screen {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Touch optimizations */
+.touch-manipulation {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Parandalon zgjedhjen e tekstit në mobile */
+.no-select {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Loading states */
+.loading {
+  @apply opacity-50 pointer-events-none;
+}
+
+/* Fix për butonat në Hero */
+a[href="/kontakti"] {
+  @apply hero-button;
 }

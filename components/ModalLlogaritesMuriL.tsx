@@ -1,122 +1,212 @@
 'use client'
 
 import { useState } from 'react'
-import { FaTimes, FaCalculator, FaRuler, FaWeight, FaCube, FaArrowsAltV } from 'react-icons/fa'
+import { FaTimes, FaCalculator, FaRuler, FaWeight, FaCube, FaInfoCircle } from 'react-icons/fa'
 
 type ModalProps = {
   isOpen: boolean
   onClose: () => void
 }
 
-export default function ModalLlogaritesPilota({ isOpen, onClose }: ModalProps) {
-  const [thellesia, setThellesia] = useState<number>(8)
-  const [diametri, setDiametri] = useState<number>(600)
+export default function ModalLlogaritesMuriL({ isOpen, onClose }: ModalProps) {
+  const [gjatesia, setGjatesia] = useState<number>(2)
+  const [lartesiaMurit, setLartesiaMurit] = useState<number>(1.5)
+  const [trashesiaMurit, setTrashesiaMurit] = useState<number>(12)
+  const [gjatesiaKembes, setGjatesiaKembes] = useState<number>(0.8)
+  const [trashesiaKembes, setTrashesiaKembes] = useState<number>(20)
   const [rezultati, setRezultati] = useState<{
-    vellimi: number
+    vellimiTotal: number
     pesha: number
     hekuri: number
-    kapaciteti: number
+    forca: number
+    vellimiMurit: number
+    vellimiKembes: number
   } | null>(null)
 
   const densitetiBetoni = 2400 // kg/m³
-  const hekuriPerM3 = 150 // kg/m³ për pilota
+  const hekuriPerM3 = 120 // kg/m³ beton
+  const forcaPerM3 = 250 // kN/m³
 
   const llogarit = () => {
-    const rrezja = diametri / 1000 / 2
-    const siperfaqja = Math.PI * rrezja * rrezja
-    const vellimi = siperfaqja * thellesia
-    const pesha = (vellimi * densitetiBetoni) / 1000
-    const hekuri = vellimi * hekuriPerM3
-    const kapaciteti = siperfaqja * 400 * thellesia
+    const tMurit = trashesiaMurit / 100
+    const tKembes = trashesiaKembes / 100
+
+    const vellimiMurit = gjatesia * lartesiaMurit * tMurit
+    const vellimiKembes = gjatesia * gjatesiaKembes * tKembes
+    const vellimiTotal = vellimiMurit + vellimiKembes
+
+    const pesha = (vellimiTotal * densitetiBetoni) / 1000
+    const hekuri = vellimiTotal * hekuriPerM3
+    const forca = vellimiTotal * forcaPerM3
 
     setRezultati({
-      vellimi: Number(vellimi.toFixed(2)),
+      vellimiTotal: Number(vellimiTotal.toFixed(2)),
       pesha: Number(pesha.toFixed(2)),
       hekuri: Number(hekuri.toFixed(2)),
-      kapaciteti: Number(kapaciteti.toFixed(2))
+      forca: Number(forca.toFixed(2)),
+      vellimiMurit: Number(vellimiMurit.toFixed(2)),
+      vellimiKembes: Number(vellimiKembes.toFixed(2))
     })
+  }
+
+  const handleInputChange = (setter: (value: number) => void, value: string) => {
+    const numValue = parseFloat(value)
+    if (!isNaN(numValue) && numValue > 0) {
+      setter(numValue)
+    }
   }
 
   if (!isOpen) return null
 
   return (
     <div className="fixed inset-0 z-[60] overflow-y-auto">
-      <div className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-        <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-          <div className="absolute inset-0 bg-gray-900 opacity-75" onClick={onClose}></div>
-        </div>
+      <div className="flex items-end sm:items-center justify-center min-h-screen">
+        <div className="fixed inset-0 bg-gray-900/75" onClick={onClose} />
 
-        <div className="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full">
-          <div className="bg-white px-6 pt-6 pb-4 sm:p-8">
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="text-2xl font-bold text-gray-900">Llogaritësi i Pilotave</h3>
-              <button onClick={onClose} className="text-gray-400 hover:text-gray-500">
-                <FaTimes className="text-2xl" />
-              </button>
+        <div className="relative bg-white w-full sm:rounded-2xl sm:max-w-3xl sm:mx-4 rounded-t-2xl sm:my-8 max-h-[90vh] flex flex-col">
+          {/* Header */}
+          <div className="sticky top-0 bg-white border-b border-gray-200 px-4 py-3 sm:px-6 sm:py-4 flex justify-between items-center z-10">
+            <h3 className="text-lg sm:text-2xl font-bold text-gray-900">Llogaritësi i Murit L</h3>
+            <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-lg transition">
+              <FaTimes className="text-xl sm:text-2xl text-gray-500" />
+            </button>
+          </div>
+
+          <div className="flex-1 overflow-y-auto p-4 sm:p-6">
+            {/* Informacion teknik */}
+            <div className="mb-4 p-3 bg-[#256D7B]/5 rounded-lg border border-[#256D7B]/20">
+              <div className="flex items-start">
+                <FaInfoCircle className="text-[#256D7B] text-base mt-0.5 mr-2 flex-shrink-0" />
+                <div className="text-xs text-gray-600">
+                  <p className="font-medium text-[#256D7B] mb-1">Parametrat teknikë:</p>
+                  <ul className="list-disc list-inside">
+                    <li>Densiteti: 2400 kg/m³</li>
+                    <li>Armatura: ~120 kg/m³</li>
+                    <li>Kapaciteti: ~250 kN/m³</li>
+                  </ul>
+                </div>
+              </div>
             </div>
 
-            <div className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-4">
+              {/* Gjatësia e përbashkët */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <FaRuler className="inline mr-1 text-[#256D7B]" /> Gjatësia e murit (m)
+                </label>
+                <input
+                  type="number"
+                  min="0.1"
+                  max="10"
+                  step="0.1"
+                  value={gjatesia}
+                  onChange={(e) => handleInputChange(setGjatesia, e.target.value)}
+                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#256D7B] text-sm"
+                />
+              </div>
+
+              {/* Pjesa vertikale */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    <FaArrowsAltV className="inline mr-2 text-[#256D7B]" />
-                    Thellësia (m)
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Lartësia e murit (m)
                   </label>
                   <input
                     type="number"
-                    min="2"
-                    max="30"
-                    step="0.5"
-                    value={thellesia}
-                    onChange={(e) => setThellesia(Number(e.target.value))}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#256D7B]"
+                    min="0.1"
+                    max="5"
+                    step="0.1"
+                    value={lartesiaMurit}
+                    onChange={(e) => handleInputChange(setLartesiaMurit, e.target.value)}
+                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#256D7B] text-sm"
                   />
                 </div>
-
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    <FaRuler className="inline mr-2 text-[#256D7B]" />
-                    Diametri (mm)
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Trashësia e murit (cm)
                   </label>
-                  <select
-                    value={diametri}
-                    onChange={(e) => setDiametri(Number(e.target.value))}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#256D7B]"
-                  >
-                    <option value="400">400 mm</option>
-                    <option value="500">500 mm</option>
-                    <option value="600">600 mm</option>
-                    <option value="800">800 mm</option>
-                    <option value="1000">1000 mm</option>
-                  </select>
+                  <input
+                    type="number"
+                    min="5"
+                    max="50"
+                    step="1"
+                    value={trashesiaMurit}
+                    onChange={(e) => handleInputChange(setTrashesiaMurit, e.target.value)}
+                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#256D7B] text-sm"
+                  />
+                </div>
+              </div>
+
+              {/* Pjesa horizontale (këmba) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Gjatësia e këmbës (m)
+                  </label>
+                  <input
+                    type="number"
+                    min="0.1"
+                    max="2"
+                    step="0.1"
+                    value={gjatesiaKembes}
+                    onChange={(e) => handleInputChange(setGjatesiaKembes, e.target.value)}
+                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#256D7B] text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Trashësia e këmbës (cm)
+                  </label>
+                  <input
+                    type="number"
+                    min="5"
+                    max="50"
+                    step="1"
+                    value={trashesiaKembes}
+                    onChange={(e) => handleInputChange(setTrashesiaKembes, e.target.value)}
+                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#256D7B] text-sm"
+                  />
                 </div>
               </div>
 
               <button
                 onClick={llogarit}
-                className="w-full bg-[#256D7B] text-white px-6 py-4 rounded-lg font-semibold hover:bg-[#1a4f5a] transition flex items-center justify-center"
+                className="w-full bg-gradient-to-r from-[#256D7B] to-[#1a4f5a] text-white py-3 rounded-lg font-semibold hover:shadow-lg transition mt-2 flex items-center justify-center"
               >
-                <FaCalculator className="mr-2" />
-                Llogarit
+                <FaCalculator className="mr-2" /> Llogarit
               </button>
 
               {rezultati && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <h4 className="font-semibold mb-2">Vëllimi</h4>
-                    <p className="text-2xl font-bold text-[#256D7B]">{rezultati.vellimi} m³</p>
+                <div className="mt-4 space-y-3">
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="bg-[#256D7B]/10 p-3 rounded-lg">
+                      <p className="text-xs text-gray-500">Vëllimi total</p>
+                      <p className="text-lg font-bold text-[#256D7B]">{rezultati.vellimiTotal} m³</p>
+                    </div>
+                    <div className="bg-[#256D7B]/10 p-3 rounded-lg">
+                      <p className="text-xs text-gray-500">Pesha totale</p>
+                      <p className="text-lg font-bold text-[#256D7B]">{rezultati.pesha} ton</p>
+                    </div>
                   </div>
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <h4 className="font-semibold mb-2">Pesha</h4>
-                    <p className="text-2xl font-bold text-[#256D7B]">{rezultati.pesha} ton</p>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="bg-gray-50 p-2 rounded">
+                      <p className="text-xs text-gray-500">Vëllimi i murit</p>
+                      <p className="text-sm font-semibold">{rezultati.vellimiMurit} m³</p>
+                    </div>
+                    <div className="bg-gray-50 p-2 rounded">
+                      <p className="text-xs text-gray-500">Vëllimi i këmbës</p>
+                      <p className="text-sm font-semibold">{rezultati.vellimiKembes} m³</p>
+                    </div>
                   </div>
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <h4 className="font-semibold mb-2">Hekuri</h4>
-                    <p className="text-2xl font-bold text-[#256D7B]">{rezultati.hekuri} kg</p>
-                  </div>
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <h4 className="font-semibold mb-2">Kapaciteti</h4>
-                    <p className="text-2xl font-bold text-[#256D7B]">{rezultati.kapaciteti} kN</p>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="bg-gray-50 p-2 rounded">
+                      <p className="text-xs text-gray-500">Hekuri</p>
+                      <p className="text-sm font-semibold">{rezultati.hekuri} kg</p>
+                    </div>
+                    <div className="bg-gray-50 p-2 rounded">
+                      <p className="text-xs text-gray-500">Forca</p>
+                      <p className="text-sm font-semibold">{rezultati.forca} kN</p>
+                    </div>
                   </div>
                 </div>
               )}
