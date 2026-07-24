@@ -307,25 +307,17 @@ export default function Hero() {
                 </span>
               </div>
 
-              {/* Segmente progresi ne stil "stories" */}
-              <div className="px-5 flex gap-1 mb-3">
-                {projects.slice(0, 5).map((_, idx) => {
-                  const activeIdx = currentProjectIndex % 5
-                  return (
-                    <div key={idx} className="h-[3px] flex-1 rounded-full bg-white/15 overflow-hidden">
-                      {idx === activeIdx && (
-                        <motion.div
-                          key={currentProjectIndex}
-                          initial={{ width: '0%' }}
-                          animate={{ width: '100%' }}
-                          transition={{ duration: 4.5, ease: 'linear' }}
-                          className="h-full bg-[#256D7B]"
-                        />
-                      )}
-                      {idx < activeIdx && <div className="h-full w-full bg-[#256D7B]/70" />}
-                    </div>
-                  )
-                })}
+              {/* Progres i vetëm, i qartë — koha deri te foto tjetër */}
+              <div className="px-5 mb-3">
+                <div className="h-[3px] w-full rounded-full bg-white/15 overflow-hidden">
+                  <motion.div
+                    key={currentProjectIndex}
+                    initial={{ width: '0%' }}
+                    animate={{ width: '100%' }}
+                    transition={{ duration: 4.5, ease: 'linear' }}
+                    className="h-full bg-[#256D7B]"
+                  />
+                </div>
               </div>
 
               {/* Foto */}
@@ -376,22 +368,6 @@ export default function Hero() {
                     <FaChevronRight size={14} />
                   </button>
                 </div>
-                <div className="flex gap-1.5">
-                  {projects.slice(0, 5).map((_, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => goToProject(idx)}
-                      className={`h-1.5 rounded-full transition-all duration-500 ${
-                        idx === currentProjectIndex % 5
-                          ? 'w-8 bg-[#256D7B] shadow-lg shadow-[#256D7B]/50'
-                          : 'w-2 bg-white/30 hover:bg-white/60'
-                      }`}
-                    />
-                  ))}
-                </div>
-                {projects.length > 5 && (
-                  <span className="text-[10px] text-white/50 self-center ml-1">+{projects.length - 5}</span>
-                )}
                 <Link
                   href="/projektet"
                   className="text-[#256D7B] text-xs font-medium hover:underline flex items-center gap-1.5 group"

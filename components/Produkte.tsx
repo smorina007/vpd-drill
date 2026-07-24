@@ -126,7 +126,7 @@ const teGjithaProduktet = produkteKategorite.flatMap((kat, katIndex) =>
   }))
 )
 
-export default function Produkte() {
+export default function Produkte({ showHeading = true }: { showHeading?: boolean }) {
   const [filter, setFilter] = useState<string>('Të gjitha')
   const [kerkimi, setKerkimi] = useState('')
   const [lightboxId, setLightboxId] = useState<string | null>(null)
@@ -178,15 +178,17 @@ export default function Produkte() {
   return (
     <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Katalogu i Produkteve
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Gama e plotë e produkteve për puse, ndërtim dhe shpime — {teGjithaProduktet.length} artikuj
-          </p>
-          <div className="w-32 h-1.5 bg-gradient-to-r from-[#256D7B] to-[#1a4f5a] mx-auto mt-6 rounded-full"></div>
-        </div>
+        {showHeading && (
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Katalogu i Produkteve
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Gama e plotë e produkteve për puse, ndërtim dhe shpime — {teGjithaProduktet.length} artikuj
+            </p>
+            <div className="w-32 h-1.5 bg-gradient-to-r from-[#256D7B] to-[#1a4f5a] mx-auto mt-6 rounded-full"></div>
+          </div>
+        )}
 
         {/* Kërkimi */}
         <div className="max-w-md mx-auto mb-6 relative">
