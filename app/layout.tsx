@@ -7,6 +7,7 @@ import Footer from '@/components/Footer'
 import FloatingAIButton from '@/components/FloatingAIButton'
 import BackToTopButton from '@/components/BackToTopButton'
 import { OfertaProvider } from '@/app/context/OfertaContext'
+import { WeatherProvider } from '@/app/context/WeatherContext'
 import ScrollGuard from '@/components/ScrollGuard'
 import LoadingScreen from '@/components/LoadingScreen'
 
@@ -67,7 +68,7 @@ export const metadata: Metadata = {
       icon: '/favicon.png',   
     apple: '/apple-touch-icon.png',
   },
-  manifest: '/site.webmanifest',
+  manifest: '/manifest.webmanifest',
   alternates: {
     canonical: 'https://vpddrill.com',
     languages: {
@@ -100,6 +101,7 @@ export default function RootLayout({
         <LoadingScreen />
         
         <OfertaProvider>
+        <WeatherProvider>
           <ScrollGuard />
           <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 bg-[#256D7B] text-white px-3 py-2 rounded-md z-[100] text-sm">
             Skip to content
@@ -129,6 +131,7 @@ export default function RootLayout({
               gtag('config', 'G-TJJ6MKWXBL');
             `}
           </Script>
+        </WeatherProvider>
         </OfertaProvider>
       </body>
     </html>

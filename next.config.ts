@@ -43,9 +43,9 @@ const withPWA = require('next-pwa')({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // output: 'export', // Komento për PWA (service workers nuk punojnë me export)
-  images: {
-    unoptimized: true,
-  },
+  // Optimizimi i imazheve (resize/format automatik, lazy-load) tani është AKTIV.
+  // U çaktivizua më parë (ndoshta për një export statik të vjetër), gjë që
+  // dëmtonte performancën/Lighthouse-in pa asnjë përfitim real me SSR+PWA.
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },

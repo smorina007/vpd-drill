@@ -4,6 +4,10 @@ import { useRef, FormEvent, useState } from 'react'
 import emailjs from '@emailjs/browser'
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock, FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa'
 
+const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!
+const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_CONTACT!
+const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+
 export default function Kontakt() {
   const formRef = useRef<HTMLFormElement>(null)
   const [isSending, setIsSending] = useState(false)
@@ -14,10 +18,10 @@ export default function Kontakt() {
 
     setIsSending(true)
     emailjs.sendForm(
-      'service_zeb6qid',        // Service ID
-      'template_0nq26v9',        // Template ID
+      EMAILJS_SERVICE_ID,
+      EMAILJS_TEMPLATE_ID,
       formRef.current,
-      'aR9ZoxPckNpDYj9ZR'        // Public Key
+      EMAILJS_PUBLIC_KEY
     ).then(
       () => {
         alert('Mesazhi u dërgua me sukses!')

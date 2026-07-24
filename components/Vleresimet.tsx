@@ -40,13 +40,8 @@ const vleresimetFillestare = [
 ]
 
 export default function Vleresimet() {
-  const [vleresimet, setVleresimet] = useState(vleresimetFillestare)
+  const [vleresimet] = useState(vleresimetFillestare)
   const [isModalOpen, setIsModalOpen] = useState(false)
-
-  // Funksioni për të shtuar një vlerësim të ri
-  const handleNewVleresim = (newVleresim: any) => {
-    setVleresimet(prev => [newVleresim, ...prev]) // Shton në fillim të listës
-  }
 
   // Llogarit vlerësimin mesatar dhe numrin total
   const totalVleresime = vleresimet.length
@@ -136,7 +131,6 @@ export default function Vleresimet() {
         <ModalVleresime
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          onSubmit={handleNewVleresim}
         />
       </div>
     </section>

@@ -14,6 +14,10 @@ type ModalProps = {
 
 type Sherbimi = 'bunar' | 'pilota' | 'ankera' | 'muri-l' | 'gypa-betoni' | 'pllaka' | 'gypa-per-puse' | 'sajla'
 
+const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!
+const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_OFERTE!
+const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+
 export default function ModalOferte({ isOpen, onClose }: ModalProps) {
   const formRef = useRef<HTMLFormElement>(null)
   const [isSending, setIsSending] = useState(false)
@@ -126,10 +130,10 @@ export default function ModalOferte({ isOpen, onClose }: ModalProps) {
     formRef.current.appendChild(serviceInput)
 
     emailjs.sendForm(
-      'service_zeb6qid',          // Service ID
-      'template_qo4c1ea',          // Template ID për ofertat
+      EMAILJS_SERVICE_ID,
+      EMAILJS_TEMPLATE_ID,
       formRef.current,
-      'aR9ZoxPckNpDYj9ZR'          // Public Key
+      EMAILJS_PUBLIC_KEY
     ).then(
       () => {
         alert('Kërkesa u dërgua me sukses!')

@@ -10,6 +10,7 @@ import {
   FaSpinner
 } from 'react-icons/fa'
 import { useOferta } from '@/app/context/OfertaContext'
+import { useWeather } from '@/app/context/WeatherContext'
 import ModalLlogaritesMuriL from './ModalLlogaritesMuriL'
 import ModalLlogaritesPilota from './ModalLlogaritesPilota'
 import ModalLlogaritesKonstruksion from './ModalLlogaritesKonstruksion'
@@ -21,8 +22,7 @@ import GalleryViewerModal from './GalleryViewerModal'
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const [currentTime, setCurrentTime] = useState('')
-  const [weather, setWeather] = useState<{ temp: number; condition: string } | null>(null)
-  const [weatherLoading, setWeatherLoading] = useState(true)
+  const { weather, loading: weatherLoading } = useWeather()
   const [showGallery, setShowGallery] = useState(false)
 
   const [showMuriL, setShowMuriL] = useState(false)
@@ -47,40 +47,6 @@ export default function Header() {
     return () => clearInterval(timer)
   }, [])
 
-  // Moti real – Open-Meteo
-  useEffect(() => {
-    const fetchWeather = async () => {
-      try {
-        const res = await fetch(
-          'https://api.open-meteo.com/v1/forecast?latitude=42.48&longitude=20.75&current_weather=true'
-        )
-        const data = await res.json()
-        if (data.current_weather) {
-          const code = data.current_weather.weathercode
-          let condition = 'Diell'
-          if (code > 0) condition = 'Vranët'
-          if (code >= 51 && code <= 67) condition = 'Shi'
-          if (code >= 71 && code <= 77) condition = 'Borë'
-          setWeather({
-            temp: Math.round(data.current_weather.temperature),
-            condition
-          })
-        } else {
-          setWeather({ temp: 22, condition: 'Diell' })
-        }
-      } catch (error) {
-        console.error('Weather fetch failed:', error)
-        setWeather({ temp: 22, condition: 'Diell' })
-      } finally {
-        setWeatherLoading(false)
-      }
-    }
-
-    fetchWeather()
-    const interval = setInterval(fetchWeather, 1800000) // 30 minuta
-    return () => clearInterval(interval)
-  }, [])
-
   return (
     <>
       <ModalLlogaritesMuriL isOpen={showMuriL} onClose={() => setShowMuriL(false)} />
@@ -91,9 +57,6 @@ export default function Header() {
       <ModalVleresime
         isOpen={showVleresime}
         onClose={() => setShowVleresime(false)}
-        onSubmit={(newVleresim) => {
-          console.log('Vlerësim i ri nga header:', newVleresim)
-        }}
       />
       <GalleryViewerModal isOpen={showGallery} onClose={() => setShowGallery(false)} />
 

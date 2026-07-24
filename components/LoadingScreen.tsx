@@ -4,8 +4,15 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 
+// E shfaqim vetëm një herë për session-in e shfletuesit (jo në çdo rifreskim/faqe),
+// dhe me kohëzgjatje shumë më të shkurtër se më parë (ishte 6.2s me scroll të bllokuar
+// në ÇDO ngarkim — një pengesë e panevojshme për përdoruesit).
+const LOADING_DURATION_MS = 1800
+const SESSION_KEY = 'vpd-drill-loading-shown'
+
 export default function LoadingScreen() {
   const [isLoading, setIsLoading] = useState(true)
+  const [shouldRender, setShouldRender] = useState(false)
   const [progress, setProgress] = useState(0)
   const [isClient, setIsClient] = useState(false)
   const [audioEnabled, setAudioEnabled] = useState(false)
@@ -14,7 +21,22 @@ export default function LoadingScreen() {
 
   useEffect(() => {
     setIsClient(true)
-    
+
+    // Nëse e kemi shfaqur tashmë në këtë session (tab), s'e përsërisim.
+    let alreadyShown = false
+    try {
+      alreadyShown = sessionStorage.getItem(SESSION_KEY) === '1'
+    } catch {
+      // sessionStorage mund të mos jetë i disponueshëm (p.sh. modaliteti privat) — vazhdojmë normalisht
+    }
+
+    if (alreadyShown) {
+      setIsLoading(false)
+      return
+    }
+
+    setShouldRender(true)
+
     if (typeof window !== 'undefined' && !audioRef.current) {
       audioRef.current = new Audio('/sounds/impact.mp3')
       audioRef.current.volume = 0.3
@@ -22,10 +44,10 @@ export default function LoadingScreen() {
     }
 
     document.body.style.overflow = 'hidden'
-    
+
     const interval = setInterval(() => {
       setProgress(prev => {
-        const newProgress = prev + Math.floor(Math.random() * 4) + 1
+        const newProgress = prev + Math.floor(Math.random() * 10) + 6
         if (newProgress >= 100) {
           clearInterval(interval)
           return 100
@@ -37,13 +59,18 @@ export default function LoadingScreen() {
     const timer = setTimeout(() => {
       setIsLoading(false)
       document.body.style.overflow = 'auto'
-      
+      try {
+        sessionStorage.setItem(SESSION_KEY, '1')
+      } catch {
+        // injoro nëse sessionStorage s'punon
+      }
+
       if (audioRef.current) {
         audioRef.current.pause()
         audioRef.current.currentTime = 0
         setAudioPlaying(false)
       }
-    }, 6200)
+    }, LOADING_DURATION_MS)
 
     return () => {
       clearInterval(interval)
@@ -71,7 +98,7 @@ export default function LoadingScreen() {
     }
   }
 
-  if (!isClient) return null
+  if (!isClient || !shouldRender) return null
 
   return (
     <AnimatePresence mode="wait">
@@ -162,7 +189,7 @@ export default function LoadingScreen() {
             <motion.button
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1 }}
+              transition={{ delay: 0.15 }}
               onClick={toggleAudio}
               className="absolute top-4 right-4 z-30 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-semibold transition border border-white/30 flex items-center gap-2"
             >
@@ -247,7 +274,7 @@ export default function LoadingScreen() {
             <motion.h1
               initial={{ y: 100, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
               className="text-7xl md:text-8xl font-black text-white mb-2 tracking-tight"
               style={{ textShadow: '0 0 30px #256D7B, 0 0 60px #00aaff' }}
             >
@@ -257,7 +284,7 @@ export default function LoadingScreen() {
             <motion.h2
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
+              transition={{ duration: 0.4, delay: 0.25 }}
               className="text-4xl md:text-5xl font-bold text-white mb-4"
               style={{ textShadow: '0 0 20px rgba(0,200,255,0.7)' }}
             >
@@ -268,7 +295,7 @@ export default function LoadingScreen() {
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 1.1 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
               className="text-white/80 text-xl md:text-2xl mb-8 font-light tracking-wider"
             >
               Duke shpuar thellësitë e tokës
@@ -313,7 +340,7 @@ export default function LoadingScreen() {
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 0.6, y: 0 }}
-            transition={{ duration: 1, delay: 2 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
             className="absolute bottom-6 left-0 right-0 text-center text-white/40 text-sm"
           >
             <div className="flex justify-center space-x-6">
