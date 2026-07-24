@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { FaCheckCircle, FaSpinner, FaArrowRight, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import { FaCheckCircle, FaSpinner, FaArrowRight, FaChevronLeft, FaChevronRight, FaPaperPlane, FaImages } from 'react-icons/fa'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useOferta } from '@/app/context/OfertaContext'
 import { useWeather } from '@/app/context/WeatherContext'
@@ -109,20 +109,25 @@ export default function Hero() {
     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
   </div>
 
-    {/* Butonat - në këndin e majtë, pak më poshtë (top-24) */}
-  <div className="absolute top-20 left-4 z-10 flex flex-col gap-3 w-auto">
-    <button
+    {/* Butonat - elegante, njëri pranë tjetrit */}
+  <div className="absolute top-20 left-4 right-4 z-10 flex gap-3">
+    <motion.button
+      whileTap={{ scale: 0.96 }}
       onClick={openOferta}
-      className="bg-white text-[#256D7B] px-5 py-2.5 rounded-lg font-semibold text-sm text-center shadow-lg w-36"
+      className="flex-1 bg-gradient-to-r from-[#256D7B] to-[#1a4f5a] text-white px-4 py-3 rounded-xl font-semibold text-sm text-center shadow-lg shadow-black/30 flex items-center justify-center gap-2 active:shadow-md transition-shadow"
     >
+      <FaPaperPlane size={13} />
       Kërko Ofertë
-    </button>
-    <Link
-      href="/projektet"
-      className="bg-white text-[#256D7B] px-5 py-2.5 rounded-lg font-semibold text-sm text-center shadow-lg w-36"
-    >
-      Projektet
-    </Link>
+    </motion.button>
+    <motion.div whileTap={{ scale: 0.96 }} className="flex-1">
+      <Link
+        href="/projektet"
+        className="w-full bg-white/15 backdrop-blur-md border border-white/30 text-white px-4 py-3 rounded-xl font-semibold text-sm text-center shadow-lg shadow-black/20 flex items-center justify-center gap-2"
+      >
+        <FaImages size={13} />
+        Projektet
+      </Link>
+    </motion.div>
   </div>
 
   {/* Slogan - në qendër (mund të mbetet ose të zhvendoset) */}

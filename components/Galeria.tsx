@@ -1,8 +1,10 @@
 'use client'
 
+import { useState, useCallback, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FaArrowRight, FaFacebookF, FaTwitter, FaLinkedinIn } from 'react-icons/fa'
+import { motion, AnimatePresence } from 'framer-motion'
+import { FaArrowRight, FaFacebookF, FaTwitter, FaLinkedinIn, FaTimes, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 
 const projektet = [
   {
@@ -76,12 +78,304 @@ const projektet = [
     kategoria: 'Shpime',
     lokacioni: 'Prishtine',
     foto: '/images/galeria/G18.jpeg'
+  },
+   {
+    id: 10,
+    data: '30.06.2026',
+    titulli: 'Casagrande Diafragmë',
+    kategoria: 'Gërmim Diafragmë',
+    lokacioni: 'Prishtine',
+    foto: '/images/galeria/G21.jpeg'
+      },
+  {
+    id: 11,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p1.jpeg'
+        },
+  {
+    id: 12,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p2.jpeg'
+        },
+  {
+    id: 13,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p3.jpeg'
+        },
+  {
+    id: 14,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p4.jpeg'
+        },
+  {
+    id: 15,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p5.jpeg'
+        },
+  {
+    id: 16,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p6.jpeg'
+        },
+  {
+    id: 17,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p7.jpeg'
+        },
+  {
+    id: 18,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p8.jpeg'
+        },
+  {
+    id: 19,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p9.jpeg'
+        },
+  {
+    id: 20,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p10.jpeg'
+     },
+  {
+    id: 21,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p11.jpeg'
+     },
+  {
+    id: 22,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p12.jpeg'
+     },
+  {
+    id: 23,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p13.jpeg'
+     },
+  {
+    id: 24,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p14.jpeg'
+     },
+  {
+    id: 25,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p15.jpeg'
+     },
+  {
+    id: 26,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p16.jpeg'
+         },
+  {
+    id: 27,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p17.jpeg'
+         },
+  {
+    id: 28,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p18.jpeg'
+         },
+  {
+    id: 29,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p19.jpeg'
+         },
+  {
+    id: 30,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p20.jpeg'
+         },
+  {
+    id: 31,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p21.jpeg'
+         },
+  {
+    id: 32,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p22.jpeg'
+         },
+  {
+    id: 33,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p23.jpeg'
+         },
+  {
+    id: 34,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p24.jpeg'
+         },
+  {
+    id: 35,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p25.jpeg'
+           },
+  {
+    id: 36,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p26.jpeg'
+           },
+  {
+    id: 37,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p26.jpeg'
+           },
+  {
+    id: 38,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p26.jpeg'
+           },
+  {
+    id: 39,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p26.jpeg'
+           },
+  {
+    id: 40,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p27.jpeg'
+           },
+  {
+    id: 41,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p28.jpeg'
+           },
+  {
+    id: 42,
+    data: '20.11.2024',
+    titulli: 'Pilota për objekt dhe ankerim',
+    kategoria: 'Pilota dhe ankera',
+    lokacioni: 'Prishtinë',
+    foto: '/images/galeria/p29.jpeg'
   }
+
 ]
 
 export default function Galeria() {
   // Përdor URL-në aktuale për share
   const shareUrl = typeof window !== 'undefined' ? window.location.href : ''
+
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+
+  const closeLightbox = useCallback(() => setLightboxIndex(null), [])
+  const nextPhoto = useCallback(() => {
+    setLightboxIndex((prev) => (prev === null ? null : (prev + 1) % projektet.length))
+  }, [])
+  const prevPhoto = useCallback(() => {
+    setLightboxIndex((prev) => (prev === null ? null : (prev - 1 + projektet.length) % projektet.length))
+  }, [])
+
+  useEffect(() => {
+    if (lightboxIndex === null) return
+    document.body.style.overflow = 'hidden'
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeLightbox()
+      if (e.key === 'ArrowRight') nextPhoto()
+      if (e.key === 'ArrowLeft') prevPhoto()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => {
+      document.body.style.overflow = 'auto'
+      window.removeEventListener('keydown', onKey)
+    }
+  }, [lightboxIndex, closeLightbox, nextPhoto, prevPhoto])
+
+  const aktivi = lightboxIndex !== null ? projektet[lightboxIndex] : null
 
   return (
     <section className="py-16 bg-gray-50">
@@ -97,16 +391,20 @@ export default function Galeria() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projektet.map((p) => (
+          {projektet.map((p, index) => (
             <div key={p.id} className="bg-white rounded-lg shadow-md hover:shadow-xl transition overflow-hidden">
               {/* Foto */}
-              <div className="relative h-48 w-full">
+              <div
+                className="relative h-48 w-full cursor-zoom-in group"
+                onClick={() => setLightboxIndex(index)}
+              >
                 <Image
                   src={p.foto}
                   alt={p.titulli}
                   fill
-                  className="object-cover"
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
                 />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
               </div>
 
               {/* Përshkrimet */}
@@ -159,6 +457,108 @@ export default function Galeria() {
           </Link>
         </div>
       </div>
+
+      {/* Lightbox — foto e plotë kur klikohet */}
+      <AnimatePresence>
+        {aktivi && (
+          <div className="fixed inset-0 z-[9999]">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 bg-gray-950/90 backdrop-blur-sm"
+              onClick={closeLightbox}
+            />
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.97 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              className="relative w-full h-full flex items-center justify-center p-4 md:p-10"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Foto kryesore */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={aktivi.id}
+                  initial={{ opacity: 0, x: 30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -30 }}
+                  transition={{ duration: 0.25 }}
+                  className="relative w-full h-full max-w-5xl flex items-center justify-center"
+                >
+                  <Image
+                    src={aktivi.foto}
+                    alt={aktivi.titulli}
+                    width={1400}
+                    height={1000}
+                    className="object-contain max-h-[78vh] w-auto rounded-lg shadow-2xl"
+                    priority
+                  />
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Informacioni + share */}
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-full max-w-xl px-4">
+                <div className="bg-black/50 backdrop-blur-md rounded-xl px-5 py-3 text-white flex items-center justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="font-semibold text-sm truncate">{aktivi.titulli}</p>
+                    <p className="text-white/70 text-xs">{aktivi.data} · 📍 {aktivi.lokacioni}</p>
+                  </div>
+                  <div className="flex gap-1.5 flex-shrink-0">
+                    <button
+                      onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, '_blank')}
+                      className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition"
+                      aria-label="Share on Facebook"
+                    >
+                      <FaFacebookF size={12} />
+                    </button>
+                    <button
+                      onClick={() => window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(aktivi.titulli)}`, '_blank')}
+                      className="w-8 h-8 bg-sky-500 rounded-full flex items-center justify-center hover:bg-sky-600 transition"
+                      aria-label="Share on Twitter"
+                    >
+                      <FaTwitter size={12} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Kontrollet */}
+              <motion.button
+                whileHover={{ scale: 1.08 }}
+                whileTap={{ scale: 0.92 }}
+                onClick={closeLightbox}
+                className="fixed top-5 right-5 z-20 p-2.5 bg-white/10 backdrop-blur-md border border-white/20 rounded-full hover:bg-white/20 transition-colors text-white"
+                aria-label="Mbyll"
+              >
+                <FaTimes size={20} />
+              </motion.button>
+              <button
+                onClick={prevPhoto}
+                className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 p-2.5 md:p-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-full hover:bg-white/20 transition-colors text-white"
+                aria-label="Foto e mëparshme"
+              >
+                <FaChevronLeft size={18} />
+              </button>
+              <button
+                onClick={nextPhoto}
+                className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 p-2.5 md:p-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-full hover:bg-white/20 transition-colors text-white"
+                aria-label="Foto tjetër"
+              >
+                <FaChevronRight size={18} />
+              </button>
+
+              {/* Numërimi */}
+              <div className="fixed top-5 left-5 z-20 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-2 text-white text-xs font-medium">
+                {(lightboxIndex ?? 0) + 1} / {projektet.length}
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </section>
   )
 }
