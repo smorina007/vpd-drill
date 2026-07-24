@@ -1,4 +1,6 @@
 import Sherbimet from '@/components/Sherbimet'
+import PageHeroBanner from '@/components/PageHeroBanner'
+import { FaTools } from 'react-icons/fa'
 import type { Viewport } from 'next'
 
 export const viewport: Viewport = {
@@ -10,5 +12,15 @@ export const viewport: Viewport = {
 }
 
 export default function SherbimetPage() {
-  return <Sherbimet />
+  return (
+    <>
+      <PageHeroBanner
+        icon={FaTools}
+        title="Shërbimet Tona"
+        subtitle="Ekspertizë e specializuar me makineri të avancuara — shpime puse, pilota, ankera dhe germim me diafragmë, për çdo lloj terreni në Kosovë."
+        crumbs={[{ label: 'Ballina', href: '/' }, { label: 'Shërbimet' }]}
+      />
+      <Sherbimet showHeading={false} />
+    </>
+  )
 }

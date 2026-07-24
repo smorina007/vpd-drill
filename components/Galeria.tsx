@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -346,22 +346,40 @@ const projektet = [
 
 ]
 
-export default function Galeria() {
+export default function Galeria({ showHeading = true }: { showHeading?: boolean }) {
   // Përdor URL-në aktuale për share
   const shareUrl = typeof window !== 'undefined' ? window.location.href : ''
 
-  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+  const kategorite = ['Të gjitha', ...Array.from(new Set(projektet.map(p => p.kategoria)))]
+  const [filter, setFilter] = useState('Të gjitha')
+  const [lightboxId, setLightboxId] = useState<number | null>(null)
 
-  const closeLightbox = useCallback(() => setLightboxIndex(null), [])
+  const projektetFiltruar = useMemo(
+    () => (filter === 'Të gjitha' ? projektet : projektet.filter(p => p.kategoria === filter)),
+    [filter]
+  )
+
+  const lightboxIndex = projektetFiltruar.findIndex(p => p.id === lightboxId)
+  const aktivi = lightboxIndex >= 0 ? projektetFiltruar[lightboxIndex] : null
+
+  const closeLightbox = useCallback(() => setLightboxId(null), [])
   const nextPhoto = useCallback(() => {
-    setLightboxIndex((prev) => (prev === null ? null : (prev + 1) % projektet.length))
-  }, [])
+    setLightboxId((prev) => {
+      const i = projektetFiltruar.findIndex(p => p.id === prev)
+      if (i < 0) return prev
+      return projektetFiltruar[(i + 1) % projektetFiltruar.length].id
+    })
+  }, [projektetFiltruar])
   const prevPhoto = useCallback(() => {
-    setLightboxIndex((prev) => (prev === null ? null : (prev - 1 + projektet.length) % projektet.length))
-  }, [])
+    setLightboxId((prev) => {
+      const i = projektetFiltruar.findIndex(p => p.id === prev)
+      if (i < 0) return prev
+      return projektetFiltruar[(i - 1 + projektetFiltruar.length) % projektetFiltruar.length].id
+    })
+  }, [projektetFiltruar])
 
   useEffect(() => {
-    if (lightboxIndex === null) return
+    if (lightboxId === null) return
     document.body.style.overflow = 'hidden'
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') closeLightbox()
@@ -373,30 +391,54 @@ export default function Galeria() {
       document.body.style.overflow = 'auto'
       window.removeEventListener('keydown', onKey)
     }
-  }, [lightboxIndex, closeLightbox, nextPhoto, prevPhoto])
-
-  const aktivi = lightboxIndex !== null ? projektet[lightboxIndex] : null
+  }, [lightboxId, closeLightbox, nextPhoto, prevPhoto])
 
   return (
     <section className="py-16 bg-gray-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Projektet Tona
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Disa nga projektet e realizuara me sukses
-          </p>
-          <div className="w-32 h-1.5 bg-gradient-to-r from-[#256D7B] to-[#1a4f5a] mx-auto mt-6 rounded-full"></div>
+        {showHeading && (
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Projektet Tona
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Disa nga projektet e realizuara me sukses
+            </p>
+            <div className="w-32 h-1.5 bg-gradient-to-r from-[#256D7B] to-[#1a4f5a] mx-auto mt-6 rounded-full"></div>
+          </div>
+        )}
+
+        {/* Filtrat e kategorive */}
+        <div className="flex flex-wrap justify-center gap-2 mb-10">
+          {kategorite.map((kat) => {
+            const active = filter === kat
+            const count = kat === 'Të gjitha' ? projektet.length : projektet.filter(p => p.kategoria === kat).length
+            return (
+              <button
+                key={kat}
+                onClick={() => setFilter(kat)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 flex items-center gap-1.5 ${
+                  active
+                    ? 'bg-[#256D7B] text-white shadow-md shadow-[#256D7B]/30 scale-105'
+                    : 'bg-white text-gray-700 border border-gray-200 hover:border-[#256D7B]/40'
+                }`}
+              >
+                {kat}
+                <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${active ? 'bg-white/20' : 'bg-gray-100'}`}>
+                  {count}
+                </span>
+              </button>
+            )
+          })}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projektet.map((p, index) => (
+          {projektetFiltruar.map((p) => (
             <div key={p.id} className="bg-white rounded-lg shadow-md hover:shadow-xl transition overflow-hidden">
               {/* Foto */}
               <div
                 className="relative h-48 w-full cursor-zoom-in group"
-                onClick={() => setLightboxIndex(index)}
+                onClick={() => setLightboxId(p.id)}
               >
                 <Image
                   src={p.foto}
@@ -553,7 +595,7 @@ export default function Galeria() {
 
               {/* Numërimi */}
               <div className="fixed top-5 left-5 z-20 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-2 text-white text-xs font-medium">
-                {(lightboxIndex ?? 0) + 1} / {projektet.length}
+                {lightboxIndex + 1} / {projektetFiltruar.length}
               </div>
             </motion.div>
           </div>
