@@ -1,7 +1,20 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { FaArrowLeft, FaAnchor, FaMountain, FaHardHat, FaShieldAlt } from 'react-icons/fa'
-import type { Viewport } from 'next'
+import type { Metadata, Viewport } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Ankera dhe Stabilizim Shpatesh — Siguri Ndërtimore',
+  description:
+    'Vendosje ankerash të tensionuar për mbrojtje dhe stabilizim themelesh, shpatesh dhe muresh mbajtëse. Zgjidhje inxhinierike sigurie për terrene problematike në Kosovë.',
+  keywords: 'ankera, anker, stabilizim shpatesh, siguri ndertimi, mure mbajtese, ground anchors, slope stabilization Kosovo, retaining wall reinforcement',
+  alternates: { canonical: '/sherbimet/ankera' },
+  openGraph: {
+    title: 'Ankera dhe Stabilizim — VPD DRILL',
+    description: 'Mbrojtje dhe stabilizim i themeleve dhe shpateve me ankera, për terrene problematike.',
+    url: '/sherbimet/ankera',
+  },
+}
 
 export const viewport: Viewport = {
   width: 'device-width',

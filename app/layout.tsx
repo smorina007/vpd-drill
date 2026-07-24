@@ -17,6 +17,7 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://vpddrill.com'),
   title: {
     default: 'VPD DRILL - Shpime Puse Uji, Pilota dhe Produkte Betoni në Kosovë',
     template: '%s | VPD DRILL'
@@ -103,6 +104,7 @@ export default function RootLayout({
               '@context': 'https://schema.org',
               '@type': 'GeneralContractor',
               name: 'VPD DRILL',
+              alternateName: 'VPD DRILL SHPK',
               image: 'https://vpddrill.com/images/og-image.jpg',
               url: 'https://vpddrill.com',
               telephone: ['+383044184114', '+383044204877'],
@@ -113,7 +115,25 @@ export default function RootLayout({
                 postalCode: '24000',
                 addressCountry: 'XK',
               },
-              areaServed: 'Kosovë',
+              areaServed: ['Kosovë', 'Kosovo'],
+              sameAs: [
+                'https://www.facebook.com/VllezeritPaqarizi',
+                'https://instagram.com/vpddrill',
+                'https://linkedin.com/company/vpddrill',
+                'https://youtube.com/@vpddrill',
+              ],
+              hasOfferCatalog: {
+                '@type': 'OfferCatalog',
+                name: 'Shërbimet dhe Produktet',
+                itemListElement: [
+                  { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Shpim Pusesh Uji (Water Well Drilling)' } },
+                  { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Pilota për Objekte (Piling Foundations)' } },
+                  { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Ankera dhe Stabilizim (Ground Anchors)' } },
+                  { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Germim me Diafragmë (Diaphragm Wall Excavation)' } },
+                  { '@type': 'Offer', itemOffered: { '@type': 'Product', name: 'Gypa Betoni dhe Muri L (Concrete Pipes & L-Walls)' } },
+                  { '@type': 'Offer', itemOffered: { '@type': 'Product', name: 'Kosha Armature dhe Hekur (Rebar Cages & Steel)' } },
+                ],
+              },
               description:
                 'Ekspertizë e thellë, themele të sigurta. Specialistë në shpime puse uji deri 500m, pilota për objekte, ankera stabilizues, germim me diafragmë dhe produkte betoni në Kosovë.',
             }),

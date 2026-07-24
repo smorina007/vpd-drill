@@ -1,7 +1,20 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { FaArrowLeft, FaWater, FaRuler, FaMountain, FaClock } from 'react-icons/fa'
-import type { Viewport } from 'next'
+import type { Metadata, Viewport } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Shpim Pusesh Uji (Bunar) deri 500m Thellësi',
+  description:
+    'Shpim pusesh uji dhe bunarësh në çdo lloj terreni — deri 500m në terrene të forta (shkëmbore), deri 55m diametër në terrene të buta. Makineri Casagrande, Mait, XCMG. Sondazhe gjeologjike.',
+  keywords: 'shpim pusi, pus uji, bunar, shpim bunari, water well drilling, borehole drilling Kosovo, deep well drilling',
+  alternates: { canonical: '/sherbimet/shpime-puse' },
+  openGraph: {
+    title: 'Shpim Pusesh Uji — VPD DRILL',
+    description: 'Specialistë në shpimin e puseve të ujit deri 500m thellësi, në çdo lloj terreni në Kosovë.',
+    url: '/sherbimet/shpime-puse',
+  },
+}
 
 export const viewport: Viewport = {
   width: 'device-width',

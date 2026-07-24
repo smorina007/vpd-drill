@@ -1,7 +1,20 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { FaArrowLeft, FaBuilding, FaRuler, FaWeightHanging, FaHardHat } from 'react-icons/fa'
-import type { Viewport } from 'next'
+import type { Metadata, Viewport } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Pilota për Objekte — Themele të Sigurta me Metodën CFA',
+  description:
+    'Pilota për themele objektesh dhe komplekse industriale, me metodën CFA. Konstruksione pilotash, testime ngarkese dhe armaturë sipas projektit. Themele të sigurta për çdo lloj ndërtimi në Kosovë.',
+  keywords: 'pilota, piloti, konstruksion themeli, metoda CFA, themele ndertimi, piling foundations, CFA piles Kosovo, deep foundation contractor',
+  alternates: { canonical: '/sherbimet/pilota' },
+  openGraph: {
+    title: 'Pilota për Objekte — VPD DRILL',
+    description: 'Themele të sigurta me pilota të thellë, nga ndërtesat individuale deri te komplekset industriale.',
+    url: '/sherbimet/pilota',
+  },
+}
 
 export const viewport: Viewport = {
   width: 'device-width',

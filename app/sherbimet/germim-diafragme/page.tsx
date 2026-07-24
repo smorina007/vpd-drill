@@ -1,7 +1,20 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { FaArrowLeft, FaHammer, FaRuler, FaWater, FaHardHat } from 'react-icons/fa'
-import type { Viewport } from 'next'
+import type { Metadata, Viewport } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Gërmim me Diafragmë — Mure Nëntokësore deri 50m',
+  description:
+    'Gërmime precize me diafragmë për mure nëntokësore, themele të thella dhe struktura mbajtëse, deri 50m thellësi. Stabilizim me bentonit, për çdo lloj terreni në Kosovë.',
+  keywords: 'germim diafragme, mur diafragme, mure nentokesore, diaphragm wall Kosovo, deep excavation, bentonite wall construction',
+  alternates: { canonical: '/sherbimet/germim-diafragme' },
+  openGraph: {
+    title: 'Gërmim me Diafragmë — VPD DRILL',
+    description: 'Gërmime precize për mure nëntokësore dhe themele të thella, deri 50m thellësi.',
+    url: '/sherbimet/germim-diafragme',
+  },
+}
 
 export const viewport: Viewport = {
   width: 'device-width',
