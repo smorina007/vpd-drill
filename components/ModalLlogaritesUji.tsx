@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { FaTimes, FaCalculator, FaRuler, FaWater, FaArrowsAltV } from 'react-icons/fa'
+import ShaftiSimulim3D from './ShaftiSimulim3D'
 
 type ModalProps = {
   isOpen: boolean
@@ -76,6 +77,11 @@ export default function ModalLlogaritesUji({ isOpen, onClose }: ModalProps) {
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#256D7B]"
                   />
                 </div>
+              </div>
+
+              {/* Simulim 3D live */}
+              <div className="bg-gradient-to-b from-gray-50 to-white rounded-xl border border-gray-100 py-6">
+                <ShaftiSimulim3D diametriMM={diametri} thellesiaM={thellesia} lloji="uje" />
               </div>
 
               <button

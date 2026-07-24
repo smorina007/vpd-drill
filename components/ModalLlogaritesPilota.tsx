@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { FaTimes, FaCalculator, FaRuler, FaWeight, FaCube, FaArrowsAltV } from 'react-icons/fa'
+import ShaftiSimulim3D from './ShaftiSimulim3D'
 
 type ModalProps = {
   isOpen: boolean
@@ -96,6 +97,11 @@ export default function ModalLlogaritesPilota({ isOpen, onClose }: ModalProps) {
                     <option value="1000">1000 mm</option>
                   </select>
                 </div>
+              </div>
+
+              {/* Simulim 3D live */}
+              <div className="bg-gradient-to-b from-gray-100 to-white rounded-xl border border-gray-200 py-6">
+                <ShaftiSimulim3D diametriMM={diametri} thellesiaM={thellesia} lloji="beton" />
               </div>
 
               {/* Llogarit button - Touch optimized */}

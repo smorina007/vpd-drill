@@ -7,7 +7,7 @@ import {
   FaBars, FaTimes, FaClock, FaCloudSun, FaUsers, 
   FaCalculator, FaFileAlt, FaRobot, FaStar, FaEnvelope,
   FaHome, FaServicestack, FaCube, FaImages, FaWater,
-  FaSpinner
+  FaSpinner, FaLayerGroup, FaColumns, FaDraftingCompass
 } from 'react-icons/fa'
 import { useOferta } from '@/app/context/OfertaContext'
 import { useWeather } from '@/app/context/WeatherContext'
@@ -119,42 +119,60 @@ export default function Header() {
             </div>
 
             {/* Desktop Icons */}
-            <div className="hidden lg:flex items-center space-x-3 xl:space-x-5">
-              <button onClick={openOferta} className="flex flex-col items-center text-gray-600 hover:text-[#256D7B] transition group">
-                <FaFileAlt className="text-lg xl:text-xl group-hover:scale-110 transition" />
-                <span className="text-[10px] xl:text-xs mt-1">Oferta</span>
+            <div className="hidden lg:flex items-center space-x-1.5 xl:space-x-2.5">
+              <button onClick={openOferta} className="flex flex-col items-center gap-1 group">
+                <span className="w-9 h-9 xl:w-10 xl:h-10 rounded-full bg-[#256D7B]/8 flex items-center justify-center text-[#256D7B] group-hover:bg-[#256D7B] group-hover:text-white group-hover:-translate-y-0.5 group-hover:shadow-md transition-all duration-200">
+                  <FaFileAlt className="text-base xl:text-lg" />
+                </span>
+                <span className="text-[10px] xl:text-xs text-gray-600 group-hover:text-[#256D7B] transition font-medium">Oferta</span>
               </button>
-              <button onClick={() => setShowMuriL(true)} className="flex flex-col items-center text-gray-600 hover:text-[#256D7B] transition group">
-                <FaCalculator className="text-lg xl:text-xl group-hover:scale-110 transition" />
-                <span className="text-[10px] xl:text-xs mt-1">Muri L</span>
+              <button onClick={() => setShowMuriL(true)} className="flex flex-col items-center gap-1 group">
+                <span className="w-9 h-9 xl:w-10 xl:h-10 rounded-full bg-[#256D7B]/8 flex items-center justify-center text-[#256D7B] group-hover:bg-[#256D7B] group-hover:text-white group-hover:-translate-y-0.5 group-hover:shadow-md transition-all duration-200">
+                  <FaLayerGroup className="text-base xl:text-lg" />
+                </span>
+                <span className="text-[10px] xl:text-xs text-gray-600 group-hover:text-[#256D7B] transition font-medium">Muri L</span>
               </button>
-              <button onClick={() => setShowPilota(true)} className="flex flex-col items-center text-gray-600 hover:text-[#256D7B] transition group">
-                <FaCalculator className="text-lg xl:text-xl group-hover:scale-110 transition" />
-                <span className="text-[10px] xl:text-xs mt-1">Pilota</span>
+              <button onClick={() => setShowPilota(true)} className="flex flex-col items-center gap-1 group">
+                <span className="w-9 h-9 xl:w-10 xl:h-10 rounded-full bg-[#256D7B]/8 flex items-center justify-center text-[#256D7B] group-hover:bg-[#256D7B] group-hover:text-white group-hover:-translate-y-0.5 group-hover:shadow-md transition-all duration-200">
+                  <FaColumns className="text-base xl:text-lg" />
+                </span>
+                <span className="text-[10px] xl:text-xs text-gray-600 group-hover:text-[#256D7B] transition font-medium">Pilota</span>
               </button>
-              <button onClick={() => setShowKonstruksion(true)} className="flex flex-col items-center text-gray-600 hover:text-[#256D7B] transition group">
-                <FaCalculator className="text-lg xl:text-xl group-hover:scale-110 transition" />
-                <span className="text-[10px] xl:text-xs mt-1">Konstr.</span>
+              <button onClick={() => setShowKonstruksion(true)} className="flex flex-col items-center gap-1 group">
+                <span className="w-9 h-9 xl:w-10 xl:h-10 rounded-full bg-[#256D7B]/8 flex items-center justify-center text-[#256D7B] group-hover:bg-[#256D7B] group-hover:text-white group-hover:-translate-y-0.5 group-hover:shadow-md transition-all duration-200">
+                  <FaDraftingCompass className="text-base xl:text-lg" />
+                </span>
+                <span className="text-[10px] xl:text-xs text-gray-600 group-hover:text-[#256D7B] transition font-medium">Konstr.</span>
               </button>
-              <button onClick={() => setShowUji(true)} className="flex flex-col items-center text-gray-600 hover:text-[#256D7B] transition group">
-                <FaWater className="text-lg xl:text-xl group-hover:scale-110 transition" />
-                <span className="text-[10px] xl:text-xs mt-1">Uji</span>
+              <button onClick={() => setShowUji(true)} className="flex flex-col items-center gap-1 group">
+                <span className="w-9 h-9 xl:w-10 xl:h-10 rounded-full bg-[#256D7B]/8 flex items-center justify-center text-[#256D7B] group-hover:bg-[#256D7B] group-hover:text-white group-hover:-translate-y-0.5 group-hover:shadow-md transition-all duration-200">
+                  <FaWater className="text-base xl:text-lg" />
+                </span>
+                <span className="text-[10px] xl:text-xs text-gray-600 group-hover:text-[#256D7B] transition font-medium">Uji</span>
               </button>
-              <button onClick={() => setShowAI(true)} className="flex flex-col items-center text-gray-600 hover:text-[#256D7B] transition group">
-                <FaRobot className="text-lg xl:text-xl group-hover:scale-110 transition" />
-                <span className="text-[10px] xl:text-xs mt-1">AI</span>
+              <button onClick={() => setShowAI(true)} className="flex flex-col items-center gap-1 group">
+                <span className="w-9 h-9 xl:w-10 xl:h-10 rounded-full bg-[#256D7B]/8 flex items-center justify-center text-[#256D7B] group-hover:bg-[#256D7B] group-hover:text-white group-hover:-translate-y-0.5 group-hover:shadow-md transition-all duration-200">
+                  <FaRobot className="text-base xl:text-lg" />
+                </span>
+                <span className="text-[10px] xl:text-xs text-gray-600 group-hover:text-[#256D7B] transition font-medium">AI</span>
               </button>
-              <button onClick={() => setShowVleresime(true)} className="flex flex-col items-center text-gray-600 hover:text-[#256D7B] transition group">
-                <FaStar className="text-lg xl:text-xl group-hover:scale-110 transition" />
-                <span className="text-[10px] xl:text-xs mt-1">Vlerëso</span>
+              <button onClick={() => setShowVleresime(true)} className="flex flex-col items-center gap-1 group">
+                <span className="w-9 h-9 xl:w-10 xl:h-10 rounded-full bg-[#256D7B]/8 flex items-center justify-center text-[#256D7B] group-hover:bg-[#256D7B] group-hover:text-white group-hover:-translate-y-0.5 group-hover:shadow-md transition-all duration-200">
+                  <FaStar className="text-base xl:text-lg" />
+                </span>
+                <span className="text-[10px] xl:text-xs text-gray-600 group-hover:text-[#256D7B] transition font-medium">Vlerëso</span>
               </button>
-              <button onClick={() => setShowGallery(true)} className="flex flex-col items-center text-gray-600 hover:text-[#256D7B] transition group">
-                <FaImages className="text-lg xl:text-xl group-hover:scale-110 transition" />
-                <span className="text-[10px] xl:text-xs mt-1">Galeria</span>
+              <button onClick={() => setShowGallery(true)} className="flex flex-col items-center gap-1 group">
+                <span className="w-9 h-9 xl:w-10 xl:h-10 rounded-full bg-[#256D7B]/8 flex items-center justify-center text-[#256D7B] group-hover:bg-[#256D7B] group-hover:text-white group-hover:-translate-y-0.5 group-hover:shadow-md transition-all duration-200">
+                  <FaImages className="text-base xl:text-lg" />
+                </span>
+                <span className="text-[10px] xl:text-xs text-gray-600 group-hover:text-[#256D7B] transition font-medium">Galeria</span>
               </button>
-              <Link href="/kontakti" className="flex flex-col items-center text-gray-600 hover:text-[#256D7B] transition group">
-                <FaEnvelope className="text-lg xl:text-xl group-hover:scale-110 transition" />
-                <span className="text-[10px] xl:text-xs mt-1">Kontakt</span>
+              <Link href="/kontakti" className="flex flex-col items-center gap-1 group">
+                <span className="w-9 h-9 xl:w-10 xl:h-10 rounded-full bg-[#256D7B]/8 flex items-center justify-center text-[#256D7B] group-hover:bg-[#256D7B] group-hover:text-white group-hover:-translate-y-0.5 group-hover:shadow-md transition-all duration-200">
+                  <FaEnvelope className="text-base xl:text-lg" />
+                </span>
+                <span className="text-[10px] xl:text-xs text-gray-600 group-hover:text-[#256D7B] transition font-medium">Kontakt</span>
               </Link>
             </div>
 
@@ -189,37 +207,53 @@ export default function Header() {
               </div>
               
               <div className="grid grid-cols-4 gap-2 py-4">
-                <button onClick={() => { openOferta(); setIsOpen(false); }} className="flex flex-col items-center p-3 hover:bg-gray-50 rounded-lg transition min-h-[70px]">
-                  <FaFileAlt className="text-xl text-[#256D7B]" />
-                  <span className="text-xs mt-1 text-center">Oferta</span>
+                <button onClick={() => { openOferta(); setIsOpen(false); }} className="flex flex-col items-center gap-1.5 p-3 hover:bg-gray-50 rounded-lg transition min-h-[70px]">
+                  <span className="w-10 h-10 rounded-full bg-[#256D7B]/8 flex items-center justify-center text-[#256D7B]">
+                    <FaFileAlt className="text-lg" />
+                  </span>
+                  <span className="text-xs text-center font-medium text-gray-700">Oferta</span>
                 </button>
-                <button onClick={() => { setShowMuriL(true); setIsOpen(false); }} className="flex flex-col items-center p-3 hover:bg-gray-50 rounded-lg transition min-h-[70px]">
-                  <FaCalculator className="text-xl text-[#256D7B]" />
-                  <span className="text-xs mt-1 text-center">Muri L</span>
+                <button onClick={() => { setShowMuriL(true); setIsOpen(false); }} className="flex flex-col items-center gap-1.5 p-3 hover:bg-gray-50 rounded-lg transition min-h-[70px]">
+                  <span className="w-10 h-10 rounded-full bg-[#256D7B]/8 flex items-center justify-center text-[#256D7B]">
+                    <FaLayerGroup className="text-lg" />
+                  </span>
+                  <span className="text-xs text-center font-medium text-gray-700">Muri L</span>
                 </button>
-                <button onClick={() => { setShowPilota(true); setIsOpen(false); }} className="flex flex-col items-center p-3 hover:bg-gray-50 rounded-lg transition min-h-[70px]">
-                  <FaCalculator className="text-xl text-[#256D7B]" />
-                  <span className="text-xs mt-1 text-center">Pilota</span>
+                <button onClick={() => { setShowPilota(true); setIsOpen(false); }} className="flex flex-col items-center gap-1.5 p-3 hover:bg-gray-50 rounded-lg transition min-h-[70px]">
+                  <span className="w-10 h-10 rounded-full bg-[#256D7B]/8 flex items-center justify-center text-[#256D7B]">
+                    <FaColumns className="text-lg" />
+                  </span>
+                  <span className="text-xs text-center font-medium text-gray-700">Pilota</span>
                 </button>
-                <button onClick={() => { setShowKonstruksion(true); setIsOpen(false); }} className="flex flex-col items-center p-3 hover:bg-gray-50 rounded-lg transition min-h-[70px]">
-                  <FaCalculator className="text-xl text-[#256D7B]" />
-                  <span className="text-xs mt-1 text-center">Konstr.</span>
+                <button onClick={() => { setShowKonstruksion(true); setIsOpen(false); }} className="flex flex-col items-center gap-1.5 p-3 hover:bg-gray-50 rounded-lg transition min-h-[70px]">
+                  <span className="w-10 h-10 rounded-full bg-[#256D7B]/8 flex items-center justify-center text-[#256D7B]">
+                    <FaDraftingCompass className="text-lg" />
+                  </span>
+                  <span className="text-xs text-center font-medium text-gray-700">Konstr.</span>
                 </button>
-                <button onClick={() => { setShowUji(true); setIsOpen(false); }} className="flex flex-col items-center p-3 hover:bg-gray-50 rounded-lg transition min-h-[70px]">
-                  <FaWater className="text-xl text-[#256D7B]" />
-                  <span className="text-xs mt-1 text-center">Uji</span>
+                <button onClick={() => { setShowUji(true); setIsOpen(false); }} className="flex flex-col items-center gap-1.5 p-3 hover:bg-gray-50 rounded-lg transition min-h-[70px]">
+                  <span className="w-10 h-10 rounded-full bg-[#256D7B]/8 flex items-center justify-center text-[#256D7B]">
+                    <FaWater className="text-lg" />
+                  </span>
+                  <span className="text-xs text-center font-medium text-gray-700">Uji</span>
                 </button>
-                <button onClick={() => { setShowAI(true); setIsOpen(false); }} className="flex flex-col items-center p-3 hover:bg-gray-50 rounded-lg transition min-h-[70px]">
-                  <FaRobot className="text-xl text-[#256D7B]" />
-                  <span className="text-xs mt-1 text-center">AI</span>
+                <button onClick={() => { setShowAI(true); setIsOpen(false); }} className="flex flex-col items-center gap-1.5 p-3 hover:bg-gray-50 rounded-lg transition min-h-[70px]">
+                  <span className="w-10 h-10 rounded-full bg-[#256D7B]/8 flex items-center justify-center text-[#256D7B]">
+                    <FaRobot className="text-lg" />
+                  </span>
+                  <span className="text-xs text-center font-medium text-gray-700">AI</span>
                 </button>
-                <button onClick={() => { setShowVleresime(true); setIsOpen(false); }} className="flex flex-col items-center p-3 hover:bg-gray-50 rounded-lg transition min-h-[70px]">
-                  <FaStar className="text-xl text-[#256D7B]" />
-                  <span className="text-xs mt-1 text-center">Vlerëso</span>
+                <button onClick={() => { setShowVleresime(true); setIsOpen(false); }} className="flex flex-col items-center gap-1.5 p-3 hover:bg-gray-50 rounded-lg transition min-h-[70px]">
+                  <span className="w-10 h-10 rounded-full bg-[#256D7B]/8 flex items-center justify-center text-[#256D7B]">
+                    <FaStar className="text-lg" />
+                  </span>
+                  <span className="text-xs text-center font-medium text-gray-700">Vlerëso</span>
                 </button>
-                <button onClick={() => { setShowGallery(true); setIsOpen(false); }} className="flex flex-col items-center p-3 hover:bg-gray-50 rounded-lg transition min-h-[70px]">
-                  <FaImages className="text-xl text-[#256D7B]" />
-                  <span className="text-xs mt-1 text-center">Galeria</span>
+                <button onClick={() => { setShowGallery(true); setIsOpen(false); }} className="flex flex-col items-center gap-1.5 p-3 hover:bg-gray-50 rounded-lg transition min-h-[70px]">
+                  <span className="w-10 h-10 rounded-full bg-[#256D7B]/8 flex items-center justify-center text-[#256D7B]">
+                    <FaImages className="text-lg" />
+                  </span>
+                  <span className="text-xs text-center font-medium text-gray-700">Galeria</span>
                 </button>
               </div>
             </div>

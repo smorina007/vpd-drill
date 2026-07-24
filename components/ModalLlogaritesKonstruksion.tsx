@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { FaTimes, FaCalculator, FaRuler, FaWeight, FaCircle, FaArrowsAltV, FaRedo } from 'react-icons/fa'
+import ArmaturaSimulim3D from './ArmaturaSimulim3D'
 
 type ModalProps = {
   isOpen: boolean
@@ -179,6 +180,16 @@ export default function ModalLlogaritesKonstruksion({ isOpen, onClose }: ModalPr
                     className="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#256D7B] text-sm sm:text-base touch-manipulation"
                   />
                 </div>
+              </div>
+
+              {/* Simulim 3D live i prerjes tërthore */}
+              <div className="bg-gradient-to-b from-gray-50 to-white rounded-xl border border-gray-100 py-6">
+                <ArmaturaSimulim3D
+                  diametriPilotesMM={parametrat.diametriPilotes}
+                  numriFijeveVertikale={parametrat.numriFijeveVertikale}
+                  diametriFijeveMM={parametrat.diametriFijeve}
+                  diametriSpiralesMM={parametrat.diametriSpirales}
+                />
               </div>
 
               <button

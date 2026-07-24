@@ -181,7 +181,278 @@ const fotot: Foto[] = [
     data: '30.01.2026',
     titulli: 'Pilota',
     lokacioni: 'Prishtinë'
+  },
+  {
+   id: 19,
+    src: '/images/galeria/G21.jpeg',
+    alt: 'Gërmim me diafragmë',
+    category: 'Gërmim Diafragmë',
+    data: '30.01.2026',
+    titulli: 'Diafragmë',
+    lokacioni: 'Prishtinë'
+    },
+  {
+   id: 20,
+    src: '/images/galeria/p1.jpeg',
+    alt: 'Shpime',
+    category: 'Shpime',
+    data: '30.01.2026',
+    titulli: 'Shpime',
+    lokacioni: 'Prishtinë'
+      },
+  {
+   id: 21,
+    src: '/images/galeria/p2.jpeg',
+    alt: 'Shpime',
+    category: 'Shpime',
+    data: '30.01.2026',
+    titulli: 'Shpime',
+    lokacioni: 'Prishtinë'
+      },
+  {
+   id: 22,
+    src: '/images/galeria/p3.jpeg',
+    alt: 'Shpime',
+    category: 'Shpime',
+    data: '30.01.2026',
+    titulli: 'Shpime',
+    lokacioni: 'Prishtinë'
+      },
+  {
+   id: 23,
+    src: '/images/galeria/p4.jpeg',
+    alt: 'Shpime',
+    category: 'Shpime',
+    data: '30.01.2026',
+    titulli: 'Shpime',
+    lokacioni: 'Prishtinë'
+      },
+  {
+   id: 24,
+    src: '/images/galeria/p5.jpeg',
+    alt: 'Shpime',
+    category: 'Shpime',
+    data: '30.01.2026',
+    titulli: 'Shpime',
+    lokacioni: 'Prishtinë'
+      },
+  {
+   id: 25,
+    src: '/images/galeria/p6.jpeg',
+    alt: 'Shpime',
+    category: 'Shpime',
+    data: '30.01.2026',
+    titulli: 'Shpime',
+    lokacioni: 'Prishtinë'
+      },
+  {
+   id: 26,
+    src: '/images/galeria/p7.jpeg',
+    alt: 'Shpime',
+    category: 'Shpime',
+    data: '30.01.2026',
+    titulli: 'Shpime',
+    lokacioni: 'Prishtinë'
+      },
+  {
+   id: 27,
+    src: '/images/galeria/p8.jpeg',
+    alt: 'Shpime',
+    category: 'Shpime',
+    data: '30.01.2026',
+    titulli: 'Shpime',
+    lokacioni: 'Prishtinë'
+      },
+  {
+   id: 28,
+    src: '/images/galeria/p9.jpeg',
+    alt: 'Shpime',
+    category: 'Shpime',
+    data: '30.01.2026',
+    titulli: 'Shpime',
+    lokacioni: 'Prishtinë'
+      },
+  {
+   id: 29,
+    src: '/images/galeria/p10.jpeg',
+    alt: 'Shpime',
+    category: 'Shpime',
+    data: '30.01.2026',
+    titulli: 'Shpime',
+    lokacioni: 'Prishtinë'
+     },
+  {
+   id: 30,
+    src: '/images/galeria/p11.jpeg',
+    alt: 'Shpime',
+    category: 'Pilota dhe ankera',
+    data: '30.01.2026',
+    titulli: 'Shpime',
+    lokacioni: 'Prishtinë'
+      },
+  {
+   id: 31,
+    src: '/images/galeria/p12.jpeg',
+    alt: 'Shpime',
+    category: 'Pilota dhe ankera',
+    data: '30.01.2026',
+    titulli: 'Shpime',
+    lokacioni: 'Prishtinë'
+      },
+  {
+   id: 32,
+    src: '/images/galeria/p13.jpeg',
+    alt: 'Shpime',
+    category: 'Pilota dhe ankera',
+    data: '30.01.2026',
+    titulli: 'Shpime',
+    lokacioni: 'Prishtinë'
+      },
+  {
+   id: 33,
+    src: '/images/galeria/p14.jpeg',
+    alt: 'Shpime',
+    category: 'Pilota dhe ankera',
+    data: '30.01.2026',
+    titulli: 'Shpime',
+    lokacioni: 'Prishtinë'
+      },
+  {
+   id: 34,
+    src: '/images/galeria/p15.jpeg',
+    alt: 'Shpime',
+    category: 'Pilota dhe ankera',
+    data: '30.01.2026',
+    titulli: 'Shpime',
+    lokacioni: 'Prishtinë'
+      },
+  {
+   id: 35,
+    src: '/images/galeria/p16.jpeg',
+    alt: 'Shpime',
+    category: 'Pilota dhe ankera',
+    data: '30.01.2026',
+    titulli: 'Shpime',
+    lokacioni: 'Prishtinë'
+      },
+  {
+   id: 36,
+    src: '/images/galeria/p17.jpeg',
+    alt: 'Shpime',
+    category: 'Pilota dhe ankera',
+    data: '30.01.2026',
+    titulli: 'Shpime',
+    lokacioni: 'Prishtinë'
+      },
+  {
+   id: 37,
+    src: '/images/galeria/p18.jpeg',
+    alt: 'Shpime',
+    category: 'Pilota dhe ankera',
+    data: '30.01.2026',
+    titulli: 'Shpime',
+    lokacioni: 'Prishtinë'
+      },
+  {
+   id: 38,
+    src: '/images/galeria/p19.jpeg',
+    alt: 'Shpime',
+    category: 'Pilota dhe ankera',
+    data: '30.01.2026',
+    titulli: 'Shpime',
+    lokacioni: 'Prishtinë'
+      },
+  {
+   id: 39,
+    src: '/images/galeria/p20.jpeg',
+    alt: 'Shpime',
+    category: 'Pilota dhe ankera',
+    data: '30.01.2026',
+    titulli: 'Shpime',
+    lokacioni: 'Prishtinë'
+      },
+  {
+   id: 40,
+    src: '/images/galeria/p21.jpeg',
+    alt: 'Shpime',
+    category: 'Pilota dhe ankera',
+    data: '30.01.2026',
+    titulli: 'Shpime',
+    lokacioni: 'Prishtinë'
+       },
+  {
+   id: 41,
+    src: '/images/galeria/p22.jpeg',
+    alt: 'Shpime',
+    category: 'Pilota dhe ankera',
+    data: '30.01.2026',
+    titulli: 'Shpime',
+    lokacioni: 'Prishtinë'
+       },
+  {
+   id: 42,
+    src: '/images/galeria/p23.jpeg',
+    alt: 'Shpime',
+    category: 'Pilota dhe ankera',
+    data: '30.01.2026',
+    titulli: 'Shpime',
+    lokacioni: 'Prishtinë'
+       },
+  {
+   id: 43,
+    src: '/images/galeria/p24.jpeg',
+    alt: 'Shpime',
+    category: 'Pilota dhe ankera',
+    data: '30.01.2026',
+    titulli: 'Shpime',
+    lokacioni: 'Prishtinë'
+       },
+  {
+   id: 44,
+    src: '/images/galeria/p25.jpeg',
+    alt: 'Shpime',
+    category: 'Pilota dhe ankera',
+    data: '30.01.2026',
+    titulli: 'Shpime',
+    lokacioni: 'Prishtinë'
+       },
+  {
+   id: 45,
+    src: '/images/galeria/p26.jpeg',
+    alt: 'Shpime',
+    category: 'Pilota dhe ankera',
+    data: '30.01.2026',
+    titulli: 'Shpime',
+    lokacioni: 'Prishtinë'
+       },
+  {
+   id: 46,
+    src: '/images/galeria/p27.jpeg',
+    alt: 'Shpime',
+    category: 'Pilota dhe ankera',
+    data: '30.01.2026',
+    titulli: 'Shpime',
+    lokacioni: 'Prishtinë'
+       },
+  {
+   id: 47,
+    src: '/images/galeria/p28.jpeg',
+    alt: 'Shpime',
+    category: 'Pilota dhe ankera',
+    data: '30.01.2026',
+    titulli: 'Shpime',
+    lokacioni: 'Prishtinë'
+       },
+  {
+   id: 48,
+    src: '/images/galeria/p29.jpeg',
+    alt: 'Shpime',
+    category: 'Pilota dhe ankera',
+    data: '30.01.2026',
+    titulli: 'Shpime',
+    lokacioni: 'Prishtinë'
   }
+  
 ]
 
 export default function GalleryViewer({ onClose }: { onClose?: () => void }) {
@@ -257,19 +528,26 @@ export default function GalleryViewer({ onClose }: { onClose?: () => void }) {
 
           {/* Filter Buttons */}
           <div className="flex flex-wrap justify-center gap-2 mb-8">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setFilter(cat)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition ${
-                  filter === cat
-                    ? 'bg-[#256D7B] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+            {categories.map((cat) => {
+              const count = cat === 'Të gjitha' ? fotot.length : fotot.filter(f => f.category === cat).length
+              const active = filter === cat
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setFilter(cat)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 flex items-center gap-1.5 ${
+                    active
+                      ? 'bg-[#256D7B] text-white shadow-md shadow-[#256D7B]/30 scale-105'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  {cat}
+                  <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${active ? 'bg-white/20' : 'bg-gray-300/60'}`}>
+                    {count}
+                  </span>
+                </button>
+              )
+            })}
           </div>
 
           {/* Grid i fotove */}
@@ -280,8 +558,9 @@ export default function GalleryViewer({ onClose }: { onClose?: () => void }) {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.3, delay: index * 0.05 }}
+                whileHover={{ y: -6 }}
                 onClick={() => openGallery(index)}
-                className="relative group cursor-pointer overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+                className="relative group cursor-pointer overflow-hidden rounded-xl shadow-md hover:shadow-2xl hover:shadow-[#256D7B]/20 ring-1 ring-black/5 hover:ring-[#256D7B]/30 transition-all duration-300"
               >
                 <div className="relative h-64 w-full">
                   <Image
@@ -291,8 +570,8 @@ export default function GalleryViewer({ onClose }: { onClose?: () => void }) {
                     className="object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                  <div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                  <div className="translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
                     <p className="text-white text-sm font-semibold">{foto.titulli}</p>
                     <p className="text-white/80 text-xs">{foto.data} • {foto.lokacioni}</p>
                     <span className="inline-block mt-2 text-xs bg-[#256D7B] text-white px-2 py-1 rounded-full">

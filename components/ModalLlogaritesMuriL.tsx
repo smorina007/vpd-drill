@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { FaTimes, FaCalculator, FaRuler, FaWeight, FaCube, FaInfoCircle } from 'react-icons/fa'
+import MuriLSimulim3D from './MuriLSimulim3D'
 
 type ModalProps = {
   isOpen: boolean
@@ -167,6 +168,17 @@ export default function ModalLlogaritesMuriL({ isOpen, onClose }: ModalProps) {
                     className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#256D7B] text-sm"
                   />
                 </div>
+              </div>
+
+              {/* Simulim 3D live */}
+              <div className="bg-gradient-to-b from-gray-50 to-white rounded-xl border border-gray-100 py-6">
+                <MuriLSimulim3D
+                  gjatesia={gjatesia}
+                  lartesiaMurit={lartesiaMurit}
+                  trashesiaMuritCM={trashesiaMurit}
+                  gjatesiaKembes={gjatesiaKembes}
+                  trashesiaKembesCM={trashesiaKembes}
+                />
               </div>
 
               <button
