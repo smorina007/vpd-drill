@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { FaCalculator, FaRuler, FaWater, FaArrowsAltV } from 'react-icons/fa'
+import ShaftiSimulim3D from './ShaftiSimulim3D'
 
 export default function LlogaritesUji() {
   const [diametri, setDiametri] = useState<number>(300) // mm
@@ -72,6 +73,11 @@ export default function LlogaritesUji() {
                 />
                 <p className="text-xs text-gray-400 mt-1">Min: 1m, Max: 500m</p>
               </div>
+            </div>
+
+            {/* Simulim 3D live — përditësohet menjëherë ndërsa ndryshon diametri/thellësia */}
+            <div className="bg-gradient-to-b from-gray-50 to-white rounded-xl border border-gray-100 py-6">
+              <ShaftiSimulim3D diametriMM={diametri} thellesiaM={thellesia} lloji="uje" />
             </div>
 
             <button

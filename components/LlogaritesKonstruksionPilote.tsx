@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { FaCalculator, FaRuler, FaWeight, FaCircle, FaArrowRight } from 'react-icons/fa'
+import ArmaturaSimulim3D from './ArmaturaSimulim3D'
 
 export default function LlogaritesKonstruksionPilote() {
   const [parametrat, setParametrat] = useState({
@@ -144,6 +145,16 @@ export default function LlogaritesKonstruksionPilote() {
                 className="w-full px-4 py-3 rounded-lg border"
               />
             </div>
+          </div>
+
+          {/* Simulim 3D live i prerjes tërthore të armaturës */}
+          <div className="bg-gradient-to-b from-gray-50 to-white rounded-xl border border-gray-100 py-6 mb-8">
+            <ArmaturaSimulim3D
+              diametriPilotesMM={parametrat.diametriPilotes}
+              numriFijeveVertikale={parametrat.numriFijeveVertikale}
+              diametriFijeveMM={parametrat.diametriFijeve}
+              diametriSpiralesMM={parametrat.diametriSpirales}
+            />
           </div>
 
           <button

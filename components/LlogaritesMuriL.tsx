@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { FaCalculator, FaRuler, FaWeight, FaCube, FaArrowRight, FaInfoCircle } from 'react-icons/fa'
+import MuriLSimulim3D from './MuriLSimulim3D'
 
 export default function LlogaritesMuriL() {
   // Dimensionet e përbashkëta
@@ -180,6 +181,17 @@ export default function LlogaritesMuriL() {
                 <p className="text-xs text-gray-400 mt-1">Min: 5cm, Max: 50cm</p>
               </div>
             </div>
+          </div>
+
+          {/* Simulim 3D live i Murit L */}
+          <div className="mt-8 bg-gradient-to-b from-gray-50 to-white rounded-xl border border-gray-100 py-6">
+            <MuriLSimulim3D
+              gjatesia={gjatesia}
+              lartesiaMurit={lartesiaMurit}
+              trashesiaMuritCM={trashesiaMurit}
+              gjatesiaKembes={gjatesiaKembes}
+              trashesiaKembesCM={trashesiaKembes}
+            />
           </div>
 
           <button

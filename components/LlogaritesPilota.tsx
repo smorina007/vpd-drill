@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { FaCalculator, FaRuler, FaWeight, FaCube, FaArrowsAltV } from 'react-icons/fa'
+import ShaftiSimulim3D from './ShaftiSimulim3D'
 
 export default function LlogaritesPilota() {
   const [thellesia, setThellesia] = useState<number>(8)
@@ -80,6 +81,11 @@ export default function LlogaritesPilota() {
                 <option value="1200">1200 mm</option>
               </select>
             </div>
+          </div>
+
+          {/* Simulim 3D live i pilotës */}
+          <div className="bg-gradient-to-b from-gray-100 to-white rounded-xl border border-gray-200 py-6 mb-8">
+            <ShaftiSimulim3D diametriMM={diametri} thellesiaM={thellesia} lloji="beton" />
           </div>
 
           <button
