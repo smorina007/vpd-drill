@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { FaCheckCircle, FaSpinner, FaArrowRight, FaChevronLeft, FaChevronRight, FaPaperPlane, FaImages } from 'react-icons/fa'
+import { FaCheckCircle, FaSpinner, FaArrowRight, FaChevronLeft, FaChevronRight, FaPaperPlane, FaImages, FaMapMarkerAlt } from 'react-icons/fa'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useOferta } from '@/app/context/OfertaContext'
 import { useWeather } from '@/app/context/WeatherContext'
@@ -288,90 +288,118 @@ export default function Hero() {
           </p>
         </div>
 
-        {/* Galeria anësore e Projekteve – e njëjtë si më parë */}
+        {/* Galeria anësore e Projekteve — dizajn i rifreskuar */}
         <div className="absolute right-8 lg:right-16 top-1/2 -translate-y-1/2 z-10 w-80 lg:w-[340px]">
-          <div className="bg-white/10 backdrop-blur-2xl rounded-3xl overflow-hidden border border-white/20 shadow-2xl shadow-black/40">
-            {/* Header */}
-            <div className="px-5 py-4 border-b border-white/10 flex items-center justify-between">
-              <h3 className="text-white font-semibold flex items-center gap-2 text-sm">
-                <span className="w-2 h-2 bg-[#256D7B] rounded-full animate-pulse" />
-                Projektet e Fundit
-              </h3>
-              <span className="text-[#256D7B] text-xs font-bold">
-                {String(currentProjectIndex + 1).padStart(2, '0')}/{String(projects.length).padStart(2, '0')}
-              </span>
-            </div>
-
-            {/* Foto */}
-            <div className="relative h-72 lg:h-80 overflow-hidden bg-black/30">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentProjectIndex}
-                  initial={{ opacity: 0, scale: 0.9, rotateY: -8 }}
-                  animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-                  exit={{ opacity: 0, scale: 1.1, rotateY: 8 }}
-                  transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
-                  className="absolute inset-0 flex items-center justify-center p-4"
-                >
-                  <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-xl bg-black/20">
-                    <Image
-                      src={projects[currentProjectIndex].image}
-                      alt={projects[currentProjectIndex].title}
-                      fill
-                      className="object-cover"
-                      sizes="400px"
-                      priority={currentProjectIndex === 0}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-4">
-                      <p className="text-white font-medium drop-shadow-lg text-sm">
-                        {projects[currentProjectIndex].title}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-            </div>
-
-            {/* Kontrollet */}
-            <div className="px-5 py-4 border-t border-white/10 flex justify-between items-center">
-              <div className="flex gap-2">
-                <button
-                  onClick={prevProject}
-                  className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
-                >
-                  <FaChevronLeft size={14} />
-                </button>
-                <button
-                  onClick={nextProject}
-                  className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
-                >
-                  <FaChevronRight size={14} />
-                </button>
+          {/* Skaj me "shkëlqim" delikat (glass edge) */}
+          <div className="p-[1px] rounded-[28px] bg-gradient-to-br from-white/50 via-white/10 to-transparent shadow-[0_25px_70px_-15px_rgba(37,109,123,0.55)]">
+            <div className="bg-white/8 backdrop-blur-2xl rounded-[27px] overflow-hidden border border-white/10">
+              {/* Header */}
+              <div className="px-5 py-4 flex items-center justify-between">
+                <h3 className="text-white font-semibold flex items-center gap-2 text-sm">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#256D7B] opacity-60" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#256D7B]" />
+                  </span>
+                  Projektet e Fundit
+                </h3>
+                <span className="bg-white/10 text-[#7fc8d9] text-[11px] font-bold px-2.5 py-1 rounded-full tabular-nums">
+                  {String(currentProjectIndex + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
+                </span>
               </div>
-              <div className="flex gap-1.5">
-                {projects.slice(0, 5).map((_, idx) => (
+
+              {/* Segmente progresi ne stil "stories" */}
+              <div className="px-5 flex gap-1 mb-3">
+                {projects.slice(0, 5).map((_, idx) => {
+                  const activeIdx = currentProjectIndex % 5
+                  return (
+                    <div key={idx} className="h-[3px] flex-1 rounded-full bg-white/15 overflow-hidden">
+                      {idx === activeIdx && (
+                        <motion.div
+                          key={currentProjectIndex}
+                          initial={{ width: '0%' }}
+                          animate={{ width: '100%' }}
+                          transition={{ duration: 4.5, ease: 'linear' }}
+                          className="h-full bg-[#256D7B]"
+                        />
+                      )}
+                      {idx < activeIdx && <div className="h-full w-full bg-[#256D7B]/70" />}
+                    </div>
+                  )
+                })}
+              </div>
+
+              {/* Foto */}
+              <div className="relative h-72 lg:h-80 overflow-hidden bg-black/30 mx-5 rounded-2xl">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentProjectIndex}
+                    initial={{ opacity: 0, scale: 0.9, rotateY: -8 }}
+                    animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+                    exit={{ opacity: 0, scale: 1.1, rotateY: 8 }}
+                    transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+                    className="absolute inset-0"
+                  >
+                    <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-xl bg-black/20 ring-1 ring-white/10">
+                      <Image
+                        src={projects[currentProjectIndex].image}
+                        alt={projects[currentProjectIndex].title}
+                        fill
+                        className="object-cover"
+                        sizes="400px"
+                        priority={currentProjectIndex === 0}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/5 to-transparent" />
+                      <div className="absolute bottom-0 left-0 right-0 p-4">
+                        <p className="text-white font-semibold drop-shadow-lg text-sm flex items-center gap-1.5">
+                          <FaMapMarkerAlt className="text-[#7fc8d9] text-xs" />
+                          {projects[currentProjectIndex].title}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+
+              {/* Kontrollet */}
+              <div className="px-5 py-4 flex justify-between items-center mt-1">
+                <div className="flex gap-2">
                   <button
-                    key={idx}
-                    onClick={() => goToProject(idx)}
-                    className={`h-1.5 rounded-full transition-all duration-500 ${
-                      idx === currentProjectIndex % 5
-                        ? 'w-8 bg-[#256D7B] shadow-lg shadow-[#256D7B]/50'
-                        : 'w-2 bg-white/30 hover:bg-white/60'
-                    }`}
-                  />
-                ))}
+                    onClick={prevProject}
+                    className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+                  >
+                    <FaChevronLeft size={14} />
+                  </button>
+                  <button
+                    onClick={nextProject}
+                    className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+                  >
+                    <FaChevronRight size={14} />
+                  </button>
+                </div>
+                <div className="flex gap-1.5">
+                  {projects.slice(0, 5).map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => goToProject(idx)}
+                      className={`h-1.5 rounded-full transition-all duration-500 ${
+                        idx === currentProjectIndex % 5
+                          ? 'w-8 bg-[#256D7B] shadow-lg shadow-[#256D7B]/50'
+                          : 'w-2 bg-white/30 hover:bg-white/60'
+                      }`}
+                    />
+                  ))}
+                </div>
                 {projects.length > 5 && (
                   <span className="text-[10px] text-white/50 self-center ml-1">+{projects.length - 5}</span>
                 )}
+                <Link
+                  href="/projektet"
+                  className="text-[#256D7B] text-xs font-medium hover:underline flex items-center gap-1.5 group"
+                >
+                  <span>Të gjitha</span>
+                  <FaArrowRight size={10} className="group-hover:translate-x-1 transition-transform" />
+                </Link>
               </div>
-              <Link
-                href="/projektet"
-                className="text-[#256D7B] text-xs font-medium hover:underline flex items-center gap-1.5 group"
-              >
-                <span>Të gjitha</span>
-                <FaArrowRight size={10} className="group-hover:translate-x-1 transition-transform" />
-              </Link>
             </div>
           </div>
         </div>
