@@ -96,6 +96,29 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.png" />
         <link rel="shortcut icon" href="/favicon.png" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'GeneralContractor',
+              name: 'VPD DRILL',
+              image: 'https://vpddrill.com/images/og-image.jpg',
+              url: 'https://vpddrill.com',
+              telephone: ['+383044184114', '+383044204877'],
+              address: {
+                '@type': 'PostalAddress',
+                streetAddress: 'Fsh Dragobil',
+                addressLocality: 'Malishevë',
+                postalCode: '24000',
+                addressCountry: 'XK',
+              },
+              areaServed: 'Kosovë',
+              description:
+                'Ekspertizë e thellë, themele të sigurta. Specialistë në shpime puse uji deri 500m, pilota për objekte, ankera stabilizues, germim me diafragmë dhe produkte betoni në Kosovë.',
+            }),
+          }}
+        />
       </head>
       <body className={`${inter.className} antialiased`}>
         <LoadingScreen />

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { FaCheckCircle, FaSpinner, FaArrowRight, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
@@ -14,7 +14,6 @@ export default function Hero() {
   const [currentTime, setCurrentTime] = useState('')
   const { weather, loading: weatherLoading } = useWeather()
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0)
-  const audioCtxRef = useRef<AudioContext | null>(null)
 
   const projects = [
     { id: 1, title: 'Projekt në Prishtinë', image: '/images/projekte/p1.jpeg' },
@@ -49,25 +48,6 @@ export default function Hero() {
 
   ]
 
-  const playClickSound = () => {
-    try {
-      if (!audioCtxRef.current) {
-        audioCtxRef.current = new (window.AudioContext || (window as any).webkitAudioContext)()
-      }
-      const ctx = audioCtxRef.current
-      const oscillator = ctx.createOscillator()
-      const gainNode = ctx.createGain()
-      oscillator.connect(gainNode)
-      gainNode.connect(ctx.destination)
-      oscillator.frequency.value = 1200
-      oscillator.type = 'sine'
-      gainNode.gain.setValueAtTime(0.12, ctx.currentTime)
-      gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08)
-      oscillator.start(ctx.currentTime)
-      oscillator.stop(ctx.currentTime + 0.08)
-    } catch (e) {}
-  }
-
   useEffect(() => {
     setCurrentTime(new Date().toLocaleTimeString('sq-AL', {
       hour: '2-digit',
@@ -90,10 +70,6 @@ export default function Hero() {
     }, 4500)
     return () => clearInterval(interval)
   }, [projects.length])
-
-  useEffect(() => {
-    playClickSound()
-  }, [currentProjectIndex])
 
   const stats = [
     { number: '500m thellësi', label: 'Terene te forta' },
@@ -151,12 +127,14 @@ export default function Hero() {
 
   {/* Slogan - në qendër (mund të mbetet ose të zhvendoset) */}
    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 text-center w-full px-4 pointer-events-none">
-    <p className="text-white font-bold text-8xl tracking-wider drop-shadow-2xl leading-tight">
-      Themele të Sigurta
-    </p>
-    <p className="text-[#256D7B] font-semibold text-7xl tracking-[0.15em] drop-shadow-2xl mt-2 leading-tight">
-      për të Ardhmen
-    </p>
+    <h1 className="leading-tight">
+      <span className="block text-white font-bold text-4xl sm:text-5xl tracking-wide drop-shadow-2xl">
+        Themele të Sigurta
+      </span>
+      <span className="block text-[#256D7B] font-semibold text-3xl sm:text-4xl tracking-[0.1em] drop-shadow-2xl mt-2">
+        për të Ardhmen
+      </span>
+    </h1>
   </div>
 
   {/* Shiriti i statistikave – fund */}
@@ -176,6 +154,100 @@ export default function Hero() {
     </div>
   </div>
 </div>
+
+      {/* ========================================= */}
+      {/*   PROJEKTET E FUNDIT — GALERI MOBILE       */}
+      {/* ========================================= */}
+      <div className="md:hidden bg-gradient-to-b from-[#0f2b33] to-[#0a1f26] pt-8 pb-10 px-4">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-white font-semibold flex items-center gap-2 text-base">
+            <span className="w-2 h-2 bg-[#256D7B] rounded-full animate-pulse" />
+            Projektet e Fundit
+          </h3>
+          <span className="text-[#256D7B] text-xs font-bold">
+            {String(currentProjectIndex + 1).padStart(2, '0')}/{String(projects.length).padStart(2, '0')}
+          </span>
+        </div>
+
+        <div className="relative rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-black/40 bg-black/20">
+          <div className="relative h-64 overflow-hidden touch-pan-y">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentProjectIndex}
+                drag="x"
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.7}
+                onDragEnd={(_, info) => {
+                  if (info.offset.x < -60) nextProject()
+                  else if (info.offset.x > 60) prevProject()
+                }}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.05 }}
+                transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+                className="absolute inset-0 cursor-grab active:cursor-grabbing"
+              >
+                <Image
+                  src={projects[currentProjectIndex].image}
+                  alt={projects[currentProjectIndex].title}
+                  fill
+                  className="object-cover pointer-events-none select-none"
+                  sizes="100vw"
+                  priority={currentProjectIndex === 0}
+                  draggable={false}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute bottom-3 left-4 right-4 pointer-events-none">
+                  <p className="text-white font-medium text-sm drop-shadow-lg">
+                    {projects[currentProjectIndex].title}
+                  </p>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+
+          </div>
+
+          {/* Kontrollet */}
+          <div className="flex items-center justify-between px-4 py-3 bg-black/40 backdrop-blur-sm">
+            <button
+              onClick={prevProject}
+              aria-label="Projekti i mëparshëm"
+              className="w-9 h-9 rounded-full bg-white/10 active:bg-white/20 text-white flex items-center justify-center transition-colors"
+            >
+              <FaChevronLeft size={14} />
+            </button>
+            <div className="flex gap-1.5">
+              {projects.slice(0, 5).map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => goToProject(idx)}
+                  aria-label={`Shko te projekti ${idx + 1}`}
+                  className={`h-1.5 rounded-full transition-all duration-500 ${
+                    idx === currentProjectIndex % 5
+                      ? 'w-6 bg-[#256D7B] shadow-lg shadow-[#256D7B]/50'
+                      : 'w-1.5 bg-white/30'
+                  }`}
+                />
+              ))}
+            </div>
+            <button
+              onClick={nextProject}
+              aria-label="Projekti tjetër"
+              className="w-9 h-9 rounded-full bg-white/10 active:bg-white/20 text-white flex items-center justify-center transition-colors"
+            >
+              <FaChevronRight size={14} />
+            </button>
+          </div>
+        </div>
+
+        <Link
+          href="/projektet"
+          className="mt-4 flex items-center justify-center gap-1.5 text-[#256D7B] text-sm font-medium"
+        >
+          <span>Shiko të gjitha projektet</span>
+          <FaArrowRight size={12} />
+        </Link>
+      </div>
 
       {/* ========================== */}
       {/*      DESKTOP HERO          */}
