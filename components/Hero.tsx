@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { FaCheckCircle, FaSpinner, FaArrowRight, FaChevronLeft, FaChevronRight, FaPaperPlane, FaImages, FaMapMarkerAlt } from 'react-icons/fa'
+import { FaCheckCircle, FaSpinner, FaArrowRight, FaChevronLeft, FaChevronRight, FaPaperPlane, FaImages, FaMapMarkerAlt, FaSearchPlus, FaTimes } from 'react-icons/fa'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useOferta } from '@/app/context/OfertaContext'
 import { useWeather } from '@/app/context/WeatherContext'
@@ -14,6 +14,8 @@ export default function Hero() {
   const [currentTime, setCurrentTime] = useState('')
   const { weather, loading: weatherLoading } = useWeather()
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0)
+  const [isWidgetHovered, setIsWidgetHovered] = useState(false)
+  const [widgetLightboxOpen, setWidgetLightboxOpen] = useState(false)
 
   const projects = [
     { id: 1, title: 'Projekt në Prishtinë', image: '/images/projekte/p1.jpeg' },
@@ -65,11 +67,12 @@ export default function Hero() {
   }, [])
 
   useEffect(() => {
+    if (isWidgetHovered) return
     const interval = setInterval(() => {
       setCurrentProjectIndex((prev) => (prev + 1) % projects.length)
     }, 4500)
     return () => clearInterval(interval)
-  }, [projects.length])
+  }, [projects.length, isWidgetHovered])
 
   const stats = [
     { number: '500m thellësi', label: 'Terene te forta' },
@@ -289,7 +292,11 @@ export default function Hero() {
         </div>
 
         {/* Galeria anësore e Projekteve — dizajn i rifreskuar */}
-        <div className="absolute right-8 lg:right-16 top-1/2 -translate-y-1/2 z-10 w-80 lg:w-[340px]">
+        <div
+          className="absolute right-8 lg:right-16 top-1/2 -translate-y-1/2 z-10 w-80 lg:w-[340px]"
+          onMouseEnter={() => setIsWidgetHovered(true)}
+          onMouseLeave={() => setIsWidgetHovered(false)}
+        >
           {/* Skaj me "shkëlqim" delikat (glass edge) */}
           <div className="p-[1px] rounded-[28px] bg-gradient-to-br from-white/50 via-white/10 to-transparent shadow-[0_25px_70px_-15px_rgba(37,109,123,0.55)]">
             <div className="bg-white/8 backdrop-blur-2xl rounded-[27px] overflow-hidden border border-white/10">
@@ -321,31 +328,53 @@ export default function Hero() {
               </div>
 
               {/* Foto */}
-              <div className="relative h-72 lg:h-80 overflow-hidden bg-black/30 mx-5 rounded-2xl">
+              <div className="relative h-72 lg:h-80 overflow-hidden bg-black/30 mx-5 rounded-2xl group/photo">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={currentProjectIndex}
+                    drag="x"
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.6}
+                    onDragEnd={(_, info) => {
+                      if (info.offset.x < -50) nextProject()
+                      else if (info.offset.x > 50) prevProject()
+                    }}
                     initial={{ opacity: 0, scale: 0.9, rotateY: -8 }}
                     animate={{ opacity: 1, scale: 1, rotateY: 0 }}
                     exit={{ opacity: 0, scale: 1.1, rotateY: 8 }}
                     transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
-                    className="absolute inset-0"
+                    className="absolute inset-0 cursor-grab active:cursor-grabbing"
                   >
-                    <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-xl bg-black/20 ring-1 ring-white/10">
-                      <Image
-                        src={projects[currentProjectIndex].image}
-                        alt={projects[currentProjectIndex].title}
-                        fill
-                        className="object-cover"
-                        sizes="400px"
-                        priority={currentProjectIndex === 0}
-                      />
+                    <div
+                      onClick={() => setWidgetLightboxOpen(true)}
+                      className="relative w-full h-full rounded-2xl overflow-hidden shadow-xl bg-black/20 ring-1 ring-white/10 cursor-zoom-in"
+                    >
+                      <motion.div
+                        className="absolute inset-0"
+                        initial={{ scale: 1 }}
+                        animate={{ scale: 1.08 }}
+                        transition={{ duration: 4.5, ease: 'linear' }}
+                      >
+                        <Image
+                          src={projects[currentProjectIndex].image}
+                          alt={projects[currentProjectIndex].title}
+                          fill
+                          className="object-cover pointer-events-none select-none"
+                          sizes="400px"
+                          priority={currentProjectIndex === 0}
+                          draggable={false}
+                        />
+                      </motion.div>
                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/5 to-transparent" />
                       <div className="absolute bottom-0 left-0 right-0 p-4">
                         <p className="text-white font-semibold drop-shadow-lg text-sm flex items-center gap-1.5">
                           <FaMapMarkerAlt className="text-[#7fc8d9] text-xs" />
                           {projects[currentProjectIndex].title}
                         </p>
+                      </div>
+                      {/* Ftesë delikate për zoom, shfaqet vetëm në hover */}
+                      <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover/photo:opacity-100 transition-opacity">
+                        <FaSearchPlus className="text-white text-xs" />
                       </div>
                     </div>
                   </motion.div>
@@ -379,6 +408,81 @@ export default function Hero() {
             </div>
           </div>
         </div>
+
+        {/* Lightbox — foto e plotë kur klikohet karta e projekteve */}
+        <AnimatePresence>
+          {widgetLightboxOpen && (
+            <div className="fixed inset-0 z-[9999]">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="fixed inset-0 bg-gray-950/90 backdrop-blur-sm"
+                onClick={() => setWidgetLightboxOpen(false)}
+              />
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.97 }}
+                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                className="relative w-full h-full flex items-center justify-center p-4 md:p-10"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentProjectIndex}
+                    initial={{ opacity: 0, x: 30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -30 }}
+                    transition={{ duration: 0.25 }}
+                    className="relative w-full h-full max-w-4xl flex items-center justify-center"
+                  >
+                    <Image
+                      src={projects[currentProjectIndex].image}
+                      alt={projects[currentProjectIndex].title}
+                      width={1200}
+                      height={900}
+                      className="object-contain max-h-[78vh] w-auto rounded-lg shadow-2xl"
+                    />
+                  </motion.div>
+                </AnimatePresence>
+
+                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-black/50 backdrop-blur-md rounded-xl px-5 py-3 text-white text-center">
+                  <p className="font-semibold text-sm flex items-center gap-1.5 justify-center">
+                    <FaMapMarkerAlt className="text-[#7fc8d9]" />
+                    {projects[currentProjectIndex].title}
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => setWidgetLightboxOpen(false)}
+                  className="fixed top-5 right-5 z-20 p-2.5 bg-white/10 backdrop-blur-md border border-white/20 rounded-full hover:bg-white/20 transition-colors text-white"
+                  aria-label="Mbyll"
+                >
+                  <FaTimes size={20} />
+                </button>
+                <button
+                  onClick={prevProject}
+                  className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 p-2.5 md:p-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-full hover:bg-white/20 transition-colors text-white"
+                  aria-label="Projekti i mëparshëm"
+                >
+                  <FaChevronLeft size={18} />
+                </button>
+                <button
+                  onClick={nextProject}
+                  className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 p-2.5 md:p-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-full hover:bg-white/20 transition-colors text-white"
+                  aria-label="Projekti tjetër"
+                >
+                  <FaChevronRight size={18} />
+                </button>
+                <div className="fixed top-5 left-5 z-20 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-2 text-white text-xs font-medium">
+                  {currentProjectIndex + 1} / {projects.length}
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
 
         {/* Butonat poshtë – pa tekst tjetër */}
         <div className="container mx-auto px-6 relative z-10 h-full flex items-end pb-12">
