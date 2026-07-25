@@ -87,18 +87,16 @@ export default function FloatingAIButton() {
         </button>
 
         {/* Quick Action Buttons - Opsionale për mobile */}
-        <div className={`
-          flex flex-col gap-2 mt-2
-          transition-all duration-300
-          ${isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4 pointer-events-none'}
-        `}>
-          <button 
-            onClick={() => setIsOpen(true)}
-            className="bg-white text-[#256D7B] px-3 py-2 rounded-full text-xs shadow hover:bg-[#256D7B] hover:text-white transition touch-manipulation min-w-[100px] sm:hidden"
-          >
-            Pyet shpejt
-          </button>
-        </div>
+        {isHovered && (
+          <div className="flex flex-col gap-2 mt-2 transition-all duration-300 opacity-100 translate-x-0">
+            <button 
+              onClick={() => setIsOpen(true)}
+              className="bg-white text-[#256D7B] px-3 py-2 rounded-full text-xs shadow hover:bg-[#256D7B] hover:text-white transition touch-manipulation min-w-[100px] sm:hidden"
+            >
+              Pyet shpejt
+            </button>
+          </div>
+        )}
       </div>
 
       <style jsx>{`

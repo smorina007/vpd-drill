@@ -61,33 +61,30 @@ export default function HartaProjekteve({ projektet }: { projektet: Projekti[] }
   const maxCount = Math.max(...qytetet.map((q) => grupetSipasQytetit[q].length))
 
   return (
-    <div className="bg-gradient-to-br from-[#0f2b33] to-[#0a1f26] rounded-2xl overflow-hidden border border-white/10 shadow-xl">
-      <div className="px-5 sm:px-6 pt-5 sm:pt-6">
-        <h3 className="text-white font-bold text-lg sm:text-xl flex items-center gap-2">
+    <div className="max-w-md mx-auto bg-gradient-to-br from-[#0f2b33] to-[#0a1f26] rounded-2xl overflow-hidden border border-white/10 shadow-xl">
+      <div className="px-4 sm:px-5 pt-4 sm:pt-5">
+        <h3 className="text-white font-bold text-base sm:text-lg flex items-center gap-2">
           <FaMapMarkerAlt className="text-[#7fc8d9]" />
           Ku kemi punuar
         </h3>
-        <p className="text-white/60 text-sm mt-1">
+        <p className="text-white/60 text-xs sm:text-sm mt-1">
           {projektet.length} projekte në {qytetet.length} qytete anembanë Kosovës
         </p>
       </div>
 
-      <div className="relative w-full aspect-[4/3] sm:aspect-[16/9] mt-4">
-        {/* Silueta e Kosovës si ujëvizë dekorative (logo ekzistuese e kompanisë) */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-[0.07] pointer-events-none">
-          <div className="relative w-2/3 h-2/3">
-            <Image src="/images/logo1.png" alt="" fill className="object-contain" />
+      <div className="relative w-full aspect-[4/5] sm:aspect-[1/1] mt-3">
+        {/* Silueta e Kosovës — nxjerrë dhe mbushur nga logoja e kompanisë */}
+        <div className="absolute inset-0 flex items-center justify-center opacity-25 pointer-events-none">
+          <div className="relative w-[85%] h-[85%]">
+            <Image src="/images/kosovo-siluete-teal.png" alt="" fill className="object-contain" />
           </div>
         </div>
-
-        {/* Rrjetë delikate sfondi */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:8%_12%]" />
 
         {/* Pin-at */}
         {qytetet.map((qyteti) => {
           const { x, y } = pozicioni(qyteti)
           const count = grupetSipasQytetit[qyteti].length
-          const madhesia = 24 + (count / maxCount) * 20
+          const madhesia = 20 + (count / maxCount) * 16
           const isActive = aktivi === qyteti
 
           return (
@@ -104,11 +101,11 @@ export default function HartaProjekteve({ projektet }: { projektet: Projekti[] }
                     ? 'bg-[#7fc8d9] border-white scale-110 shadow-lg shadow-[#7fc8d9]/50'
                     : 'bg-[#256D7B] border-white/40 hover:border-white hover:scale-105'
                 }`}
-                style={{ fontSize: madhesia * 0.38 }}
+                style={{ fontSize: madhesia * 0.4 }}
               >
                 {count}
               </span>
-              <span className="absolute top-full mt-1 left-1/2 -translate-x-1/2 text-[10px] sm:text-xs text-white/80 font-medium whitespace-nowrap pointer-events-none">
+              <span className="absolute top-full mt-1 left-1/2 -translate-x-1/2 text-[9px] sm:text-[10px] text-white/80 font-medium whitespace-nowrap pointer-events-none">
                 {qyteti}
               </span>
             </button>

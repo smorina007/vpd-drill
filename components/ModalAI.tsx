@@ -5,8 +5,9 @@ import {
   FaTimes, FaRobot, FaPaperPlane, FaSpinner, 
   FaWater, FaBuilding, FaAnchor, FaCube, 
   FaRuler, FaCalculator, FaInfo,
-  FaPhone, FaEnvelope
+  FaPhone, FaEnvelope, FaMapMarkerAlt
 } from 'react-icons/fa'
+import { gjejPergjigje, sugjerimet as sugjerimetBaze } from '@/lib/aiKnowledge'
 
 type ModalProps = {
   isOpen: boolean
@@ -29,113 +30,13 @@ export default function ModalAI({ isOpen, onClose }: ModalProps) {
   const [pyetja, setPyetja] = useState('')
   const [mesazhet, setMesazhet] = useState<Mesazh[]>([
     { 
-      text: "Përshëndetje! Unë jam asistenti inteligjent i VPD DRILL. Mund të më pyesni për:\n\n" +
-            "🔹 Llogaritësit – vëllimi i ujit, muri L, pilota, etj.\n" +
-            "🔹 Pompa uji – rekomandime bazuar në thellësi\n" +
-            "🔹 Gjeologjia e tokës – llojet e terreneve\n" +
-            "🔹 Produktet dhe shërbimet tona",
+      text: "Përshëndetje! 👋 Pyesni për shpimin, pilotat, diafragmën, CFA, thellësinë, pagesën, ose si të na gjeni.",
       isUser: false,
       timestamp: new Date()
     }
   ])
   const [dukeTyp, setDukeTyp] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
-
-  // KnowledgeBase e plotë
-  const knowledgeBase = {
-    gjeologji: {
-      title: '🏔️ Informacione Gjeologjike',
-      specs: [
-        'Terrene shkëmbore: Thellësi deri 500m',
-        'Terrene argjilore: Kërkojnë stabilizim',
-        'Terrene ranore: Rrezik shembjesh',
-        'Ujërat nëntokësore: Ndikojnë në shpim'
-      ]
-    },
-    pompa: {
-      title: '💧 Rekomandime për Pompa',
-      specs: [
-        'Pompa sipërfaqësore: Deri 8m thellësi',
-        'Pompa zhytëse: 10-200m thellësi',
-        'Pompa me presion: Për rritje presioni',
-        'Pompa me inverter: Kursim energjie'
-      ]
-    },
-    uji: {
-      title: '💧 Informacione për Ujin',
-      specs: [
-        'Thellësia e pusit ndikon në temperaturë',
-        'Diametri ndikon në kapacitet',
-        'Analiza e ujit rekomandohet çdo 6 muaj',
-        'Mirëmbajtja zgjat jetën e pusit'
-      ]
-    },
-    llogaritesit: {
-      title: '🧮 Llogaritësit',
-      specs: [
-        'Muri L: Vëllim, peshë, armaturë',
-        'Pilota: Beton dhe peshë',
-        'Konstruksion pilotash: Hekur',
-        'Uji në pus: Vëllim në litra'
-      ]
-    },
-    kontakt: {
-      title: '📞 Kontakti',
-      specs: [
-        'Tel: 044 184 114',
-        'Email: info@vllezeritpaqarizi.com',
-        'Adresa: Fsh Dragobil, Malisheve'
-      ]
-    }
-  }
-
-  // Funksionet ndihmëse
-  const rekomandoPompen = (thellesia: number) => {
-    if (thellesia <= 8) return 'pompë sipërfaqësore'
-    if (thellesia <= 30) return 'pompë zhytëse (presion të ulët)'
-    if (thellesia <= 70) return 'pompë zhytëse (presion mesatar)'
-    return 'pompë zhytëse (presion të lartë)'
-  }
-
-  const llogaritVelliminEUjit = (diametri: number, thellesia: number) => {
-    const rrezja = diametri / 1000 / 2
-    return (Math.PI * rrezja * rrezja * thellesia).toFixed(2)
-  }
-
-  const shembullMuriL = () => {
-    return "Shembull: Mur L 2m gjatësi, 1.5m lartësi, 12cm trashësi muri, 0.8m këmbë → 0.68m³ beton, 1.63 ton"
-  }
-
-  // Përgjigjet
-  const gjejPergjigje = (pyetja: string): string => {
-    const p = pyetja.toLowerCase()
-
-    if (p.includes('gjeologji')) 
-      return knowledgeBase.gjeologji.title + '\n' + knowledgeBase.gjeologji.specs.map(s => '• ' + s).join('\n')
-
-    if (p.includes('pompë') || p.includes('pompa')) {
-      const match = p.match(/(\d+)\s*m/)
-      if (match) return 'Rekomandojmë ' + rekomandoPompen(parseInt(match[1]))
-      return knowledgeBase.pompa.title + '\n' + knowledgeBase.pompa.specs.map(s => '• ' + s).join('\n')
-    }
-
-    if (p.includes('ujë') && p.includes('vëllim')) {
-      const diam = p.match(/(\d+)\s*mm/)
-      const thel = p.match(/(\d+)\s*m/)
-      if (diam && thel) return `Vëllimi: ${llogaritVelliminEUjit(parseInt(diam[1]), parseInt(thel[1]))} m³`
-      return 'Shembull: "diametri 300mm thellësia 50m"'
-    }
-
-    if (p.includes('mur') || p.includes('muri l')) return shembullMuriL()
-
-    if (p.includes('llogaritës')) 
-      return knowledgeBase.llogaritesit.title + '\n' + knowledgeBase.llogaritesit.specs.map(s => '• ' + s).join('\n')
-
-    if (p.includes('kontakt')) 
-      return knowledgeBase.kontakt.title + '\n' + knowledgeBase.kontakt.specs.map(s => '• ' + s).join('\n')
-
-    return "Për më shumë, na kontaktoni në 044 184 114"
-  }
 
   const dergoPyetjen = () => {
     if (!pyetja.trim()) return
@@ -155,14 +56,20 @@ export default function ModalAI({ isOpen, onClose }: ModalProps) {
 
   if (!isOpen) return null
 
-  const sugjerimet: Sugjerim[] = [
-    { text: 'Gjeologji', icon: <FaInfo />, action: '' },
-    { text: 'Pompa për 45m', icon: <FaCalculator />, action: '' },
-    { text: 'Llogarit vëllimin', icon: <FaWater />, action: '' },
-    { text: 'Shembull Muri L', icon: <FaCube />, action: '' },
-    { text: 'Llogaritësit', icon: <FaCalculator />, action: '' },
-    { text: 'Kontakt', icon: <FaPhone />, action: '' }
-  ]
+  const ikonatSugjerimeve: Record<string, React.ReactNode> = {
+    cfa: <FaCalculator />,
+    thellesia: <FaRuler />,
+    pilota: <FaBuilding />,
+    diafragme: <FaCube />,
+    lokacioni: <FaMapMarkerAlt />,
+    pagesa: <FaInfo />,
+    sherbime: <FaWater />,
+  }
+  const sugjerimet: Sugjerim[] = sugjerimetBaze.map((s) => ({
+    text: s.text,
+    action: s.action,
+    icon: ikonatSugjerimeve[s.action] ?? <FaInfo />,
+  }))
 
   return (
     <div className="fixed inset-0 z-[60] overflow-y-auto">
