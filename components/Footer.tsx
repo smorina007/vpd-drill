@@ -1,5 +1,8 @@
+'use client'
+
 import Link from 'next/link'
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaFacebook, FaInstagram, FaLinkedin, FaYoutube, FaHeart } from 'react-icons/fa'
+import { trackEvent } from '@/lib/gtag'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -66,6 +69,7 @@ export default function Footer() {
               <li><Link href="/produktet" className="text-gray-400 hover:text-[#256D7B] transition">Produktet</Link></li>
               <li><Link href="/projektet" className="text-gray-400 hover:text-[#256D7B] transition">Projektet</Link></li>
               <li><Link href="/kontakti" className="text-gray-400 hover:text-[#256D7B] transition">Kontakti</Link></li>
+              <li><Link href="/pyetje-te-shpeshta" className="text-gray-400 hover:text-[#256D7B] transition">Pyetje të Shpeshta</Link></li>
             </ul>
           </div>
 
@@ -75,19 +79,19 @@ export default function Footer() {
             <ul className="space-y-3">
               <li className="flex items-center text-gray-400">
                 <FaPhone className="mr-3 text-[#256D7B]" />
-                <span>044 184 114</span>
+                <a href="tel:+38344184114" onClick={() => trackEvent('phone_click', { phone: '044184114', location: 'footer' })} className="hover:text-[#256D7B] transition">044 184 114</a>
               </li>
               <li className="flex items-center text-gray-400">
                 <FaPhone className="mr-3 text-[#256D7B]" />
-                <span>044 204 877</span>
+                <a href="tel:+38344204877" onClick={() => trackEvent('phone_click', { phone: '044204877', location: 'footer' })} className="hover:text-[#256D7B] transition">044 204 877</a>
               </li>
               <li className="flex items-center text-gray-400">
                 <FaPhone className="mr-3 text-[#256D7B]" />
-                <span>045 700 201</span>
+                <a href="tel:+38345700201" onClick={() => trackEvent('phone_click', { phone: '045700201', location: 'footer' })} className="hover:text-[#256D7B] transition">045 700 201</a>
               </li>
               <li className="flex items-center text-gray-400">
                 <FaEnvelope className="mr-3 text-[#256D7B]" />
-                <span>info@vllezeritpaqarizi.com</span>
+                <a href="mailto:info@vllezeritpaqarizi.com" className="hover:text-[#256D7B] transition">info@vllezeritpaqarizi.com</a>
               </li>
             </ul>
           </div>
@@ -122,6 +126,11 @@ export default function Footer() {
         {/* Copyright */}
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
           <p>&copy; {currentYear} VPD DRILL. Të gjitha të drejtat e rezervuara.</p>
+          <p className="mt-2">
+            <Link href="/politika-e-privatesise" className="text-gray-400 hover:text-[#256D7B] transition text-sm underline underline-offset-2">
+              Politika e Privatësisë
+            </Link>
+          </p>
           <p className="text-sm text-gray-500 mt-2">Project by Selami Morina</p>
         </div>
       </div>

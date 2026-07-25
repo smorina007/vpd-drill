@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import emailjs from '@emailjs/browser'
+import { trackEvent } from '@/lib/gtag'
 import { FaTimes, FaStar, FaSpinner, FaCheckCircle } from 'react-icons/fa'
 
 type ModalProps = {
@@ -17,6 +18,7 @@ export default function ModalVleresime({ isOpen, onClose }: ModalProps) {
   const [vleresimi, setVleresimi] = useState(5)
   const [emri, setEmri] = useState('')
   const [komenti, setKomenti] = useState('')
+  const [website, setWebsite] = useState('') // honeypot anti-spam
   const [isSending, setIsSending] = useState(false)
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
 
@@ -24,6 +26,7 @@ export default function ModalVleresime({ isOpen, onClose }: ModalProps) {
     setEmri('')
     setKomenti('')
     setVleresimi(5)
+    setWebsite('')
     setStatus('idle')
     onClose()
   }
@@ -31,6 +34,12 @@ export default function ModalVleresime({ isOpen, onClose }: ModalProps) {
   const dergoVleresimin = () => {
     if (!emri.trim() || !komenti.trim()) {
       alert('Ju lutem plotësoni të gjitha fushat')
+      return
+    }
+
+    // Mbrojtje nga spam-i (honeypot) — nëse është plotësuar, ishte bot; heshtazi injorojmë
+    if (website.trim()) {
+      resetAndClose()
       return
     }
 
@@ -49,6 +58,7 @@ export default function ModalVleresime({ isOpen, onClose }: ModalProps) {
         message: komenti,
       }, EMAILJS_PUBLIC_KEY)
       .then(() => {
+        trackEvent('submit_review', { rating: vleresimi })
         setStatus('success')
         setTimeout(resetAndClose, 2500)
       })
@@ -86,6 +96,15 @@ export default function ModalVleresime({ isOpen, onClose }: ModalProps) {
             </div>
           ) : (
             <div className="p-6 space-y-4">
+              <input
+                type="text"
+                value={website}
+                onChange={(e) => setWebsite(e.target.value)}
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="absolute -left-[9999px] w-px h-px opacity-0"
+              />
               <div>
                 <label className="block text-sm font-medium mb-1">Emri juaj</label>
                 <input

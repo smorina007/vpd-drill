@@ -2,6 +2,7 @@
 
 import { useRef, useState, FormEvent } from 'react'
 import emailjs from '@emailjs/browser'
+import { trackEvent } from '@/lib/gtag'
 import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaPaperPlane, FaSpinner, FaCheckCircle } from 'react-icons/fa'
 
 type Sherbimi = 'bunar' | 'pilota' | 'ankera' | 'muri-l' | 'gypa-betoni' | 'pllaka' | 'gypa-per-puse' | 'sajla'
@@ -46,6 +47,13 @@ export default function FormularOferte() {
     e.preventDefault()
     if (!formRef.current) return
 
+    // Mbrojtje nga spam-i (honeypot)
+    const honeypot = (formRef.current.elements.namedItem('website') as HTMLInputElement)?.value
+    if (honeypot) {
+      formRef.current.reset()
+      return
+    }
+
     setIsSending(true)
     setStatus('idle')
 
@@ -72,6 +80,7 @@ export default function FormularOferte() {
     emailjs
       .sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, formRef.current, EMAILJS_PUBLIC_KEY)
       .then(() => {
+        trackEvent('generate_lead', { form_name: 'oferte_formular', service: selectedSherbim })
         setStatus('success')
         formRef.current?.reset()
         setFormData({ emri: '', email: '', telefoni: '', lokacioni: '' })
@@ -106,6 +115,14 @@ export default function FormularOferte() {
         </div>
 
         <form ref={formRef} onSubmit={handleSubmit} className="bg-gray-50 rounded-2xl p-8 shadow-lg">
+          <input
+            type="text"
+            name="website"
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+            className="absolute -left-[9999px] w-px h-px opacity-0"
+          />
           {/* Të dhënat e klientit */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div>

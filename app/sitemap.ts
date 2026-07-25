@@ -13,6 +13,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/sherbimet/germim-diafragme',
     '/sherbimet/pilota',
     '/sherbimet/shpime-puse',
+    '/pyetje-te-shpeshta',
+    '/politika-e-privatesise',
   ]
 
   return routes.map((route) => ({

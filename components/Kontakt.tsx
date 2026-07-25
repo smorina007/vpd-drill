@@ -3,6 +3,7 @@
 import { useRef, FormEvent, useState } from 'react'
 import emailjs from '@emailjs/browser'
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock, FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa'
+import { trackEvent } from '@/lib/gtag'
 
 const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!
 const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_CONTACT!
@@ -16,6 +17,13 @@ export default function Kontakt() {
     e.preventDefault()
     if (!formRef.current) return
 
+    // Mbrojtje nga spam-i (honeypot) — nëse është plotësuar, ishte bot
+    const honeypot = (formRef.current.elements.namedItem('website') as HTMLInputElement)?.value
+    if (honeypot) {
+      formRef.current.reset()
+      return
+    }
+
     setIsSending(true)
     emailjs.sendForm(
       EMAILJS_SERVICE_ID,
@@ -24,6 +32,7 @@ export default function Kontakt() {
       EMAILJS_PUBLIC_KEY
     ).then(
       () => {
+        trackEvent('generate_lead', { form_name: 'kontakt' })
         alert('Mesazhi u dërgua me sukses!')
         formRef.current?.reset()
       },
@@ -60,9 +69,9 @@ export default function Kontakt() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Telefon</h3>
-                    <p className="text-gray-600">044 184 114</p>
-                    <p className="text-gray-600">044 204 877</p>
-                    <p className="text-gray-600">045 700 201</p>
+                    <a href="tel:+38344184114" onClick={() => trackEvent('phone_click', { phone: '044184114', location: 'kontakti_page' })} className="block text-gray-600 hover:text-[#256D7B] transition">044 184 114</a>
+                    <a href="tel:+38344204877" onClick={() => trackEvent('phone_click', { phone: '044204877', location: 'kontakti_page' })} className="block text-gray-600 hover:text-[#256D7B] transition">044 204 877</a>
+                    <a href="tel:+38345700201" onClick={() => trackEvent('phone_click', { phone: '045700201', location: 'kontakti_page' })} className="block text-gray-600 hover:text-[#256D7B] transition">045 700 201</a>
                   </div>
                 </div>
 
@@ -72,7 +81,7 @@ export default function Kontakt() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Email</h3>
-                    <p className="text-gray-600">info@vllezeritpaqarizi.com</p>
+                    <a href="mailto:info@vllezeritpaqarizi.com" className="text-gray-600 hover:text-[#256D7B] transition">info@vllezeritpaqarizi.com</a>
                   </div>
                 </div>
 
@@ -148,6 +157,15 @@ export default function Kontakt() {
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Dërgo Mesazh</h2>
 
             <form ref={formRef} onSubmit={sendEmail} className="space-y-6">
+              {/* Honeypot anti-spam — i padukshëm për njerëz, e tërheq roboti */}
+              <input
+                type="text"
+                name="website"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="absolute -left-[9999px] w-px h-px opacity-0"
+              />
               {/* Fusha të fshehta nëse do të dërgohen te template */}
               <input type="hidden" name="to_email" value="info@vllezeritpaqarizi.com" />
 

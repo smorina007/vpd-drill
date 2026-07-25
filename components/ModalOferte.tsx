@@ -2,6 +2,7 @@
 
 import { useState, useRef, FormEvent } from 'react'
 import emailjs from '@emailjs/browser'
+import { trackEvent } from '@/lib/gtag'
 import { 
   FaTimes, FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, 
   FaPaperPlane, FaWhatsapp, FaEnvelope as FaEnvelopeSolid
@@ -120,6 +121,13 @@ export default function ModalOferte({ isOpen, onClose }: ModalProps) {
     e.preventDefault()
     if (!formRef.current) return
 
+    // Mbrojtje nga spam-i (honeypot)
+    const honeypot = (formRef.current.elements.namedItem('website') as HTMLInputElement)?.value
+    if (honeypot) {
+      formRef.current.reset()
+      return
+    }
+
     setIsSending(true)
 
     // Shtojmë një fushë të fshehur për shërbimin e zgjedhur
@@ -136,6 +144,7 @@ export default function ModalOferte({ isOpen, onClose }: ModalProps) {
       EMAILJS_PUBLIC_KEY
     ).then(
       () => {
+        trackEvent('generate_lead', { form_name: 'oferte_modal', service: selectedSherbim })
         alert('Kërkesa u dërgua me sukses!')
         formRef.current?.reset()
         // Rivendos state-in
@@ -187,6 +196,14 @@ export default function ModalOferte({ isOpen, onClose }: ModalProps) {
 
           <div className="flex-1 overflow-y-auto p-4 sm:p-8">
             <form ref={formRef} onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+              <input
+                type="text"
+                name="website"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="absolute -left-[9999px] w-px h-px opacity-0"
+              />
               {/* Të dhënat e klientit */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-6">
                 <div>

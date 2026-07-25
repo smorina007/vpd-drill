@@ -5,6 +5,7 @@ import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import FloatingAIButton from '@/components/FloatingAIButton'
+import FloatingWhatsAppButton from '@/components/FloatingWhatsAppButton'
 import BackToTopButton from '@/components/BackToTopButton'
 import { OfertaProvider } from '@/app/context/OfertaContext'
 import { WeatherProvider } from '@/app/context/WeatherContext'
@@ -159,6 +160,7 @@ export default function RootLayout({
           <Footer />
 
           <FloatingAIButton />
+          <FloatingWhatsAppButton />
           <BackToTopButton />
 
           {/* Google Analytics */}
