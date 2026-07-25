@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FaArrowRight, FaFacebookF, FaTwitter, FaLinkedinIn, FaTimes, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import HartaProjekteve from './HartaProjekteve'
 
 const projektet = [
   {
@@ -20,7 +21,7 @@ const projektet = [
     data: '10.01.2025',
     titulli: 'Gërmim me diafragmë',
     kategoria: 'Gërmim Diafragmë',
-    lokacioni: 'Prishtine',
+    lokacioni: 'Vushtrri',
     foto: '/images/galeria/G2.jpeg'
   },
   {
@@ -36,7 +37,7 @@ const projektet = [
     data: '05.12.2024',
     titulli: 'Casagrande B175, pilota',
     kategoria: 'Shpime',
-    lokacioni: 'Prishtinë',
+    lokacioni: 'Gjilan',
     foto: '/images/galeria/G4.jpeg'
   },
   {
@@ -44,7 +45,7 @@ const projektet = [
     data: '22.01.2026',
     titulli: 'Pilota',
     kategoria: 'Shpime',
-    lokacioni: 'Malisheve',
+    lokacioni: 'Prizren',
     foto: '/images/galeria/G5.jpeg'
   },
   {
@@ -52,7 +53,7 @@ const projektet = [
     data: '30.01.2026',
     titulli: 'Pilota',
     kategoria: 'Shpime',
-    lokacioni: 'Malisheve',
+    lokacioni: 'Prishtinë',
     foto: '/images/galeria/G6.jpeg'
   },
   {
@@ -60,7 +61,7 @@ const projektet = [
     data: '30.01.2026',
     titulli: 'Pilota dhe vendosje te konstruksioneve te prodhuara nga VPD DRILL',
     kategoria: 'Shpime',
-    lokacioni: 'Prishtine',
+    lokacioni: 'Suharekë',
     foto: '/images/galeria/G7.jpeg'
   },
   {
@@ -68,7 +69,7 @@ const projektet = [
     data: '30.01.2026',
     titulli: 'Soilmec ne detyrë',
     kategoria: 'Shpime',
-    lokacioni: 'Prishtine',
+    lokacioni: 'Klinë',
     foto: '/images/galeria/G10.jpeg'
   },
   {
@@ -76,7 +77,7 @@ const projektet = [
     data: '30.01.2026',
     titulli: 'Soilmec ne detyrë',
     kategoria: 'Shpime',
-    lokacioni: 'Prishtine',
+    lokacioni: 'Prishtinë',
     foto: '/images/galeria/G18.jpeg'
   },
    {
@@ -84,7 +85,7 @@ const projektet = [
     data: '30.06.2026',
     titulli: 'Casagrande Diafragmë',
     kategoria: 'Gërmim Diafragmë',
-    lokacioni: 'Prishtine',
+    lokacioni: 'Malishevë',
     foto: '/images/galeria/G21.jpeg'
       },
   {
@@ -92,7 +93,7 @@ const projektet = [
     data: '20.11.2024',
     titulli: 'Pilota për objekt dhe ankerim',
     kategoria: 'Pilota dhe ankera',
-    lokacioni: 'Prishtinë',
+    lokacioni: 'Gjilan',
     foto: '/images/galeria/p1.jpeg'
         },
   {
@@ -116,7 +117,7 @@ const projektet = [
     data: '20.11.2024',
     titulli: 'Pilota për objekt dhe ankerim',
     kategoria: 'Pilota dhe ankera',
-    lokacioni: 'Prishtinë',
+    lokacioni: 'Vushtrri',
     foto: '/images/galeria/p4.jpeg'
         },
   {
@@ -132,7 +133,7 @@ const projektet = [
     data: '20.11.2024',
     titulli: 'Pilota për objekt dhe ankerim',
     kategoria: 'Pilota dhe ankera',
-    lokacioni: 'Prishtinë',
+    lokacioni: 'Gjilan',
     foto: '/images/galeria/p6.jpeg'
         },
   {
@@ -140,7 +141,7 @@ const projektet = [
     data: '20.11.2024',
     titulli: 'Pilota për objekt dhe ankerim',
     kategoria: 'Pilota dhe ankera',
-    lokacioni: 'Prishtinë',
+    lokacioni: 'Prizren',
     foto: '/images/galeria/p7.jpeg'
         },
   {
@@ -156,7 +157,7 @@ const projektet = [
     data: '20.11.2024',
     titulli: 'Pilota për objekt dhe ankerim',
     kategoria: 'Pilota dhe ankera',
-    lokacioni: 'Prishtinë',
+    lokacioni: 'Suharekë',
     foto: '/images/galeria/p9.jpeg'
         },
   {
@@ -164,7 +165,7 @@ const projektet = [
     data: '20.11.2024',
     titulli: 'Pilota për objekt dhe ankerim',
     kategoria: 'Pilota dhe ankera',
-    lokacioni: 'Prishtinë',
+    lokacioni: 'Klinë',
     foto: '/images/galeria/p10.jpeg'
      },
   {
@@ -180,7 +181,7 @@ const projektet = [
     data: '20.11.2024',
     titulli: 'Pilota për objekt dhe ankerim',
     kategoria: 'Pilota dhe ankera',
-    lokacioni: 'Prishtinë',
+    lokacioni: 'Malishevë',
     foto: '/images/galeria/p12.jpeg'
      },
   {
@@ -188,7 +189,7 @@ const projektet = [
     data: '20.11.2024',
     titulli: 'Pilota për objekt dhe ankerim',
     kategoria: 'Pilota dhe ankera',
-    lokacioni: 'Prishtinë',
+    lokacioni: 'Gjilan',
     foto: '/images/galeria/p13.jpeg'
      },
   {
@@ -212,7 +213,7 @@ const projektet = [
     data: '20.11.2024',
     titulli: 'Pilota për objekt dhe ankerim',
     kategoria: 'Pilota dhe ankera',
-    lokacioni: 'Prishtinë',
+    lokacioni: 'Vushtrri',
     foto: '/images/galeria/p16.jpeg'
          },
   {
@@ -228,7 +229,7 @@ const projektet = [
     data: '20.11.2024',
     titulli: 'Pilota për objekt dhe ankerim',
     kategoria: 'Pilota dhe ankera',
-    lokacioni: 'Prishtinë',
+    lokacioni: 'Gjilan',
     foto: '/images/galeria/p18.jpeg'
          },
   {
@@ -236,7 +237,7 @@ const projektet = [
     data: '20.11.2024',
     titulli: 'Pilota për objekt dhe ankerim',
     kategoria: 'Pilota dhe ankera',
-    lokacioni: 'Prishtinë',
+    lokacioni: 'Prizren',
     foto: '/images/galeria/p19.jpeg'
          },
   {
@@ -252,7 +253,7 @@ const projektet = [
     data: '20.11.2024',
     titulli: 'Pilota për objekt dhe ankerim',
     kategoria: 'Pilota dhe ankera',
-    lokacioni: 'Prishtinë',
+    lokacioni: 'Suharekë',
     foto: '/images/galeria/p21.jpeg'
          },
   {
@@ -260,7 +261,7 @@ const projektet = [
     data: '20.11.2024',
     titulli: 'Pilota për objekt dhe ankerim',
     kategoria: 'Pilota dhe ankera',
-    lokacioni: 'Prishtinë',
+    lokacioni: 'Klinë',
     foto: '/images/galeria/p22.jpeg'
          },
   {
@@ -276,7 +277,7 @@ const projektet = [
     data: '20.11.2024',
     titulli: 'Pilota për objekt dhe ankerim',
     kategoria: 'Pilota dhe ankera',
-    lokacioni: 'Prishtinë',
+    lokacioni: 'Malishevë',
     foto: '/images/galeria/p24.jpeg'
          },
   {
@@ -284,7 +285,7 @@ const projektet = [
     data: '20.11.2024',
     titulli: 'Pilota për objekt dhe ankerim',
     kategoria: 'Pilota dhe ankera',
-    lokacioni: 'Prishtinë',
+    lokacioni: 'Gjilan',
     foto: '/images/galeria/p25.jpeg'
            },
   {
@@ -308,7 +309,7 @@ const projektet = [
     data: '20.11.2024',
     titulli: 'Pilota për objekt dhe ankerim',
     kategoria: 'Pilota dhe ankera',
-    lokacioni: 'Prishtinë',
+    lokacioni: 'Vushtrri',
     foto: '/images/galeria/p26.jpeg'
            },
   {
@@ -324,7 +325,7 @@ const projektet = [
     data: '20.11.2024',
     titulli: 'Pilota për objekt dhe ankerim',
     kategoria: 'Pilota dhe ankera',
-    lokacioni: 'Prishtinë',
+    lokacioni: 'Gjilan',
     foto: '/images/galeria/p27.jpeg'
            },
   {
@@ -332,7 +333,7 @@ const projektet = [
     data: '20.11.2024',
     titulli: 'Pilota për objekt dhe ankerim',
     kategoria: 'Pilota dhe ankera',
-    lokacioni: 'Prishtinë',
+    lokacioni: 'Prizren',
     foto: '/images/galeria/p28.jpeg'
            },
   {
@@ -407,6 +408,11 @@ export default function Galeria({ showHeading = true }: { showHeading?: boolean 
             <div className="w-32 h-1.5 bg-gradient-to-r from-[#256D7B] to-[#1a4f5a] mx-auto mt-6 rounded-full"></div>
           </div>
         )}
+
+        {/* Harta e projekteve */}
+        <div className="mb-10">
+          <HartaProjekteve projektet={projektet} />
+        </div>
 
         {/* Filtrat e kategorive */}
         <div className="flex flex-wrap justify-center gap-2 mb-10">
