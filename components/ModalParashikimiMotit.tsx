@@ -29,13 +29,19 @@ function iconaPerKushtin(condition: string) {
   }
 }
 
-function kodiNeKusht(code: number): string {
-  let condition = 'Diell'
-  if (code > 0) condition = 'Vranët'
-  if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) condition = 'Shi'
-  if ((code >= 71 && code <= 77) || (code >= 85 && code <= 86)) condition = 'Borë'
-  if (code >= 95 && code <= 99) condition = 'Stuhi'
-  return condition
+function kodiNeKusht(code: number, precipSum: number, rainSum: number, showersSum: number, snowfallSum: number): string {
+  // Stuhia njihet vetëm nga kodi (rrufe/bubullimë)
+  if (code >= 95 && code <= 99) return 'Stuhi'
+
+  // Bora — nëse ka reshje bore të parashikuara, ose kodi e tregon
+  if (snowfallSum > 0 || (code >= 71 && code <= 77) || (code >= 85 && code <= 86)) return 'Borë'
+
+  // Shiu — përdorim shumën e parashikuar të reshjeve për ditën, jo vetëm kodin e
+  // përgjithshëm (i cili mund të mbetet "i vranët" edhe kur parashikohet shi gjatë ditës)
+  if (rainSum > 0 || showersSum > 0 || precipSum > 0.2 || (code >= 51 && code <= 67) || (code >= 80 && code <= 82)) return 'Shi'
+
+  if (code > 0) return 'Vranët'
+  return 'Diell'
 }
 
 const emriDites = (dataStr: string, index: number) => {
@@ -56,7 +62,8 @@ export default function ModalParashikimiMotit({ isOpen, onClose }: ModalProps) {
     setError(false)
 
     fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=5`
+      `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,rain_sum,showers_sum,snowfall_sum&timezone=auto&forecast_days=5&_=${Date.now()}`,
+      { cache: 'no-store' }
     )
       .then((res) => res.json())
       .then((data) => {
@@ -66,7 +73,13 @@ export default function ModalParashikimiMotit({ isOpen, onClose }: ModalProps) {
           data: d,
           tempMax: Math.round(data.daily.temperature_2m_max[i]),
           tempMin: Math.round(data.daily.temperature_2m_min[i]),
-          condition: kodiNeKusht(data.daily.weathercode[i]),
+          condition: kodiNeKusht(
+            data.daily.weathercode[i],
+            data.daily.precipitation_sum?.[i] ?? 0,
+            data.daily.rain_sum?.[i] ?? 0,
+            data.daily.showers_sum?.[i] ?? 0,
+            data.daily.snowfall_sum?.[i] ?? 0
+          ),
         }))
         setDitet(dita)
       })
