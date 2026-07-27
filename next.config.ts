@@ -51,7 +51,7 @@ const nextConfig = {
   // U çaktivizua më parë (ndoshta për një export statik të vjetër), gjë që
   // dëmtonte performancën/Lighthouse-in pa asnjë përfitim real me SSR+PWA.
   compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
+    removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error'] } : false,
   },
   turbopack: {}, // Shtohet për të shmangur gabimet
 }

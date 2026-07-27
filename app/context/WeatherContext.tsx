@@ -52,18 +52,18 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
 
         if (data?.current_weather) {
           const condition = codeToCondition(data.current_weather.weathercode)
-          console.log('[Moti] weathercode:', data.current_weather.weathercode, '-> kushti:', condition, '| temp:', data.current_weather.temperature)
+          console.error('[Moti-DEBUG] weathercode:', data.current_weather.weathercode, '-> kushti:', condition, '| temp:', data.current_weather.temperature)
           setWeather({
             temp: Math.round(data.current_weather.temperature),
             condition,
           })
         } else {
-          console.warn('[Moti] Open-Meteo s\'ktheu current_weather, po përdor fallback', data)
+          console.error('[Moti-DEBUG] Open-Meteo s\'ktheu current_weather, po përdor fallback:', JSON.stringify(data))
           setWeather({ temp: 22, condition: 'Diell' })
         }
       } catch (error) {
         if (!cancelled) {
-          console.error('[Moti] Fetch dështoi:', error)
+          console.error('[Moti-DEBUG] Fetch dështoi:', error)
           setWeather({ temp: 22, condition: 'Diell' })
         }
       } finally {
