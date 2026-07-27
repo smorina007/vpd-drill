@@ -50,12 +50,27 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
     let cancelled = false
 
     const fetchWeather = async () => {
-      try {
-        const res = await fetch(
-          `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,precipitation,rain,showers,snowfall,weather_code&minutely_15=precipitation,weather_code&forecast_minutely_15=4&timezone=auto&_=${Date.now()}`,
-          { cache: 'no-store' }
-        )
+      const baseParams = `latitude=${LAT}&longitude=${LON}&current=temperature_2m,precipitation,rain,showers,snowfall,weather_code&minutely_15=precipitation,weather_code&forecast_minutely_15=4&timezone=auto`
+
+      const tentoThirrjen = async (url: string) => {
+        const res = await fetch(url, { cache: 'no-store' })
         const data = await res.json()
+        return data
+      }
+
+      try {
+        let data = await tentoThirrjen(
+          `https://api.open-meteo.com/v1/forecast?${baseParams}&models=icon_seamless&_=${Date.now()}`
+        )
+
+        // Nëse modeli i specifikuar s'ktheu të dhëna të plota, provo pa 'models' (default)
+        if (!data?.current) {
+          console.error('[Moti-DEBUG] icon_seamless s\'ktheu të dhëna, po provoj modelin default')
+          data = await tentoThirrjen(
+            `https://api.open-meteo.com/v1/forecast?${baseParams}&_=${Date.now()}`
+          )
+        }
+
         if (cancelled) return
 
         if (data?.current) {
