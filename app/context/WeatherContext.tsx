@@ -44,22 +44,26 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
     const fetchWeather = async () => {
       try {
         const res = await fetch(
-          `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current_weather=true`
+          `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current_weather=true&_=${Date.now()}`,
+          { cache: 'no-store' }
         )
         const data = await res.json()
         if (cancelled) return
 
         if (data?.current_weather) {
+          const condition = codeToCondition(data.current_weather.weathercode)
+          console.log('[Moti] weathercode:', data.current_weather.weathercode, '-> kushti:', condition, '| temp:', data.current_weather.temperature)
           setWeather({
             temp: Math.round(data.current_weather.temperature),
-            condition: codeToCondition(data.current_weather.weathercode),
+            condition,
           })
         } else {
+          console.warn('[Moti] Open-Meteo s\'ktheu current_weather, po përdor fallback', data)
           setWeather({ temp: 22, condition: 'Diell' })
         }
       } catch (error) {
         if (!cancelled) {
-          console.error('Weather fetch failed:', error)
+          console.error('[Moti] Fetch dështoi:', error)
           setWeather({ temp: 22, condition: 'Diell' })
         }
       } finally {

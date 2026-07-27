@@ -5,6 +5,10 @@ const withPWA = require('next-pwa')({
   disable: process.env.NODE_ENV === 'development',
   runtimeCaching: [
     {
+      urlPattern: /^https:\/\/api\.open-meteo\.com\/.*$/i,
+      handler: 'NetworkOnly',
+    },
+    {
       urlPattern: /^https:\/\/vpddrill\.com\/.*$/i,
       handler: 'NetworkFirst',
       options: {
