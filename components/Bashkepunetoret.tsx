@@ -26,18 +26,22 @@ const bashkepunetoret = [
 
 function Pllaka({ b, fshehur }: { b: (typeof bashkepunetoret)[number]; fshehur?: boolean }) {
   return (
-    <li
-      className="shrink-0 pr-4 sm:pr-5"
-      aria-hidden={fshehur || undefined}
-    >
-      <div className="group grid h-24 w-44 place-items-center rounded-lg bg-white px-5 py-4 ring-1 ring-stone-line sm:h-28 sm:w-52">
-      <Image
-        src={`/images/bashkepunetoret/${b.logo}.png`}
-        alt={fshehur ? '' : b.emri}
-        width={180}
-        height={90}
-        className="max-h-full w-auto max-w-full object-contain opacity-80 grayscale transition duration-300 group-hover:opacity-100 group-hover:grayscale-0"
-      />
+    <li className="shrink-0 pr-4 sm:pr-5" aria-hidden={fshehur || undefined}>
+      <div
+        className="flex h-28 w-48 items-center justify-center rounded-lg bg-white p-3 shadow-[0_1px_0_rgba(14,42,48,0.06)] ring-1 ring-stone-line transition-shadow hover:shadow-[0_10px_30px_-12px_rgba(14,42,48,0.35)] sm:h-32 sm:w-56"
+        title={b.emri}
+      >
+        {/* Kuti me madhësi fikse + object-contain: logoja shfaqet gjithmonë e plotë */}
+        <div className="relative h-full w-full">
+          <Image
+            src={`/images/bashkepunetoret/${b.logo}.png`}
+            alt={fshehur ? '' : b.emri}
+            fill
+            sizes="(max-width: 640px) 170px, 210px"
+            loading="eager"
+            className="object-contain"
+          />
+        </div>
       </div>
     </li>
   )
@@ -52,7 +56,7 @@ export default function Bashkepunetoret() {
       </div>
 
       {/* Shirit që lëviz ngadalë; ndalet kur kalon mausi. Pa lëvizje nëse përdoruesi e ka çaktivizuar. */}
-      <div className="bashkepunetoret-shirit relative [mask-image:linear-gradient(90deg,transparent,#000_6%,#000_94%,transparent)]">
+      <div className="bashkepunetoret-shirit relative [mask-image:linear-gradient(90deg,transparent,#000_3%,#000_97%,transparent)]">
         <ul className="bashkepunetoret-track flex w-max">
           {bashkepunetoret.map((b) => (
             <Pllaka key={b.logo} b={b} />

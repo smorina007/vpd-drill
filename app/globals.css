@@ -165,7 +165,7 @@
 
 /* Shiriti i bashkëpunëtorëve */
 .bashkepunetoret-track {
-  animation: bashkepunetoret-leviz 70s linear infinite;
+  animation: bashkepunetoret-leviz 80s linear infinite;
 }
 .bashkepunetoret-shirit:hover .bashkepunetoret-track,
 .bashkepunetoret-shirit:focus-within .bashkepunetoret-track {
