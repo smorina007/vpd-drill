@@ -1,137 +1,125 @@
 'use client'
 
 import Link from 'next/link'
-import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaFacebook, FaInstagram, FaLinkedin, FaYoutube, FaHeart } from 'react-icons/fa'
+import Image from 'next/image'
+import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaHeart } from 'react-icons/fa'
 import { trackEvent } from '@/lib/gtag'
+import { rrjetet } from './Kontakt'
+
+const linket = [
+  { href: '/', label: 'Ballina' },
+  { href: '/sherbimet', label: 'Shërbimet' },
+  { href: '/produktet', label: 'Produktet' },
+  { href: '/projektet', label: 'Projektet' },
+  { href: '/kontakti', label: 'Kontakti' },
+  { href: '/pyetje-te-shpeshta', label: 'Pyetje të Shpeshta' },
+]
+
+const telefonat = [
+  { tel: '+38344184114', shfaq: '044 184 114', id: '044184114' },
+  { tel: '+38344204877', shfaq: '044 204 877', id: '044204877' },
+  { tel: '+38345700201', shfaq: '045 700 201', id: '045700201' },
+]
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="bg-gray-900 text-white">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Company Info */}
+    <footer className="bg-bedrock text-white/70">
+      <div className="strata-rule-light opacity-40" aria-hidden="true" />
+      <div className="shell py-16">
+        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr]">
           <div>
-            <h3 className="text-2xl font-bold mb-4">
-              VPD<span className="text-[#256D7B]"> DRILL</span>
-            </h3>
-            <p className="text-gray-400 mb-4">
+            <div className="flex items-center gap-3">
+              <span className="grid h-12 w-12 place-items-center rounded-md bg-white p-1">
+                <Image src="/images/logo.png" alt="" width={44} height={44} className="h-auto w-full object-contain" />
+              </span>
+              <p className="text-2xl font-extrabold font-xwide text-white">
+                VPD <span className="text-glacier">DRILL</span>
+              </p>
+            </div>
+            <p className="mt-5 max-w-xs text-[15px] leading-relaxed">
               Ekspertizë e thellë, themele të sigurta. Specialiste në shpime dhe produkte betoni.
             </p>
-            {/* Social Icons */}
-            <div className="flex space-x-4">
-              <a
-                href="https://www.facebook.com/VllezeritPaqarizi"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-[#256D7B]/10 rounded-lg flex items-center justify-center hover:bg-[#256D7B] hover:text-white transition-all duration-300 group"
-                aria-label="Facebook"
-              >
-                <FaFacebook className="text-[#256D7B] group-hover:text-white text-xl" />
-              </a>
-              <a
-                href="https://instagram.com/vpddrill"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-[#256D7B]/10 rounded-lg flex items-center justify-center hover:bg-[#256D7B] hover:text-white transition-all duration-300 group"
-                aria-label="Instagram"
-              >
-                <FaInstagram className="text-[#256D7B] group-hover:text-white text-xl" />
-              </a>
-              <a
-                href="https://linkedin.com/company/vpddrill"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-[#256D7B]/10 rounded-lg flex items-center justify-center hover:bg-[#256D7B] hover:text-white transition-all duration-300 group"
-                aria-label="LinkedIn"
-              >
-                <FaLinkedin className="text-[#256D7B] group-hover:text-white text-xl" />
-              </a>
-              <a
-                href="https://youtube.com/@vpddrill"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-[#256D7B]/10 rounded-lg flex items-center justify-center hover:bg-[#256D7B] hover:text-white transition-all duration-300 group"
-                aria-label="YouTube"
-              >
-                <FaYoutube className="text-[#256D7B] group-hover:text-white text-xl" />
-              </a>
+            <div className="mt-6 flex gap-2">
+              {rrjetet.map((r) => (
+                <a
+                  key={r.label}
+                  href={r.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={r.label}
+                  className="grid h-10 w-10 place-items-center rounded-md bg-white/[0.06] text-white/80 transition-colors hover:bg-brand hover:text-white"
+                >
+                  <r.icon />
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Linke të shpejta</h4>
-            <ul className="space-y-2">
-              <li><Link href="/" className="text-gray-400 hover:text-[#256D7B] transition">Ballina</Link></li>
-              <li><Link href="/sherbimet" className="text-gray-400 hover:text-[#256D7B] transition">Shërbimet</Link></li>
-              <li><Link href="/produktet" className="text-gray-400 hover:text-[#256D7B] transition">Produktet</Link></li>
-              <li><Link href="/projektet" className="text-gray-400 hover:text-[#256D7B] transition">Projektet</Link></li>
-              <li><Link href="/kontakti" className="text-gray-400 hover:text-[#256D7B] transition">Kontakti</Link></li>
-              <li><Link href="/pyetje-te-shpeshta" className="text-gray-400 hover:text-[#256D7B] transition">Pyetje të Shpeshta</Link></li>
+          <nav aria-label="Linke të shpejta">
+            <h4 className="mb-4 text-sm font-bold text-white">Linke të shpejta</h4>
+            <ul className="space-y-2.5 text-[15px]">
+              {linket.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="transition-colors hover:text-white">
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
-          </div>
+          </nav>
 
-          {/* Contact Info */}
           <div>
-            <h4 className="text-lg font-semibold mb-4">Kontakti</h4>
-            <ul className="space-y-3">
-              <li className="flex items-center text-gray-400">
-                <FaPhone className="mr-3 text-[#256D7B]" />
-                <a href="tel:+38344184114" onClick={() => trackEvent('phone_click', { phone: '044184114', location: 'footer' })} className="hover:text-[#256D7B] transition">044 184 114</a>
-              </li>
-              <li className="flex items-center text-gray-400">
-                <FaPhone className="mr-3 text-[#256D7B]" />
-                <a href="tel:+38344204877" onClick={() => trackEvent('phone_click', { phone: '044204877', location: 'footer' })} className="hover:text-[#256D7B] transition">044 204 877</a>
-              </li>
-              <li className="flex items-center text-gray-400">
-                <FaPhone className="mr-3 text-[#256D7B]" />
-                <a href="tel:+38345700201" onClick={() => trackEvent('phone_click', { phone: '045700201', location: 'footer' })} className="hover:text-[#256D7B] transition">045 700 201</a>
-              </li>
-              <li className="flex items-center text-gray-400">
-                <FaEnvelope className="mr-3 text-[#256D7B]" />
-                <a href="mailto:info@vllezeritpaqarizi.com" className="hover:text-[#256D7B] transition">info@vllezeritpaqarizi.com</a>
+            <h4 className="mb-4 text-sm font-bold text-white">Kontakti</h4>
+            <ul className="space-y-2.5 text-[15px]">
+              {telefonat.map((t) => (
+                <li key={t.tel}>
+                  <a
+                    href={`tel:${t.tel}`}
+                    onClick={() => trackEvent('phone_click', { phone: t.id, location: 'footer' })}
+                    className="flex items-center gap-3 tabular transition-colors hover:text-white"
+                  >
+                    <FaPhoneAlt className="text-xs text-glacier" />
+                    {t.shfaq}
+                  </a>
+                </li>
+              ))}
+              <li>
+                <a href="mailto:info@vllezeritpaqarizi.com" className="flex items-center gap-3 break-all transition-colors hover:text-white">
+                  <FaEnvelope className="shrink-0 text-xs text-glacier" />
+                  info@vllezeritpaqarizi.com
+                </a>
               </li>
             </ul>
           </div>
 
-          {/* Address */}
           <div>
-            <h4 className="text-lg font-semibold mb-4">Adresa</h4>
-            <div className="flex items-start text-gray-400">
-              <FaMapMarkerAlt className="mr-3 mt-1 text-[#256D7B] flex-shrink-0" />
-              <span>Fsh Dragobil, 24000 Malisheve, Kosovë</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Dedication - Pjesa e re e veçantë */}
-        <div className="border-t border-gray-800 mt-8 pt-8">
-          <div className="max-w-3xl mx-auto text-center">
-            <div className="inline-flex items-center justify-center space-x-2 text-[#256D7B] mb-4">
-              <FaHeart className="text-2xl animate-pulse" />
-              <span className="text-sm uppercase tracking-wider">DEDIKIM I VEÇANTË</span>
-              <FaHeart className="text-2xl animate-pulse" />
-            </div>
-            <p className="text-gray-300 italic text-lg leading-relaxed">
-              "Për ty, frymëzim i çdo dite."
+            <h4 className="mb-4 text-sm font-bold text-white">Adresa</h4>
+            <p className="flex items-start gap-3 text-[15px]">
+              <FaMapMarkerAlt className="mt-1 shrink-0 text-xs text-glacier" />
+              Fsh Dragobil, 24000 Malisheve, Kosovë
             </p>
-            <div className="mt-4 text-gray-400 text-sm">
-              <p>Me shumë dashuri dhe mirënjohje,</p>
-            </div>
           </div>
         </div>
 
-        {/* Copyright */}
-        <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+        {/* Dedikim i veçantë */}
+        <div className="mt-14 border-t border-white/10 pt-10 text-center">
+          <p className="inline-flex items-center gap-2 text-xs font-semibold text-glacier">
+            <FaHeart className="text-[10px]" /> DEDIKIM I VEÇANTË <FaHeart className="text-[10px]" />
+          </p>
+          <p className="mt-3 text-lg italic text-white/85">&ldquo;Për ty, frymëzim i çdo dite.&rdquo;</p>
+          <p className="mt-2 text-sm text-white/50">Me shumë dashuri dhe mirënjohje,</p>
+        </div>
+
+        <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-6 text-sm text-white/50 sm:flex-row">
           <p>&copy; {currentYear} VPD DRILL. Të gjitha të drejtat e rezervuara.</p>
-          <p className="mt-2">
-            <Link href="/politika-e-privatesise" className="text-gray-400 hover:text-[#256D7B] transition text-sm underline underline-offset-2">
+          <div className="flex items-center gap-5">
+            <Link href="/politika-e-privatesise" className="transition-colors hover:text-white">
               Politika e Privatësisë
             </Link>
-          </p>
-          <p className="text-sm text-gray-500 mt-2">Project by Selami Morina</p>
+            <span>Project by Selami Morina</span>
+          </div>
         </div>
       </div>
     </footer>

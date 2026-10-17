@@ -1,7 +1,7 @@
 import PageHeroBanner from '@/components/PageHeroBanner'
 import { FaQuestionCircle } from 'react-icons/fa'
 import Link from 'next/link'
-import type { Metadata, Viewport } from 'next'
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Pyetje të Shpeshta — Shpim Pusesh, Pilota, Çmime',
@@ -10,13 +10,6 @@ export const metadata: Metadata = {
   alternates: { canonical: '/pyetje-te-shpeshta' },
 }
 
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 5,
-  userScalable: true,
-  themeColor: '#256D7B',
-}
 
 const pyetjet = [
   {
@@ -76,32 +69,33 @@ export default function PyetjeTeShpeshtaPage() {
         crumbs={[{ label: 'Ballina', href: '/' }, { label: 'Pyetje të Shpeshta' }]}
       />
 
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
-          <div className="space-y-4">
+      <section className="bg-white py-16 sm:py-24">
+        <div className="shell grid gap-12 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-20">
+          <div className="border-b border-stone-line">
             {pyetjet.map((p, i) => (
-              <details
-                key={i}
-                className="group bg-gray-50 rounded-xl border border-gray-100 open:border-[#256D7B]/30 open:bg-[#256D7B]/5 transition-colors"
-              >
-                <summary className="cursor-pointer select-none px-5 py-4 font-semibold text-gray-900 flex items-center justify-between gap-3">
+              <details key={i} className="group border-t border-stone-line" open={i === 0}>
+                <summary className="flex cursor-pointer list-none items-start justify-between gap-6 py-6 text-lg font-bold text-bedrock marker:hidden [&::-webkit-details-marker]:hidden">
                   {p.q}
-                  <span className="text-[#256D7B] group-open:rotate-45 transition-transform text-xl flex-shrink-0">+</span>
+                  <span className="mt-1 grid h-7 w-7 shrink-0 place-items-center rounded-md bg-stone text-brand transition-transform group-open:rotate-45" aria-hidden="true">
+                    +
+                  </span>
                 </summary>
-                <p className="px-5 pb-4 text-gray-600 text-sm leading-relaxed">{p.a}</p>
+                <p className="max-w-[68ch] pb-7 text-[16px] leading-relaxed text-slate-ink">{p.a}</p>
               </details>
             ))}
           </div>
 
-          <div className="text-center mt-12 bg-gray-50 rounded-2xl p-8">
-            <p className="text-gray-600 mb-4">S'e gjete përgjigjen që kërkoje?</p>
-            <Link
-              href="/kontakti"
-              className="inline-flex items-center gap-2 bg-[#256D7B] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#1a4f5a] transition"
-            >
-              Na kontakto direkt
-            </Link>
-          </div>
+          <aside className="lg:sticky lg:top-[calc(var(--header-h)+24px)] lg:self-start">
+            <div className="rounded-xl bg-stone p-6">
+              <p className="text-lg font-bold text-bedrock">S&apos;e gjete përgjigjen që kërkoje?</p>
+              <Link href="/kontakti" className="btn-brand mt-5 w-full">
+                Na kontakto direkt
+              </Link>
+              <a href="tel:+38344184114" className="btn-ghost mt-2 w-full tabular">
+                044 184 114
+              </a>
+            </div>
+          </aside>
         </div>
       </section>
     </>

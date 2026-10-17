@@ -1,6 +1,8 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { FaChevronRight } from 'react-icons/fa'
 import { IconType } from 'react-icons'
+import { ReactNode } from 'react'
 
 interface Crumb {
   label: string
@@ -8,58 +10,62 @@ interface Crumb {
 }
 
 interface PageHeroBannerProps {
-  icon: IconType
+  icon?: IconType
   title: string
   subtitle: string
   crumbs: Crumb[]
   stat?: string
+  /** Foto opsionale në sfond */
+  image?: string
+  children?: ReactNode
 }
 
 /**
- * Banner hyrës për nën-faqet (Shërbimet, Projektet, etj.) — jep hapësirën e
- * duhur nën header-in "fixed" (që përndryshe fshihet mbi titullin) dhe një
- * intro vizual me breadcrumb, në vend të thjesht "padding" bosh.
+ * Banneri hyrës i nën-faqeve — lë hapësirën e duhur nën header-in fiks
+ * dhe jep breadcrumb + titull. Header-i është transparent mbi të.
  */
-export default function PageHeroBanner({ icon: Icon, title, subtitle, crumbs, stat }: PageHeroBannerProps) {
+export default function PageHeroBanner({ icon: Icon, title, subtitle, crumbs, stat, image, children }: PageHeroBannerProps) {
   return (
-    <div className="relative pt-28 sm:pt-36 lg:pt-40 pb-14 sm:pb-16 bg-gradient-to-br from-[#1a4f5a] via-[#256D7B] to-[#1a4f5a] overflow-hidden">
-      {/* Dekor i lehtë sfondi */}
-      <div className="absolute top-0 right-0 w-72 h-72 bg-white/5 rounded-full -translate-y-1/3 translate-x-1/4" />
-      <div className="absolute bottom-0 left-0 w-56 h-56 bg-white/5 rounded-full translate-y-1/3 -translate-x-1/4" />
-
-      <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Breadcrumb */}
-        <nav className="flex items-center gap-2 text-white/60 text-xs sm:text-sm mb-6 flex-wrap">
+    <section className="relative isolate overflow-hidden bg-bedrock text-white">
+      {image && (
+        <div className="absolute inset-0 -z-10">
+          <Image src={image} alt="" fill priority sizes="100vw" className="object-cover opacity-45" />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(14,42,48,0.95)_0%,rgba(14,42,48,0.75)_55%,rgba(14,42,48,0.45)_100%)]" />
+        </div>
+      )}
+      <div className="shell pb-14 pt-[calc(var(--header-h)+48px)] sm:pb-20 sm:pt-[calc(var(--header-h)+72px)]">
+        <nav aria-label="Breadcrumb" className="mb-8 flex flex-wrap items-center gap-2 text-sm text-white/55">
           {crumbs.map((c, i) => (
             <span key={i} className="flex items-center gap-2">
-              {i > 0 && <FaChevronRight size={9} className="opacity-60" />}
+              {i > 0 && <FaChevronRight className="text-[9px] opacity-60" />}
               {c.href ? (
-                <Link href={c.href} className="hover:text-white transition-colors">
+                <Link href={c.href} className="transition-colors hover:text-white">
                   {c.label}
                 </Link>
               ) : (
-                <span className="text-white font-medium">{c.label}</span>
+                <span aria-current="page" className="font-semibold text-white">
+                  {c.label}
+                </span>
               )}
             </span>
           ))}
         </nav>
 
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 sm:w-16 sm:h-16 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/20 flex-shrink-0">
-            <Icon className="text-2xl sm:text-3xl text-white" />
-          </div>
-          <div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
-              {title}
-            </h1>
-            {stat && <p className="text-[#7fc8d9] text-sm font-semibold mt-1">{stat}</p>}
+        <div className="flex items-start gap-5">
+          {Icon && (
+            <span className="mt-1 hidden h-14 w-14 shrink-0 place-items-center rounded-md bg-white/[0.08] text-2xl text-glacier ring-1 ring-white/15 sm:grid">
+              <Icon />
+            </span>
+          )}
+          <div className="max-w-3xl">
+            <h1 className="display-lg text-white">{title}</h1>
+            {stat && <p className="mt-2 text-sm font-semibold text-glacier">{stat}</p>}
+            <p className="mt-5 max-w-[60ch] text-base leading-relaxed text-white/75 sm:text-lg">{subtitle}</p>
+            {children}
           </div>
         </div>
-
-        <p className="text-white/80 text-base sm:text-lg mt-4 max-w-2xl">
-          {subtitle}
-        </p>
       </div>
-    </div>
+      <div className="strata-rule-light opacity-40" aria-hidden="true" />
+    </section>
   )
 }

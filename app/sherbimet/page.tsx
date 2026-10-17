@@ -1,7 +1,7 @@
 import Sherbimet from '@/components/Sherbimet'
 import PageHeroBanner from '@/components/PageHeroBanner'
 import { FaTools } from 'react-icons/fa'
-import type { Metadata, Viewport } from 'next'
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Shërbimet: Shpim Pusesh, Pilota, Ankera, Gërmim Diafragmë',
@@ -16,13 +16,6 @@ export const metadata: Metadata = {
   },
 }
 
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 5,
-  userScalable: true,
-  themeColor: '#256D7B',
-}
 
 export default function SherbimetPage() {
   return (
@@ -32,6 +25,7 @@ export default function SherbimetPage() {
         title="Shërbimet Tona"
         subtitle="Ekspertizë e specializuar me makineri të avancuara — shpime puse, pilota, ankera dhe germim me diafragmë, për çdo lloj terreni në Kosovë."
         crumbs={[{ label: 'Ballina', href: '/' }, { label: 'Shërbimet' }]}
+        image="/images/hero/casagrande.jpg"
       />
       <Sherbimet showHeading={false} />
     </>

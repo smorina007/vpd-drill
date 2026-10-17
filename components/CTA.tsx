@@ -1,24 +1,22 @@
 import Link from 'next/link'
-import { FaArrowRight } from 'react-icons/fa'
+import { FaArrowRight, FaPhoneAlt } from 'react-icons/fa'
 
 export default function CTA() {
   return (
-    <section className="bg-[#256D7B] py-16">
-      <div className="container-custom">
-        <div className="max-w-3xl mx-auto text-center text-white">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Gati për të filluar projektin tuaj?
-          </h2>
-          <p className="text-lg text-white/90 mb-8">
-            Na kontaktoni sot për një konsultë falas dhe ofertë të personalizuar
-          </p>
-          <Link 
-            href="/kontakti" 
-            className="inline-flex items-center bg-white text-[#256D7B] px-8 py-4 rounded-md font-semibold hover:bg-gray-100 transition-colors group"
-          >
-            Kërko Ofertë Falas
-            <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+    <section className="relative overflow-hidden bg-brand text-white">
+      <div className="strata-rule-light opacity-60" aria-hidden="true" />
+      <div className="shell flex flex-col gap-8 py-16 sm:py-20 lg:flex-row lg:items-center lg:justify-between">
+        <div className="max-w-2xl">
+          <h2 className="display-lg text-white">Gati për të filluar projektin tuaj?</h2>
+          <p className="mt-4 text-lg text-white/80">Na kontaktoni sot për një konsultë falas dhe ofertë të personalizuar</p>
+        </div>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <Link href="/kontakti" className="btn-signal px-7 py-4 text-base">
+            Kërko Ofertë Falas <FaArrowRight className="text-xs" />
           </Link>
+          <a href="tel:+38344184114" className="btn-ghost-light px-7 py-4 text-base tabular">
+            <FaPhoneAlt className="text-xs" /> 044 184 114
+          </a>
         </div>
       </div>
     </section>

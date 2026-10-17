@@ -1,240 +1,190 @@
 'use client'
 
-import { useRef, FormEvent, useState } from 'react'
+import { FormEvent, useRef, useState } from 'react'
 import emailjs from '@emailjs/browser'
-import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock, FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa'
+import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaClock, FaFacebookF, FaInstagram, FaLinkedinIn, FaYoutube, FaCheckCircle, FaExclamationTriangle, FaSpinner } from 'react-icons/fa'
 import { trackEvent } from '@/lib/gtag'
 
 const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!
 const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_CONTACT!
 const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
 
-export default function Kontakt() {
+const telefonat = [
+  { tel: '+38344184114', shfaq: '044 184 114', id: '044184114' },
+  { tel: '+38344204877', shfaq: '044 204 877', id: '044204877' },
+  { tel: '+38345700201', shfaq: '045 700 201', id: '045700201' },
+]
+
+export const rrjetet = [
+  { href: 'https://www.facebook.com/VllezeritPaqarizi', label: 'Facebook', icon: FaFacebookF },
+  { href: 'https://instagram.com/vpddrill', label: 'Instagram', icon: FaInstagram },
+  { href: 'https://linkedin.com/company/vpddrill', label: 'LinkedIn', icon: FaLinkedinIn },
+  { href: 'https://youtube.com/@vpddrill', label: 'YouTube', icon: FaYoutube },
+]
+
+/**
+ * Seksioni i kontaktit. Në faqen /kontakti titulli shfaqet nga banneri i faqes
+ * (`faqe`), ndërsa në ballinë shfaqet këtu si titull seksioni.
+ */
+export default function Kontakt({ faqe = false }: { faqe?: boolean }) {
   const formRef = useRef<HTMLFormElement>(null)
-  const [isSending, setIsSending] = useState(false)
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
 
   const sendEmail = (e: FormEvent) => {
     e.preventDefault()
     if (!formRef.current) return
-
-    // Mbrojtje nga spam-i (honeypot) — nëse është plotësuar, ishte bot
     const honeypot = (formRef.current.elements.namedItem('website') as HTMLInputElement)?.value
     if (honeypot) {
       formRef.current.reset()
       return
     }
-
-    setIsSending(true)
-    emailjs.sendForm(
-      EMAILJS_SERVICE_ID,
-      EMAILJS_TEMPLATE_ID,
-      formRef.current,
-      EMAILJS_PUBLIC_KEY
-    ).then(
-      () => {
+    setStatus('sending')
+    emailjs
+      .sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, formRef.current, EMAILJS_PUBLIC_KEY)
+      .then(() => {
         trackEvent('generate_lead', { form_name: 'kontakt' })
-        alert('Mesazhi u dërgua me sukses!')
+        setStatus('success')
         formRef.current?.reset()
-      },
-      (error) => {
+      })
+      .catch((error) => {
         console.error('EmailJS error:', error)
-        alert('Dërgimi dështoi. Provo përsëri.')
-      }
-    ).finally(() => setIsSending(false))
+        setStatus('error')
+      })
   }
 
   return (
-    <section className="pt-32 pb-20 bg-white">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Kontakti
-          </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Jemi në dispozicion për çdo pyetje apo kërkesë
-          </p>
-          <div className="w-32 h-1.5 bg-gradient-to-r from-[#256D7B] to-[#1a4f5a] mx-auto mt-6 rounded-full"></div>
-        </div>
+    <section id="kontakti" data-shtresa="Kontakti" className="bg-white py-20 sm:py-28">
+      <div className="shell">
+        {!faqe && (
+          <div className="mb-14 max-w-3xl">
+            <h2 className="display-lg">Kontakti</h2>
+            <p className="lede mt-4">Jemi në dispozicion për çdo pyetje apo kërkesë</p>
+          </div>
+        )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Contact Info */}
-          <div className="space-y-8">
-            <div className="bg-gray-50 p-8 rounded-2xl">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Informacioni i Kontaktit</h2>
-
-              <div className="space-y-6">
-                <div className="flex items-start">
-                  <div className="w-12 h-12 bg-[#256D7B]/10 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
-                    <FaPhone className="text-xl text-[#256D7B]" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Telefon</h3>
-                    <a href="tel:+38344184114" onClick={() => trackEvent('phone_click', { phone: '044184114', location: 'kontakti_page' })} className="block text-gray-600 hover:text-[#256D7B] transition">044 184 114</a>
-                    <a href="tel:+38344204877" onClick={() => trackEvent('phone_click', { phone: '044204877', location: 'kontakti_page' })} className="block text-gray-600 hover:text-[#256D7B] transition">044 204 877</a>
-                    <a href="tel:+38345700201" onClick={() => trackEvent('phone_click', { phone: '045700201', location: 'kontakti_page' })} className="block text-gray-600 hover:text-[#256D7B] transition">045 700 201</a>
-                  </div>
-                </div>
-
-                <div className="flex items-start">
-                  <div className="w-12 h-12 bg-[#256D7B]/10 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
-                    <FaEnvelope className="text-xl text-[#256D7B]" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Email</h3>
-                    <a href="mailto:info@vllezeritpaqarizi.com" className="text-gray-600 hover:text-[#256D7B] transition">info@vllezeritpaqarizi.com</a>
-                  </div>
-                </div>
-
-                <div className="flex items-start">
-                  <div className="w-12 h-12 bg-[#256D7B]/10 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
-                    <FaMapMarkerAlt className="text-xl text-[#256D7B]" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Adresa</h3>
-                    <p className="text-gray-600">Fsh Dragobil, 24000 Malisheve, Kosovë</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start">
-                  <div className="w-12 h-12 bg-[#256D7B]/10 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
-                    <FaClock className="text-xl text-[#256D7B]" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Orari i Punës</h3>
-                    <p className="text-gray-600">Hënë - Shtunë: 07:00 - 19:00</p>
-                    <p className="text-gray-600">Die: Pushim</p>
-                  </div>
-                </div>
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.3fr)] lg:gap-20">
+          {/* Informacioni i Kontaktit */}
+          <div>
+            <h2 className="sr-only">Informacioni i Kontaktit</h2>
+            <dl className="divide-y divide-stone-line border-y border-stone-line">
+              <div className="flex gap-4 py-5">
+                <dt className="w-24 shrink-0 text-sm font-semibold text-slate-mute">
+                  <FaPhoneAlt className="mb-1 text-brand" />
+                  Telefon
+                </dt>
+                <dd className="space-y-1">
+                  {telefonat.map((t) => (
+                    <a
+                      key={t.tel}
+                      href={`tel:${t.tel}`}
+                      onClick={() => trackEvent('phone_click', { phone: t.id, location: faqe ? 'kontakti_page' : 'ballina' })}
+                      className="block text-lg font-bold font-wide tabular text-bedrock hover:text-brand"
+                    >
+                      {t.shfaq}
+                    </a>
+                  ))}
+                </dd>
               </div>
+              <div className="flex gap-4 py-5">
+                <dt className="w-24 shrink-0 text-sm font-semibold text-slate-mute">
+                  <FaEnvelope className="mb-1 text-brand" />
+                  Email
+                </dt>
+                <dd>
+                  <a href="mailto:info@vllezeritpaqarizi.com" className="break-all font-semibold text-bedrock hover:text-brand">
+                    info@vllezeritpaqarizi.com
+                  </a>
+                </dd>
+              </div>
+              <div className="flex gap-4 py-5">
+                <dt className="w-24 shrink-0 text-sm font-semibold text-slate-mute">
+                  <FaMapMarkerAlt className="mb-1 text-brand" />
+                  Adresa
+                </dt>
+                <dd className="font-semibold text-bedrock">Fsh Dragobil, 24000 Malisheve, Kosovë</dd>
+              </div>
+              <div className="flex gap-4 py-5">
+                <dt className="w-24 shrink-0 text-sm font-semibold text-slate-mute">
+                  <FaClock className="mb-1 text-brand" />
+                  Orari i Punës
+                </dt>
+                <dd className="text-bedrock">
+                  <p className="font-semibold">Hënë - Shtunë: 07:00 - 19:00</p>
+                  <p className="text-slate-mute">Die: Pushim</p>
+                </dd>
+              </div>
+            </dl>
 
-              {/* Social Media */}
-              <div className="mt-8 pt-6 border-t border-gray-200">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Na ndiqni në rrjete sociale</h3>
-                <div className="flex space-x-4">
+            <div className="mt-8">
+              <h3 className="mb-4 text-base font-bold">Na ndiqni në rrjete sociale</h3>
+              <div className="flex gap-2">
+                {rrjetet.map((r) => (
                   <a
-                    href="https://www.facebook.com/VllezeritPaqarizi"  // ← URL e saktë e faqes së biznesit
+                    key={r.label}
+                    href={r.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-12 h-12 bg-[#256D7B]/10 rounded-full flex items-center justify-center hover:bg-[#256D7B] hover:text-white transition-all duration-300 group"
-                    aria-label="Facebook"
+                    aria-label={r.label}
+                    className="grid h-11 w-11 place-items-center rounded-md border border-stone-line text-bedrock transition-colors hover:border-brand hover:bg-brand hover:text-white"
                   >
-                    <FaFacebook className="text-[#256D7B] group-hover:text-white text-2xl" />
+                    <r.icon />
                   </a>
-                  <a
-                    href="https://instagram.com/vpddrill"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-12 h-12 bg-[#256D7B]/10 rounded-full flex items-center justify-center hover:bg-[#256D7B] hover:text-white transition-all duration-300 group"
-                    aria-label="Instagram"
-                  >
-                    <FaInstagram className="text-[#256D7B] group-hover:text-white text-2xl" />
-                  </a>
-                  <a
-                    href="https://linkedin.com/company/vpddrill"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-12 h-12 bg-[#256D7B]/10 rounded-full flex items-center justify-center hover:bg-[#256D7B] hover:text-white transition-all duration-300 group"
-                    aria-label="LinkedIn"
-                  >
-                    <FaLinkedin className="text-[#256D7B] group-hover:text-white text-2xl" />
-                  </a>
-                  <a
-                    href="https://youtube.com/@vpddrill"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-12 h-12 bg-[#256D7B]/10 rounded-full flex items-center justify-center hover:bg-[#256D7B] hover:text-white transition-all duration-300 group"
-                    aria-label="YouTube"
-                  >
-                    <FaYoutube className="text-[#256D7B] group-hover:text-white text-2xl" />
-                  </a>
-                </div>
+                ))}
               </div>
             </div>
           </div>
 
-          {/* Contact Form */}
-          <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Dërgo Mesazh</h2>
-
-            <form ref={formRef} onSubmit={sendEmail} className="space-y-6">
-              {/* Honeypot anti-spam — i padukshëm për njerëz, e tërheq roboti */}
-              <input
-                type="text"
-                name="website"
-                tabIndex={-1}
-                autoComplete="off"
-                aria-hidden="true"
-                className="absolute -left-[9999px] w-px h-px opacity-0"
-              />
-              {/* Fusha të fshehta nëse do të dërgohen te template */}
-              <input type="hidden" name="to_email" value="info@vllezeritpaqarizi.com" />
-
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">Emri dhe Mbiemri</label>
-                <input
-                  type="text"
-                  name="user_name"
-                  id="name"
-                  required
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#256D7B] focus:border-transparent"
-                  placeholder="Shkruani emrin tuaj"
-                />
+          {/* Dërgo Mesazh */}
+          <div className="rounded-xl bg-stone p-6 sm:p-8">
+            <h2 className="display-md">Dërgo Mesazh</h2>
+            {status === 'success' ? (
+              <div className="mt-6 flex flex-col items-start gap-4" role="status">
+                <FaCheckCircle className="text-3xl text-brand" />
+                <p className="text-lg font-bold text-bedrock">Mesazhi u dërgua me sukses!</p>
+                <button type="button" onClick={() => setStatus('idle')} className="btn-ghost">
+                  Dërgo një mesazh tjetër
+                </button>
               </div>
-
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                <input
-                  type="email"
-                  name="user_email"
-                  id="email"
-                  required
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#256D7B] focus:border-transparent"
-                  placeholder="shkruaj@email.com"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">Telefoni (opsional)</label>
-                <input
-                  type="tel"
-                  name="user_phone"
-                  id="phone"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#256D7B] focus:border-transparent"
-                  placeholder="044 XXX XXX"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">Subjekti (opsional)</label>
-                <input
-                  type="text"
-                  name="subject"
-                  id="subject"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#256D7B] focus:border-transparent"
-                  placeholder="Subjekti i mesazhit"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">Mesazhi</label>
-                <textarea
-                  name="message"
-                  id="message"
-                  rows={5}
-                  required
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#256D7B] focus:border-transparent"
-                  placeholder="Shkruani mesazhin tuaj..."
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={isSending}
-                className="w-full bg-gradient-to-r from-[#256D7B] to-[#1a4f5a] text-white px-6 py-4 rounded-lg font-semibold hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isSending ? 'Duke dërguar...' : 'Dërgo Mesazhin'}
-              </button>
-            </form>
+            ) : (
+              <form ref={formRef} onSubmit={sendEmail} className="mt-6 grid gap-4 sm:grid-cols-2">
+                <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="absolute -left-[9999px] h-px w-px opacity-0" />
+                <input type="hidden" name="to_email" value="info@vllezeritpaqarizi.com" />
+                <label>
+                  <span className="field-label">Emri dhe Mbiemri</span>
+                  <input type="text" name="user_name" autoComplete="name" required className="field" placeholder="Shkruani emrin tuaj" />
+                </label>
+                <label>
+                  <span className="field-label">Email</span>
+                  <input type="email" name="user_email" autoComplete="email" required className="field" placeholder="shkruaj@email.com" />
+                </label>
+                <label>
+                  <span className="field-label">
+                    Telefoni <span className="font-normal text-slate-mute">(opsional)</span>
+                  </span>
+                  <input type="tel" name="user_phone" autoComplete="tel" className="field" placeholder="044 XXX XXX" />
+                </label>
+                <label>
+                  <span className="field-label">
+                    Subjekti <span className="font-normal text-slate-mute">(opsional)</span>
+                  </span>
+                  <input type="text" name="subject" className="field" placeholder="Subjekti i mesazhit" />
+                </label>
+                <label className="sm:col-span-2">
+                  <span className="field-label">Mesazhi</span>
+                  <textarea name="message" rows={5} required className="field" placeholder="Shkruani mesazhin tuaj..." />
+                </label>
+                {status === 'error' && (
+                  <p role="alert" className="flex items-start gap-2 rounded-md bg-red-50 px-4 py-3 text-sm text-red-800 ring-1 ring-red-200 sm:col-span-2">
+                    <FaExclamationTriangle className="mt-0.5 shrink-0" />
+                    Dërgimi dështoi. Provo përsëri.
+                  </p>
+                )}
+                <button type="submit" disabled={status === 'sending'} className="btn-brand py-3.5 text-base disabled:opacity-60 sm:col-span-2">
+                  {status === 'sending' && <FaSpinner className="animate-spin" />}
+                  {status === 'sending' ? 'Duke dërguar...' : 'Dërgo Mesazhin'}
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </div>

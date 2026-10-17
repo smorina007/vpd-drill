@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import PageHeroBanner from '@/components/PageHeroBanner'
 import { FaShieldAlt } from 'react-icons/fa'
-import type { Metadata, Viewport } from 'next'
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Politika e Privatësisë',
@@ -10,13 +10,6 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 }
 
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 5,
-  userScalable: true,
-  themeColor: '#256D7B',
-}
 
 export default function PolitikaPrivatesisePage() {
   return (
@@ -28,9 +21,9 @@ export default function PolitikaPrivatesisePage() {
         crumbs={[{ label: 'Ballina', href: '/' }, { label: 'Politika e Privatësisë' }]}
       />
 
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl text-gray-700 leading-relaxed [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-gray-900 [&_h2]:mt-10 [&_h2]:mb-4 [&_p]:mb-4 [&_ul]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_li]:mb-2 [&_a]:text-[#256D7B] [&_a]:font-medium [&_a]:hover:underline">
-          <p className="text-sm text-gray-400">Përditësuar së fundmi: Korrik 2026</p>
+      <section className="bg-white py-16 sm:py-24">
+        <div className="shell"><div className="max-w-[70ch] text-[16px] leading-relaxed text-slate-ink [&_a]:font-semibold [&_a]:text-brand [&_a]:underline-offset-2 hover:[&_a]:underline [&_h2]:mb-4 [&_h2]:mt-12 [&_h2]:border-t [&_h2]:border-stone-line [&_h2]:pt-8 [&_h2]:text-2xl [&_h2]:font-bold [&_li]:mb-2 [&_p]:mb-4 [&_strong]:text-bedrock [&_ul]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 marker:[&_ul]:text-brand">
+          <p className="text-sm text-slate-mute">Përditësuar së fundmi: Korrik 2026</p>
 
           <h2>1. Kush jemi</h2>
           <p>
@@ -120,7 +113,7 @@ export default function PolitikaPrivatesisePage() {
             <a href="mailto:info@vllezeritpaqarizi.com">info@vllezeritpaqarizi.com</a> ose vizitoni{' '}
             <Link href="/kontakti">faqen e kontaktit</Link>.
           </p>
-        </div>
+        </div></div>
       </section>
     </>
   )

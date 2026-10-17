@@ -2,161 +2,159 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ------------------------------------------------------------------
+   VPD DRILL — sistemi i dizajnit "Stratigrafia"
+   Faqja lexohet si një log shpimi: shtresa, thellësi, matje.
+   ------------------------------------------------------------------ */
+
 :root {
-  --background: #ffffff;
-  --primary: #256D7B;
-  --primary-dark: #1a4f5a;
+  --bedrock: #0e2a30;
+  --brand: #256d7b;
+  --glacier: #7fc8d9;
+  --stone: #f3f5f4;
+  --signal: #f2b705;
+  --header-h: 72px;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  color: #1f2937;
-  background: var(--background);
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Container optimizuar për mobile */
-.container-custom {
-  @apply container mx-auto px-4 sm:px-6 lg:px-8;
-}
-
-/* Butona të përshtatur për mobile */
-.btn-primary {
-  @apply bg-[#256D7B] text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-md hover:bg-[#1a4f5a] transition-all duration-300 font-semibold text-sm sm:text-base;
-}
-
-/* Title responsive */
-.section-title {
-  @apply text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4;
-}
-
-/* Subtitle responsive */
-.section-subtitle {
-  @apply text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl mx-auto px-4;
-}
-
-/* Grid optimizuar për mobile */
-.grid {
-  @apply gap-3 sm:gap-4 md:gap-6;
-}
-
-/* Animacione */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--header-h) + 16px);
+    -webkit-text-size-adjust: 100%;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
-.animate-fadeIn {
-  animation: fadeIn 0.5s ease-out forwards;
-}
+  body {
+    @apply bg-stone text-slate-ink antialiased;
+    font-feature-settings: 'ss01', 'tnum' 0;
+    overflow-x: hidden;
+  }
 
-/* Butoni i ofertës - I dukshëm në mobile */
-.hero-button {
-  @apply inline-flex items-center justify-center bg-white text-[#256D7B] px-6 py-3 rounded-md font-semibold hover:bg-gray-100 transition w-full sm:w-auto text-base shadow-lg active:scale-95 touch-manipulation;
-}
+  h1, h2, h3, h4 {
+    @apply text-bedrock;
+    font-stretch: 112%;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
 
-/* Mobile optimizations */
-@media (max-width: 640px) {
-  h1 {
-    @apply text-2xl leading-tight !important;
-  }
-  
-  h2 {
-    @apply text-xl leading-tight !important;
-  }
-  
-  h3 {
-    @apply text-lg !important;
-  }
-  
   p {
-    @apply text-sm !important;
+    text-wrap: pretty;
   }
-  
-  .container {
-    @apply px-3 !important;
+
+  ::selection {
+    background: var(--glacier);
+    color: var(--bedrock);
   }
-  
-  /* Rregullime për touch devices */
-  button, a {
-    @apply min-h-[44px] min-w-[44px];
+
+  :focus-visible {
+    outline: 2px solid var(--signal);
+    outline-offset: 3px;
+    border-radius: 4px;
   }
-  
-  /* Hover efektet çaktivizohen në mobile */
-  .hover\:shadow-lg:hover {
-    @apply shadow-none;
-  }
-  
-  /* Bottom bar - për orën dhe statistikat */
-  .bottom-bar {
-    @apply bg-black/60 backdrop-blur-md border-t border-white/10 text-white;
-  }
-  
-  .bottom-bar-grid {
-    @apply grid grid-cols-2 gap-2 py-3;
-  }
-  
-  .bottom-bar-info {
-    @apply flex justify-between items-center py-2 border-t border-white/20 text-[10px] text-gray-300;
+
+  input, select, textarea {
+    @apply text-bedrock;
   }
 }
 
-/* Tablet optimizations */
-@media (min-width: 641px) and (max-width: 768px) {
-  .container {
-    @apply px-5 !important;
+@layer components {
+  .shell {
+    @apply mx-auto w-full max-w-site px-4 sm:px-6 lg:px-10 xl:px-20 2xl:px-12;
   }
-  
-  h1 {
-    @apply text-3xl !important;
+
+  /* Gjerësitë e shkronjave Archivo — titujt "si makineri" */
+  .font-wide { font-stretch: 118%; }
+  .font-xwide { font-stretch: 125%; }
+  .font-narrow { font-stretch: 88%; }
+
+  .display-xl {
+    font-size: clamp(2.5rem, 5.4vw, 4.75rem);
+    line-height: 0.98;
+    font-weight: 800;
+    font-stretch: 120%;
+    letter-spacing: -0.03em;
   }
+  .display-lg {
+    font-size: clamp(2rem, 4.2vw, 3.6rem);
+    line-height: 1.02;
+    font-weight: 800;
+    font-stretch: 122%;
+    letter-spacing: -0.025em;
+  }
+  .display-md {
+    font-size: clamp(1.5rem, 2.6vw, 2.25rem);
+    line-height: 1.1;
+    font-weight: 750;
+    font-stretch: 115%;
+  }
+
+  .lede {
+    @apply text-base sm:text-lg leading-relaxed text-slate-ink max-w-[62ch];
+  }
+
+  /* Butonat */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-5 py-3 text-sm sm:text-[15px] font-semibold transition-colors duration-200 select-none whitespace-nowrap;
+    font-stretch: 108%;
+  }
+  .btn-signal {
+    @apply btn bg-signal text-bedrock hover:bg-signal-dark;
+  }
+  .btn-brand {
+    @apply btn bg-brand text-white hover:bg-brand-dark;
+  }
+  .btn-ghost-light {
+    @apply btn border border-white/35 text-white hover:bg-white/10;
+  }
+  .btn-ghost {
+    @apply btn border border-stone-line text-bedrock hover:border-brand hover:text-brand bg-white;
+  }
+
+  /* Fushat e formularëve */
+  .field-label {
+    @apply mb-1.5 block text-[13px] font-semibold text-bedrock;
+  }
+  .field {
+    @apply w-full rounded-md border border-stone-line bg-white px-3.5 py-2.5 text-[15px] text-bedrock placeholder:text-slate-mute/70 transition-colors focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20;
+  }
+
+  /* Vija "shtresë" — ndarës i hollë me shenja thellësie */
+  .strata-rule {
+    height: 10px;
+    background-image: repeating-linear-gradient(
+      90deg,
+      rgba(14, 42, 48, 0.28) 0 1px,
+      transparent 1px 24px
+    );
+    border-top: 1px solid rgba(14, 42, 48, 0.28);
+  }
+  .strata-rule-light {
+    height: 10px;
+    background-image: repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.28) 0 1px,
+      transparent 1px 24px
+    );
+    border-top: 1px solid rgba(255, 255, 255, 0.28);
+  }
+
+  /* Fshehja e scrollbar-it horizontal për shiritat me filtra */
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { scrollbar-width: none; }
 }
 
-/* Përmirësime për scroll */
-html {
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
+/* Ekrani hyrës: fshihet para paint-it nëse është parë tashmë */
+.intro-done #intro-vpd { display: none !important; }
+
+@layer utilities {
+  .tabular { font-variant-numeric: tabular-nums; }
+  .min-h-svh-safe { min-height: 100vh; min-height: 100svh; }
 }
 
-/* Fix për 100vh në mobile */
-.min-h-screen {
-  min-height: 100vh;
-  min-height: 100dvh;
-}
-
-/* Touch optimizations */
-.touch-manipulation {
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* Parandalon zgjedhjen e tekstit në mobile */
-.no-select {
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  user-select: none;
-}
-
-/* Loading states */
-.loading {
-  @apply opacity-50 pointer-events-none;
-}
-
-/* Fix për butonat në Hero */
-a[href="/kontakti"] {
-  @apply hero-button;
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

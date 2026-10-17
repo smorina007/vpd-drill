@@ -1,546 +1,261 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { FaCheckCircle, FaSpinner, FaArrowRight, FaChevronLeft, FaChevronRight, FaPaperPlane, FaImages, FaMapMarkerAlt, FaSearchPlus, FaTimes } from 'react-icons/fa'
-import { motion, AnimatePresence } from 'framer-motion'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { FaChevronLeft, FaChevronRight, FaMapMarkerAlt, FaSearchPlus, FaArrowDown, FaClock, FaCloudSun } from 'react-icons/fa'
 import { useOferta } from '@/app/context/OfertaContext'
 import { useWeather } from '@/app/context/WeatherContext'
 import WeatherEffects from '@/components/WeatherEffects'
+import Ora from '@/components/Ora'
+import Lightbox from '@/components/ui/Lightbox'
+
+const projects = Array.from({ length: 29 }, (_, i) => ({
+  id: i + 1,
+  title: 'Projekt në Prishtinë',
+  image: `/images/projekte/p${i + 1}.jpeg`,
+}))
+
+const stats = [
+  { number: '500m thellësi', label: 'Terene te forta' },
+  { number: '55m thellësi ', label: 'Terene te buta' },
+  { number: '10+', label: 'Makineri shpimi' },
+  { number: '>90 %', label: 'Klientë të knaqur' },
+]
+
+const INTERVALI = 4500
 
 export default function Hero() {
   const { openOferta } = useOferta()
-  const [currentTime, setCurrentTime] = useState('')
   const { weather, loading: weatherLoading } = useWeather()
-  const [currentProjectIndex, setCurrentProjectIndex] = useState(0)
-  const [isWidgetHovered, setIsWidgetHovered] = useState(false)
-  const [widgetLightboxOpen, setWidgetLightboxOpen] = useState(false)
+  const reduce = useReducedMotion()
+  const [i, setI] = useState(0)
+  const [pause, setPause] = useState(false)
+  const [lightbox, setLightbox] = useState<number | null>(null)
 
-  const projects = [
-    { id: 1, title: 'Projekt në Prishtinë', image: '/images/projekte/p1.jpeg' },
-    { id: 2, title: 'Projekt në Prishtinë', image: '/images/projekte/p2.jpeg' },
-    { id: 3, title: 'Projekt në Prishtinë', image: '/images/projekte/p3.jpeg' },
-    { id: 4, title: 'Projekt në Prishtinë', image: '/images/projekte/p4.jpeg' },
-    { id: 5, title: 'Projekt në Prishtinë', image: '/images/projekte/p5.jpeg' },
-    { id: 6, title: 'Projekt në Prishtinë', image: '/images/projekte/p6.jpeg' },
-    { id: 7, title: 'Projekt në Prishtinë', image: '/images/projekte/p7.jpeg' },
-    { id: 8, title: 'Projekt në Prishtinë', image: '/images/projekte/p8.jpeg' },
-    { id: 9, title: 'Projekt në Prishtinë', image: '/images/projekte/p9.jpeg' },
-    { id: 10, title: 'Projekt në Prishtinë', image: '/images/projekte/p10.jpeg' },
-    { id: 11, title: 'Projekt në Prishtinë', image: '/images/projekte/p11.jpeg' },
-    { id: 12, title: 'Projekt në Prishtinë', image: '/images/projekte/p12.jpeg' },
-    { id: 13, title: 'Projekt në Prishtinë', image: '/images/projekte/p13.jpeg' },
-    { id: 14, title: 'Projekt në Prishtinë', image: '/images/projekte/p14.jpeg' },
-    { id: 15, title: 'Projekt në Prishtinë', image: '/images/projekte/p15.jpeg' },
-    { id: 16, title: 'Projekt në Prishtinë', image: '/images/projekte/p16.jpeg' },
-    { id: 17, title: 'Projekt në Prishtinë', image: '/images/projekte/p17.jpeg' },
-    { id: 18, title: 'Projekt në Prishtinë', image: '/images/projekte/p18.jpeg' },
-    { id: 19, title: 'Projekt në Prishtinë', image: '/images/projekte/p19.jpeg' },
-    { id: 20, title: 'Projekt në Prishtinë', image: '/images/projekte/p20.jpeg' },
-    { id: 21, title: 'Projekt në Prishtinë', image: '/images/projekte/p21.jpeg' },
-    { id: 22, title: 'Projekt në Prishtinë', image: '/images/projekte/p22.jpeg' },
-    { id: 23, title: 'Projekt në Prishtinë', image: '/images/projekte/p23.jpeg' },
-    { id: 24, title: 'Projekt në Prishtinë', image: '/images/projekte/p24.jpeg' },
-    { id: 25, title: 'Projekt në Prishtinë', image: '/images/projekte/p25.jpeg' },
-    { id: 26, title: 'Projekt në Prishtinë', image: '/images/projekte/p26.jpeg' },
-    { id: 27, title: 'Projekt në Prishtinë', image: '/images/projekte/p27.jpeg' },
-    { id: 28, title: 'Projekt në Prishtinë', image: '/images/projekte/p28.jpeg' },
-    { id: 29, title: 'Projekt në Prishtinë', image: '/images/projekte/p29.jpeg' },
-
-  ]
+  const next = useCallback(() => setI((p) => (p + 1) % projects.length), [])
+  const prev = useCallback(() => setI((p) => (p - 1 + projects.length) % projects.length), [])
 
   useEffect(() => {
-    setCurrentTime(new Date().toLocaleTimeString('sq-AL', {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit'
-    }))
-    const timer = setInterval(() => {
-      setCurrentTime(new Date().toLocaleTimeString('sq-AL', {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-      }))
-    }, 1000)
-    return () => clearInterval(timer)
-  }, [])
+    if (pause || lightbox !== null || reduce) return
+    const t = setInterval(next, INTERVALI)
+    return () => clearInterval(t)
+  }, [pause, lightbox, reduce, next])
 
-  useEffect(() => {
-    if (isWidgetHovered) return
-    const interval = setInterval(() => {
-      setCurrentProjectIndex((prev) => (prev + 1) % projects.length)
-    }, 4500)
-    return () => clearInterval(interval)
-  }, [projects.length, isWidgetHovered])
-
-  const stats = [
-    { number: '500m thellësi', label: 'Terene te forta' },
-    { number: '55m thellësi ', label: 'Terene te buta' },
-    { number: '10+', label: 'Makineri shpimi' },
-    { number: '>90 %', label: 'Klientë të knaqur' }
-  ]
-
-  const goToProject = (index: number) => {
-    setCurrentProjectIndex(index)
-  }
-
-  const prevProject = () => {
-    setCurrentProjectIndex((prev) => (prev - 1 + projects.length) % projects.length)
-  }
-
-  const nextProject = () => {
-    setCurrentProjectIndex((prev) => (prev + 1) % projects.length)
-  }
+  const p = projects[i]
+  const motiTekst = weatherLoading ? '…' : weather ? `${weather.temp}°C, ${weather.condition}` : 'Moti N/A'
 
   return (
-    <section className="relative min-h-screen overflow-hidden">
-      {/* ========================== */}
-{/*        MOBILE HERO          */}
-{/* ========================== */}
-<div className="md:hidden relative w-full h-full min-h-screen">
-  {/* Background Image */}
-  <div className="absolute inset-0 z-0">
-    <Image
-      src="/images/hero/casagrande1.jpg"
-      alt="VPD DRILL"
-      fill
-      className="object-cover object-[center_20%] scale-[1]"
-      priority
-    />
-    <WeatherEffects condition={weather?.condition ?? null} className="z-[1]" />
-    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-  </div>
-
-    {/* Butonat - elegante, njëri pranë tjetrit */}
-  <div className="absolute top-20 left-4 right-4 z-10 flex gap-3">
-    <motion.button
-      whileTap={{ scale: 0.96 }}
-      onClick={openOferta}
-      className="flex-1 bg-gradient-to-r from-[#256D7B] to-[#1a4f5a] text-white px-4 py-3 rounded-xl font-semibold text-sm text-center shadow-lg shadow-black/30 flex items-center justify-center gap-2 active:shadow-md transition-shadow"
-    >
-      <FaPaperPlane size={13} />
-      Kërko Ofertë
-    </motion.button>
-    <motion.div whileTap={{ scale: 0.96 }} className="flex-1">
-      <Link
-        href="/projektet"
-        className="w-full bg-white/15 backdrop-blur-md border border-white/30 text-white px-4 py-3 rounded-xl font-semibold text-sm text-center shadow-lg shadow-black/20 flex items-center justify-center gap-2"
-      >
-        <FaImages size={13} />
-        Projektet
-      </Link>
-    </motion.div>
-  </div>
-
-  {/* Slogan - në qendër (mund të mbetet ose të zhvendoset) */}
-   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 text-center w-full px-4 pointer-events-none">
-    <h1 className="leading-tight">
-      <span className="block text-white font-bold text-4xl sm:text-5xl tracking-wide drop-shadow-2xl">
-        Themele të Sigurta
-      </span>
-      <span className="block text-[#256D7B] font-semibold text-3xl sm:text-4xl tracking-[0.1em] drop-shadow-2xl mt-2">
-        për të Ardhmen
-      </span>
-    </h1>
-  </div>
-
-  {/* Shiriti i statistikave – fund */}
-  <div className="absolute bottom-0 left-0 right-0 z-10 bg-black/60 backdrop-blur-md border-t border-white/10">
-    <div className="grid grid-cols-4 gap-1 py-2 px-2">
-      {stats.map((stat, i) => (
-        <div key={i} className="text-center text-white">
-          <div className="text-sm font-bold text-[#256D7B]">{stat.number}</div>
-          <div className="text-[8px] text-gray-300">{stat.label}</div>
-        </div>
-      ))}
-    </div>
-    <div className="flex justify-center items-center py-1.5 border-t border-white/10 text-[10px] text-gray-300 gap-4">
-      <span>⏱️ {currentTime}</span>
-      <span className="w-px h-3 bg-white/20"></span>
-      <span>🌡️ {weatherLoading ? <FaSpinner className="animate-spin inline" /> : weather ? `${weather.temp}°C` : 'N/A'}</span>
-    </div>
-  </div>
-</div>
-
-      {/* ========================================= */}
-      {/*   PROJEKTET E FUNDIT — GALERI MOBILE       */}
-      {/* ========================================= */}
-      <div className="md:hidden bg-gradient-to-b from-[#0f2b33] to-[#0a1f26] pt-8 pb-10 px-4">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-white font-semibold flex items-center gap-2 text-base">
-            <span className="w-2 h-2 bg-[#256D7B] rounded-full animate-pulse" />
-            Projektet e Fundit
-          </h3>
-          <span className="text-[#256D7B] text-xs font-bold">
-            {String(currentProjectIndex + 1).padStart(2, '0')}/{String(projects.length).padStart(2, '0')}
-          </span>
-        </div>
-
-        <div className="relative rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-black/40 bg-black/20">
-          <div className="relative h-64 overflow-hidden touch-pan-y">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentProjectIndex}
-                drag="x"
-                dragConstraints={{ left: 0, right: 0 }}
-                dragElastic={0.7}
-                onDragEnd={(_, info) => {
-                  if (info.offset.x < -60) nextProject()
-                  else if (info.offset.x > 60) prevProject()
-                }}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 1.05 }}
-                transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-                className="absolute inset-0 cursor-grab active:cursor-grabbing"
-              >
-                <Image
-                  src={projects[currentProjectIndex].image}
-                  alt={projects[currentProjectIndex].title}
-                  fill
-                  className="object-cover pointer-events-none select-none"
-                  sizes="100vw"
-                  priority={currentProjectIndex === 0}
-                  draggable={false}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none" />
-                <div className="absolute bottom-3 left-4 right-4 pointer-events-none">
-                  <p className="text-white font-medium text-sm drop-shadow-lg">
-                    {projects[currentProjectIndex].title}
-                  </p>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-
-          </div>
-
-          {/* Kontrollet */}
-          <div className="flex items-center justify-between px-4 py-3 bg-black/40 backdrop-blur-sm">
-            <button
-              onClick={prevProject}
-              aria-label="Projekti i mëparshëm"
-              className="w-9 h-9 rounded-full bg-white/10 active:bg-white/20 text-white flex items-center justify-center transition-colors"
-            >
-              <FaChevronLeft size={14} />
-            </button>
-            <div className="flex gap-1.5">
-              {projects.slice(0, 5).map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => goToProject(idx)}
-                  aria-label={`Shko te projekti ${idx + 1}`}
-                  className={`h-1.5 rounded-full transition-all duration-500 ${
-                    idx === currentProjectIndex % 5
-                      ? 'w-6 bg-[#256D7B] shadow-lg shadow-[#256D7B]/50'
-                      : 'w-1.5 bg-white/30'
-                  }`}
-                />
-              ))}
-            </div>
-            <button
-              onClick={nextProject}
-              aria-label="Projekti tjetër"
-              className="w-9 h-9 rounded-full bg-white/10 active:bg-white/20 text-white flex items-center justify-center transition-colors"
-            >
-              <FaChevronRight size={14} />
-            </button>
-          </div>
-        </div>
-
-        <Link
-          href="/projektet"
-          className="mt-4 flex items-center justify-center gap-1.5 text-[#256D7B] text-sm font-medium"
-        >
-          <span>Shiko të gjitha projektet</span>
-          <FaArrowRight size={12} />
-        </Link>
+    <section id="ballina" data-shtresa="Sipërfaqja" className="relative isolate overflow-hidden bg-bedrock text-white">
+      {/* Fotoja e sfondit */}
+      <div className="absolute inset-0 -z-10">
+        <Image
+          src="/images/hero/casagrande.jpg"
+          alt="VPD DRILL - Makineri Casagrande në punë"
+          fill
+          priority
+          sizes="100vw"
+          className="hidden object-cover object-center md:block"
+        />
+        <Image
+          src="/images/hero/casagrande1.jpg"
+          alt="VPD DRILL"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-[center_20%] md:hidden"
+        />
+        <WeatherEffects condition={weather?.condition ?? null} className="z-[1]" />
+        <div className="absolute inset-0 z-[2] bg-[linear-gradient(90deg,rgba(14,42,48,0.92)_0%,rgba(14,42,48,0.55)_45%,rgba(14,42,48,0.15)_100%)]" />
+        <div className="absolute inset-x-0 bottom-0 z-[2] h-1/2 bg-gradient-to-t from-bedrock via-bedrock/60 to-transparent" />
       </div>
 
-      {/* ========================== */}
-      {/*      DESKTOP HERO          */}
-      {/* ========================== */}
-      <div className="hidden md:block relative w-full min-h-screen">
-        {/* Background Image */}
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/images/hero/casagrande.jpg"
-            alt="VPD DRILL - Makineri Casagrande në punë"
-            fill
-            className="object-cover object-center"
-            priority
-          />
-          <WeatherEffects condition={weather?.condition ?? null} className="z-[1]" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-transparent" />
-          <div className="absolute inset-0 bg-white/5" />
-        </div>
+      <div className="shell flex min-h-svh-safe flex-col pt-[calc(var(--header-h)+32px)]">
+        <div className="grid flex-1 items-center gap-10 py-8 lg:grid-cols-[1.25fr_minmax(0,380px)] lg:gap-16">
+          {/* Titulli */}
+          <div className="max-w-3xl">
+            <motion.p
+              initial={reduce ? false : { opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="mb-5 flex items-center gap-3 text-[15px] font-semibold text-glacier"
+            >
+              <span className="h-px w-10 bg-signal" />
+              VPD DRILL SHPK
+            </motion.p>
+            <motion.h1
+              initial={reduce ? false : { opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="display-xl text-white"
+            >
+              Themele të Sigurta
+              <br />
+              për të Ardhmen
+            </motion.h1>
+            <motion.div
+              initial={reduce ? false : { opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.35 }}
+              className="mt-9 flex flex-col gap-3 sm:flex-row"
+            >
+              <button type="button" onClick={openOferta} className="btn-signal px-7 py-3.5 text-base">
+                Kërko Ofertë
+              </button>
+              <Link href="/projektet" className="btn-ghost-light px-7 py-3.5 text-base">
+                Shiko Projektet
+              </Link>
+            </motion.div>
+          </div>
 
-        {/* Logo lart */}
-        <div className="absolute top-6 left-1/2 -translate-x-1/2 z-20 text-center">
-          <h1 className="text-white font-bold text-4xl lg:text-5xl tracking-wider drop-shadow-lg">
-            VPD DRILL
-          </h1>
-          <p className="text-[#256D7B] text-lg font-medium tracking-[0.3em]">SHPK</p>
-          <div className="w-16 h-0.5 bg-[#256D7B] mx-auto mt-2" />
-        </div>
-
-        {/* Slogan */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 text-center w-full px-4 pointer-events-none">
-          <p className="text-white/80 text-xl font-light tracking-[0.3em] uppercase drop-shadow-lg">
-            Themele të Sigurta për të Ardhmen
-          </p>
-        </div>
-
-        {/* Galeria anësore e Projekteve — dizajn i rifreskuar */}
-        <div
-          className="absolute right-8 lg:right-16 top-1/2 -translate-y-1/2 z-10 w-80 lg:w-[340px]"
-          onMouseEnter={() => setIsWidgetHovered(true)}
-          onMouseLeave={() => setIsWidgetHovered(false)}
-        >
-          {/* Skaj me "shkëlqim" delikat (glass edge) */}
-          <div className="p-[1px] rounded-[28px] bg-gradient-to-br from-white/50 via-white/10 to-transparent shadow-[0_25px_70px_-15px_rgba(37,109,123,0.55)]">
-            <div className="bg-white/8 backdrop-blur-2xl rounded-[27px] overflow-hidden border border-white/10">
-              {/* Header */}
-              <div className="px-5 py-4 flex items-center justify-between">
-                <h3 className="text-white font-semibold flex items-center gap-2 text-sm">
+          {/* Projektet e Fundit */}
+          <motion.aside
+            initial={reduce ? false : { opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.5 }}
+            aria-label="Projektet e Fundit"
+            className="w-full max-w-[420px] justify-self-start lg:justify-self-end"
+            onMouseEnter={() => setPause(true)}
+            onMouseLeave={() => setPause(false)}
+            onFocus={() => setPause(true)}
+            onBlur={() => setPause(false)}
+          >
+            <div className="overflow-hidden rounded-xl bg-bedrock/55 ring-1 ring-white/15 backdrop-blur-md">
+              <div className="flex items-center justify-between px-4 pb-3 pt-4">
+                <h2 className="flex items-center gap-2 text-sm font-semibold text-white">
                   <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#256D7B] opacity-60" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#256D7B]" />
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-signal opacity-60" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-signal" />
                   </span>
                   Projektet e Fundit
-                </h3>
-                <span className="bg-white/10 text-[#7fc8d9] text-[11px] font-bold px-2.5 py-1 rounded-full tabular-nums">
-                  {String(currentProjectIndex + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
+                </h2>
+                <span className="text-xs font-semibold tabular text-white/60">
+                  {String(i + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
                 </span>
               </div>
-
-              {/* Progres i vetëm, i qartë — koha deri te foto tjetër */}
-              <div className="px-5 mb-3">
-                <div className="h-[3px] w-full rounded-full bg-white/15 overflow-hidden">
-                  <motion.div
-                    key={currentProjectIndex}
-                    initial={{ width: '0%' }}
-                    animate={{ width: '100%' }}
-                    transition={{ duration: 4.5, ease: 'linear' }}
-                    className="h-full bg-[#256D7B]"
-                  />
-                </div>
-              </div>
-
-              {/* Foto */}
-              <div className="relative h-72 lg:h-80 overflow-hidden bg-black/30 mx-5 rounded-2xl group/photo">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={currentProjectIndex}
+              <div className="relative mx-4 aspect-[4/3] overflow-hidden rounded-lg bg-black/30">
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.button
+                    key={p.id}
+                    type="button"
+                    onClick={() => setLightbox(i)}
                     drag="x"
                     dragConstraints={{ left: 0, right: 0 }}
-                    dragElastic={0.6}
+                    dragElastic={0.5}
                     onDragEnd={(_, info) => {
-                      if (info.offset.x < -50) nextProject()
-                      else if (info.offset.x > 50) prevProject()
+                      if (info.offset.x < -50) next()
+                      else if (info.offset.x > 50) prev()
                     }}
-                    initial={{ opacity: 0, scale: 0.9, rotateY: -8 }}
-                    animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-                    exit={{ opacity: 0, scale: 1.1, rotateY: 8 }}
-                    transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
-                    className="absolute inset-0 cursor-grab active:cursor-grabbing"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.35 }}
+                    className="group absolute inset-0 cursor-zoom-in"
+                    aria-label={`Hap foton: ${p.title}`}
                   >
-                    <div
-                      onClick={() => setWidgetLightboxOpen(true)}
-                      className="relative w-full h-full rounded-2xl overflow-hidden shadow-xl bg-black/20 ring-1 ring-white/10 cursor-zoom-in"
-                    >
-                      <motion.div
-                        className="absolute inset-0"
-                        initial={{ scale: 1 }}
-                        animate={{ scale: 1.08 }}
-                        transition={{ duration: 4.5, ease: 'linear' }}
-                      >
-                        <Image
-                          src={projects[currentProjectIndex].image}
-                          alt={projects[currentProjectIndex].title}
-                          fill
-                          className="object-cover pointer-events-none select-none"
-                          sizes="400px"
-                          priority={currentProjectIndex === 0}
-                          draggable={false}
-                        />
-                      </motion.div>
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/5 to-transparent" />
-                      <div className="absolute bottom-0 left-0 right-0 p-4">
-                        <p className="text-white font-semibold drop-shadow-lg text-sm flex items-center gap-1.5">
-                          <FaMapMarkerAlt className="text-[#7fc8d9] text-xs" />
-                          {projects[currentProjectIndex].title}
-                        </p>
-                      </div>
-                      {/* Ftesë delikate për zoom, shfaqet vetëm në hover */}
-                      <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover/photo:opacity-100 transition-opacity">
-                        <FaSearchPlus className="text-white text-xs" />
-                      </div>
-                    </div>
-                  </motion.div>
+                    <Image
+                      src={p.image}
+                      alt={p.title}
+                      fill
+                      sizes="(max-width: 1024px) 90vw, 400px"
+                      className="pointer-events-none select-none object-cover"
+                      draggable={false}
+                    />
+                    <span className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                    <span className="absolute bottom-3 left-3 flex items-center gap-1.5 text-sm font-semibold">
+                      <FaMapMarkerAlt className="text-xs text-glacier" />
+                      {p.title}
+                    </span>
+                    <span className="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-full bg-black/45 opacity-0 transition-opacity group-hover:opacity-100">
+                      <FaSearchPlus className="text-xs" />
+                    </span>
+                  </motion.button>
                 </AnimatePresence>
               </div>
-
-              {/* Kontrollet */}
-              <div className="px-5 py-4 flex justify-between items-center mt-1">
-                <div className="flex gap-2">
+              {/* Progresi deri te foto tjetër */}
+              <div className="mx-4 mt-3 h-[2px] overflow-hidden rounded-full bg-white/15">
+                {!pause && lightbox === null && !reduce && (
+                  <motion.div
+                    key={i}
+                    className="h-full bg-signal"
+                    initial={{ width: '0%' }}
+                    animate={{ width: '100%' }}
+                    transition={{ duration: INTERVALI / 1000, ease: 'linear' }}
+                  />
+                )}
+              </div>
+              <div className="flex items-center justify-between px-4 py-3">
+                <div className="flex gap-1.5">
                   <button
-                    onClick={prevProject}
-                    className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+                    type="button"
+                    onClick={prev}
+                    aria-label="Projekti i mëparshëm"
+                    className="grid h-9 w-9 place-items-center rounded-md bg-white/10 transition-colors hover:bg-white/20"
                   >
-                    <FaChevronLeft size={14} />
+                    <FaChevronLeft className="text-xs" />
                   </button>
                   <button
-                    onClick={nextProject}
-                    className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+                    type="button"
+                    onClick={next}
+                    aria-label="Projekti tjetër"
+                    className="grid h-9 w-9 place-items-center rounded-md bg-white/10 transition-colors hover:bg-white/20"
                   >
-                    <FaChevronRight size={14} />
+                    <FaChevronRight className="text-xs" />
                   </button>
                 </div>
-                <Link
-                  href="/projektet"
-                  className="text-[#256D7B] text-xs font-medium hover:underline flex items-center gap-1.5 group"
-                >
-                  <span>Të gjitha</span>
-                  <FaArrowRight size={10} className="group-hover:translate-x-1 transition-transform" />
+                <Link href="/projektet" className="text-sm font-semibold text-glacier hover:text-white">
+                  Të gjitha
                 </Link>
               </div>
             </div>
-          </div>
+          </motion.aside>
         </div>
 
-        {/* Lightbox — foto e plotë kur klikohet karta e projekteve */}
-        <AnimatePresence>
-          {widgetLightboxOpen && (
-            <div className="fixed inset-0 z-[9999]">
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="fixed inset-0 bg-gray-950/90 backdrop-blur-sm"
-                onClick={() => setWidgetLightboxOpen(false)}
-              />
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.97 }}
-                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                className="relative w-full h-full flex items-center justify-center p-4 md:p-10"
-                onClick={(e) => e.stopPropagation()}
+        {/* Shiriti i statistikave — si një log shpimi */}
+        <div className="pb-6 sm:pb-8">
+          <div className="strata-rule-light" aria-hidden="true" />
+          <dl className="grid grid-cols-2 lg:grid-cols-4">
+            {stats.map((s, k) => (
+              <div
+                key={k}
+                className={`py-5 pr-4 ${k % 2 === 1 ? 'pl-4 sm:pl-6' : ''} ${k > 0 ? 'lg:border-l lg:border-white/15 lg:pl-6' : ''} ${
+                  k === 1 ? 'border-l border-white/15' : ''
+                } ${k === 3 ? 'border-l border-white/15' : ''} ${k >= 2 ? 'border-t border-white/15 lg:border-t-0' : ''}`}
               >
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={currentProjectIndex}
-                    initial={{ opacity: 0, x: 30 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -30 }}
-                    transition={{ duration: 0.25 }}
-                    className="relative w-full h-full max-w-4xl flex items-center justify-center"
-                  >
-                    <Image
-                      src={projects[currentProjectIndex].image}
-                      alt={projects[currentProjectIndex].title}
-                      width={1200}
-                      height={900}
-                      className="object-contain max-h-[78vh] w-auto rounded-lg shadow-2xl"
-                    />
-                  </motion.div>
-                </AnimatePresence>
-
-                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-black/50 backdrop-blur-md rounded-xl px-5 py-3 text-white text-center">
-                  <p className="font-semibold text-sm flex items-center gap-1.5 justify-center">
-                    <FaMapMarkerAlt className="text-[#7fc8d9]" />
-                    {projects[currentProjectIndex].title}
-                  </p>
-                </div>
-
-                <button
-                  onClick={() => setWidgetLightboxOpen(false)}
-                  className="fixed top-5 right-5 z-20 p-2.5 bg-white/10 backdrop-blur-md border border-white/20 rounded-full hover:bg-white/20 transition-colors text-white"
-                  aria-label="Mbyll"
-                >
-                  <FaTimes size={20} />
-                </button>
-                <button
-                  onClick={prevProject}
-                  className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 p-2.5 md:p-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-full hover:bg-white/20 transition-colors text-white"
-                  aria-label="Projekti i mëparshëm"
-                >
-                  <FaChevronLeft size={18} />
-                </button>
-                <button
-                  onClick={nextProject}
-                  className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 p-2.5 md:p-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-full hover:bg-white/20 transition-colors text-white"
-                  aria-label="Projekti tjetër"
-                >
-                  <FaChevronRight size={18} />
-                </button>
-                <div className="fixed top-5 left-5 z-20 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-2 text-white text-xs font-medium">
-                  {currentProjectIndex + 1} / {projects.length}
-                </div>
-              </motion.div>
+                <dt className="sr-only">{s.label}</dt>
+                <dd className="text-2xl font-extrabold font-xwide tabular text-white sm:text-[28px]">{s.number}</dd>
+                <dd className="mt-1 text-sm text-glacier">{s.label}</dd>
+              </div>
+            ))}
+          </dl>
+          <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/15 pt-4 text-[13px] text-white/60">
+            <div className="flex items-center gap-5">
+              <span className="flex items-center gap-2">
+                <FaClock className="text-glacier" />
+                <Ora />
+              </span>
+              <span className="flex items-center gap-2">
+                <FaCloudSun className="text-glacier" />
+                <span className="tabular">{motiTekst}</span>
+              </span>
             </div>
-          )}
-        </AnimatePresence>
-
-        {/* Butonat poshtë – pa tekst tjetër */}
-        <div className="container mx-auto px-6 relative z-10 h-full flex items-end pb-12">
-          <div className="max-w-3xl text-white pb-8">
-            <div className="flex flex-row gap-4">
-              <button
-                onClick={openOferta}
-                className="bg-white text-[#256D7B] px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition text-sm shadow-lg"
-              >
-                Kërko Ofertë
-              </button>
-              <Link
-                href="/projektet"
-                className="bg-transparent border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white/10 transition text-sm"
-              >
-                Shiko Projektet
-              </Link>
-            </div>
+            <a href="#sherbimet" className="hidden items-center gap-2 font-semibold text-white/70 transition-colors hover:text-white sm:flex">
+              Eksploro <FaArrowDown className="text-[10px]" />
+            </a>
           </div>
         </div>
-
-        {/* Shiriti i statistikave */}
-        <div className="absolute bottom-0 left-0 right-0 z-10 bg-black/60 backdrop-blur-md border-t border-white/10">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-4 gap-1 py-2">
-              {stats.map((stat, i) => (
-                <div key={i} className="text-center text-white">
-                  <div className="text-lg font-bold text-[#256D7B]">{stat.number}</div>
-                  <div className="text-[10px] text-gray-300">{stat.label}</div>
-                </div>
-              ))}
-            </div>
-            <div className="flex justify-center items-center py-2 border-t border-white/20 text-xs text-gray-300 gap-4">
-              <span>⏱️ {currentTime}</span>
-              <span className="w-px h-4 bg-white/20"></span>
-              <span>🌡️ {weatherLoading ? <FaSpinner className="animate-spin inline" /> : weather ? `${weather.temp}°C, ${weather.condition}` : 'Moti N/A'}</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Scroll Down */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 2, duration: 0.8 }}
-          className="absolute bottom-28 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center cursor-pointer"
-          onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
-        >
-          <span className="text-white/60 text-xs mb-2">Eksploro</span>
-          <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
-            <motion.div
-              animate={{ y: [0, 12, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-              className="w-1 h-2 bg-white rounded-full mt-2"
-            />
-          </div>
-        </motion.div>
       </div>
+
+      <Lightbox
+        items={projects.map((x) => ({ src: x.image, title: x.title }))}
+        index={lightbox}
+        onClose={() => setLightbox(null)}
+        onIndex={(n) => {
+          setLightbox(n)
+          setI(n)
+        }}
+      />
     </section>
   )
 }

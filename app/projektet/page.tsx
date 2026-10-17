@@ -1,7 +1,7 @@
 import Galeria from '@/components/Galeria'
 import PageHeroBanner from '@/components/PageHeroBanner'
 import { FaImages } from 'react-icons/fa'
-import type { Metadata, Viewport } from 'next'
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Projektet Tona — Shpime, Pilota dhe Gërmime të Realizuara',
@@ -16,13 +16,6 @@ export const metadata: Metadata = {
   },
 }
 
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 5,
-  userScalable: true,
-  themeColor: '#256D7B',
-}
 
 export default function ProjektetPage() {
   return (
@@ -32,6 +25,7 @@ export default function ProjektetPage() {
         title="Projektet Tona"
         subtitle="Disa nga projektet e realizuara me sukses në terrene të ndryshme anembanë Kosovës."
         crumbs={[{ label: 'Ballina', href: '/' }, { label: 'Projektet' }]}
+        image="/images/galeria/p2.jpeg"
       />
       <Galeria showHeading={false} />
     </>

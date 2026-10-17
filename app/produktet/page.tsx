@@ -1,7 +1,7 @@
 import Produkte from '@/components/Produkte'
 import PageHeroBanner from '@/components/PageHeroBanner'
 import { FaCube } from 'react-icons/fa'
-import type { Metadata, Viewport } from 'next'
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Produkte Betoni: Muri L, Gypa Betoni, Pllaka, Kosha Armature',
@@ -16,13 +16,6 @@ export const metadata: Metadata = {
   },
 }
 
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 5,
-  userScalable: true,
-  themeColor: '#256D7B',
-}
 
 export default function ProduktetPage() {
   return (
@@ -32,6 +25,7 @@ export default function ProduktetPage() {
         title="Katalogu i Produkteve"
         subtitle="Gama e plotë e produkteve për puse, ndërtim dhe shpime — Muri L, gypa betoni, pllaka, elemente shpimi dhe më shumë."
         crumbs={[{ label: 'Ballina', href: '/' }, { label: 'Produktet' }]}
+        image="/images/produktet/ML3.jpeg"
       />
       <Produkte showHeading={false} />
     </>

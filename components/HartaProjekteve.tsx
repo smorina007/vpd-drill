@@ -61,10 +61,10 @@ export default function HartaProjekteve({ projektet }: { projektet: Projekti[] }
   const maxCount = Math.max(...qytetet.map((q) => grupetSipasQytetit[q].length))
 
   return (
-    <div className="max-w-md mx-auto bg-gradient-to-br from-[#0f2b33] to-[#0a1f26] rounded-2xl overflow-hidden border border-white/10 shadow-xl">
+    <div className="w-full overflow-hidden rounded-xl bg-bedrock ring-1 ring-bedrock/10">
       <div className="px-4 sm:px-5 pt-4 sm:pt-5">
         <h3 className="text-white font-bold text-base sm:text-lg flex items-center gap-2">
-          <FaMapMarkerAlt className="text-[#7fc8d9]" />
+          <FaMapMarkerAlt className="text-glacier" />
           Ku kemi punuar
         </h3>
         <p className="text-white/60 text-xs sm:text-sm mt-1">
@@ -90,16 +90,19 @@ export default function HartaProjekteve({ projektet }: { projektet: Projekti[] }
           return (
             <button
               key={qyteti}
+              type="button"
+              aria-label={`${qyteti}: ${count} projekte`}
+              aria-pressed={isActive}
               onClick={() => setAktivi(isActive ? null : qyteti)}
               style={{ left: `${x}%`, top: `${y}%`, width: madhesia, height: madhesia }}
               className="absolute -translate-x-1/2 -translate-y-1/2 group z-10"
             >
-              <span className="absolute inset-0 rounded-full bg-[#256D7B] animate-ping opacity-40" style={{ animationDuration: '2.5s' }} />
+              <span className="absolute inset-0 rounded-full bg-brand animate-ping opacity-40" style={{ animationDuration: '2.5s' }} />
               <span
                 className={`relative w-full h-full rounded-full flex items-center justify-center text-white font-bold border-2 transition-all duration-300 ${
                   isActive
-                    ? 'bg-[#7fc8d9] border-white scale-110 shadow-lg shadow-[#7fc8d9]/50'
-                    : 'bg-[#256D7B] border-white/40 hover:border-white hover:scale-105'
+                    ? 'bg-glacier border-white scale-110 shadow-lg shadow-glacier/50'
+                    : 'bg-brand border-white/40 hover:border-white hover:scale-105'
                 }`}
                 style={{ fontSize: madhesia * 0.4 }}
               >
@@ -126,10 +129,10 @@ export default function HartaProjekteve({ projektet }: { projektet: Projekti[] }
             <div className="p-5 sm:p-6">
               <div className="flex items-center justify-between mb-3">
                 <h4 className="text-white font-semibold flex items-center gap-2">
-                  <FaMapMarkerAlt className="text-[#7fc8d9]" />
+                  <FaMapMarkerAlt className="text-glacier" />
                   {aktivi} — {grupetSipasQytetit[aktivi].length} projekte
                 </h4>
-                <button onClick={() => setAktivi(null)} className="text-white/50 hover:text-white transition">
+                <button type="button" aria-label="Mbyll" onClick={() => setAktivi(null)} className="text-white/50 hover:text-white transition">
                   <FaTimes />
                 </button>
               </div>

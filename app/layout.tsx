@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter } from 'next/font/google'
+import localFont from 'next/font/local'
 import Script from 'next/script'
 import './globals.css'
 import Header from '@/components/Header'
@@ -9,12 +9,17 @@ import FloatingWhatsAppButton from '@/components/FloatingWhatsAppButton'
 import BackToTopButton from '@/components/BackToTopButton'
 import { OfertaProvider } from '@/app/context/OfertaContext'
 import { WeatherProvider } from '@/app/context/WeatherContext'
-import ScrollGuard from '@/components/ScrollGuard'
+import { MjeteProvider } from '@/app/context/MjeteContext'
 import LoadingScreen from '@/components/LoadingScreen'
 
-const inter = Inter({ 
-  subsets: ['latin'],
+// Archivo (variabël: pesha 100–900, gjerësia 62–125%) — e ngarkuar lokalisht,
+// pa varësi nga Google Fonts gjatë build-it. Licenca: app/fonts/OFL-Archivo.txt
+const archivo = localFont({
+  src: './fonts/archivo-latin-standard-normal.woff2',
+  variable: '--font-archivo',
+  weight: '100 900',
   display: 'swap',
+  declarations: [{ prop: 'font-stretch', value: '62% 125%' }],
 })
 
 export const metadata: Metadata = {
@@ -67,7 +72,8 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-      icon: '/favicon.png',   
+    icon: '/favicon.png',
+    shortcut: '/favicon.png',
     apple: '/apple-touch-icon.png',
   },
   manifest: '/manifest.webmanifest',
@@ -84,7 +90,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   userScalable: true,
-  themeColor: '#256D7B',
+  themeColor: '#0E2A30',
 }
 
 export default function RootLayout({
@@ -93,11 +99,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="sq">
+    <html lang="sq" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/favicon.png" />
-        <link rel="shortcut icon" href="/favicon.png" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        {/* Fsheh menjëherë ekranin hyrës nëse është parë në këtë session (pa "kërcim" të faqes) */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{if(sessionStorage.getItem('vpd-drill-loading-shown')==='1')document.documentElement.classList.add('intro-done')}catch(e){}`,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -141,26 +150,29 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.className} antialiased`}>
+      <body className={`${archivo.variable} font-sans`}>
         <LoadingScreen />
-        
+
         <OfertaProvider>
         <WeatherProvider>
-          <ScrollGuard />
-          <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 bg-[#256D7B] text-white px-3 py-2 rounded-md z-[100] text-sm">
-            Skip to content
+        <MjeteProvider>
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[100] focus:rounded-md focus:bg-bedrock focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
+          >
+            Kalo te përmbajtja
           </a>
 
           <Header />
-          
-          <main id="main-content" className="min-h-screen">
+
+          <main id="main-content" tabIndex={-1} className="outline-none">
             {children}
           </main>
 
           <Footer />
 
-          <FloatingAIButton />
           <FloatingWhatsAppButton />
+          <FloatingAIButton />
           <BackToTopButton />
 
           {/* Google Analytics */}
@@ -176,6 +188,7 @@ export default function RootLayout({
               gtag('config', 'G-TJJ6MKWXBL');
             `}
           </Script>
+        </MjeteProvider>
         </WeatherProvider>
         </OfertaProvider>
       </body>

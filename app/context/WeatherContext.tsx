@@ -65,7 +65,6 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
 
         // Nëse modeli i specifikuar s'ktheu të dhëna të plota, provo pa 'models' (default)
         if (!data?.current) {
-          console.error('[Moti-DEBUG] icon_seamless s\'ktheu të dhëna, po provoj modelin default')
           data = await tentoThirrjen(
             `https://api.open-meteo.com/v1/forecast?${baseParams}&_=${Date.now()}`
           )
@@ -89,22 +88,15 @@ export function WeatherProvider({ children }: { children: ReactNode }) {
           const efektivPrecip = Math.max(c.precipitation ?? 0, nowcastPrecip)
 
           const condition = codeToCondition(efektivCode, efektivPrecip, c.rain ?? 0, c.showers ?? 0, c.snowfall ?? 0)
-          console.error(
-            '[Moti-DEBUG] current.code:', c.weather_code, '| nowcast15.code:', nowcastCode,
-            '| current.precip:', c.precipitation, '| nowcast15.precip:', nowcastPrecip,
-            '-> kushti:', condition, '| temp:', c.temperature_2m
-          )
           setWeather({
             temp: Math.round(c.temperature_2m),
             condition,
           })
         } else {
-          console.error('[Moti-DEBUG] Open-Meteo s\'ktheu "current", po përdor fallback:', JSON.stringify(data))
           setWeather({ temp: 22, condition: 'Diell' })
         }
-      } catch (error) {
+      } catch {
         if (!cancelled) {
-          console.error('[Moti-DEBUG] Fetch dështoi:', error)
           setWeather({ temp: 22, condition: 'Diell' })
         }
       } finally {

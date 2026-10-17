@@ -41,3 +41,6 @@ yarn-error.log*
 next-env.d.ts
 
 .vercel
+
+# kopja rezervë lokale e ridizajnit
+/_backup-origjinal

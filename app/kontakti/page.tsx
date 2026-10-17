@@ -1,5 +1,7 @@
 import Kontakt from '@/components/Kontakt'
-import type { Metadata, Viewport } from 'next'
+import PageHeroBanner from '@/components/PageHeroBanner'
+import { FaEnvelope } from 'react-icons/fa'
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Kontakt — Kërko Ofertë për Shpim Pusi apo Pilota',
@@ -14,14 +16,17 @@ export const metadata: Metadata = {
   },
 }
 
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 5,
-  userScalable: true,
-  themeColor: '#256D7B',
-}
 
 export default function KontaktiPage() {
-  return <Kontakt />
+  return (
+    <>
+      <PageHeroBanner
+        icon={FaEnvelope}
+        title="Kontakti"
+        subtitle="Jemi në dispozicion për çdo pyetje apo kërkesë"
+        crumbs={[{ label: 'Ballina', href: '/' }, { label: 'Kontakti' }]}
+      />
+      <Kontakt faqe />
+    </>
+  )
 }
