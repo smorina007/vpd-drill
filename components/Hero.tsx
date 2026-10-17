@@ -71,8 +71,8 @@ export default function Hero() {
         <div className="absolute inset-x-0 bottom-0 z-[2] h-1/2 bg-gradient-to-t from-bedrock via-bedrock/60 to-transparent" />
       </div>
 
-      <div className="shell flex min-h-svh-safe flex-col pt-[calc(var(--header-h)+32px)]">
-        <div className="grid flex-1 items-center gap-10 py-8 lg:grid-cols-[1.25fr_minmax(0,380px)] lg:gap-16">
+      <div className="shell relative flex min-h-svh-safe flex-col pt-[calc(var(--header-h)+32px)]">
+        <div className="grid flex-1 items-center gap-8 py-8 lg:gap-16">
           {/* Titulli */}
           <div className="max-w-3xl">
             <motion.p
@@ -115,26 +115,26 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.5 }}
             aria-label="Projektet e Fundit"
-            className="w-full max-w-[420px] justify-self-start lg:justify-self-end"
+            className="w-full max-w-[300px] justify-self-start lg:absolute lg:right-10 lg:top-[calc(var(--header-h)+20px)] lg:z-10 lg:w-[250px] xl:right-20 2xl:right-12"
             onMouseEnter={() => setPause(true)}
             onMouseLeave={() => setPause(false)}
             onFocus={() => setPause(true)}
             onBlur={() => setPause(false)}
           >
             <div className="overflow-hidden rounded-xl bg-bedrock/55 ring-1 ring-white/15 backdrop-blur-md">
-              <div className="flex items-center justify-between px-4 pb-3 pt-4">
-                <h2 className="flex items-center gap-2 text-sm font-semibold text-white">
+              <div className="flex items-center justify-between px-3 pb-2 pt-2.5">
+                <h2 className="flex items-center gap-2 text-xs font-semibold text-white">
                   <span className="relative flex h-2 w-2">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-signal opacity-60" />
                     <span className="relative inline-flex h-2 w-2 rounded-full bg-signal" />
                   </span>
                   Projektet e Fundit
                 </h2>
-                <span className="text-xs font-semibold tabular text-white/60">
+                <span className="text-[11px] font-semibold tabular text-white/60">
                   {String(i + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
                 </span>
               </div>
-              <div className="relative mx-4 aspect-[4/3] overflow-hidden rounded-lg bg-black/30">
+              <div className="relative mx-3 aspect-[16/10] overflow-hidden rounded-md bg-black/30">
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.button
                     key={p.id}
@@ -159,23 +159,23 @@ export default function Hero() {
                       src={p.image}
                       alt={p.title}
                       fill
-                      sizes="(max-width: 1024px) 90vw, 400px"
+                      sizes="(max-width: 1024px) 300px, 260px"
                       className="pointer-events-none select-none object-cover"
                       draggable={false}
                     />
                     <span className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-                    <span className="absolute bottom-3 left-3 flex items-center gap-1.5 text-sm font-semibold">
+                    <span className="absolute bottom-2 left-2.5 flex items-center gap-1.5 text-xs font-semibold">
                       <FaMapMarkerAlt className="text-xs text-glacier" />
                       {p.title}
                     </span>
-                    <span className="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-full bg-black/45 opacity-0 transition-opacity group-hover:opacity-100">
+                    <span className="absolute right-2 top-2 grid h-6 w-6 place-items-center rounded-full bg-black/45 opacity-0 transition-opacity group-hover:opacity-100">
                       <FaSearchPlus className="text-xs" />
                     </span>
                   </motion.button>
                 </AnimatePresence>
               </div>
               {/* Progresi deri te foto tjetër */}
-              <div className="mx-4 mt-3 h-[2px] overflow-hidden rounded-full bg-white/15">
+              <div className="mx-3 mt-2 h-[2px] overflow-hidden rounded-full bg-white/15">
                 {!pause && lightbox === null && !reduce && (
                   <motion.div
                     key={i}
@@ -186,26 +186,26 @@ export default function Hero() {
                   />
                 )}
               </div>
-              <div className="flex items-center justify-between px-4 py-3">
+              <div className="flex items-center justify-between px-3 py-2">
                 <div className="flex gap-1.5">
                   <button
                     type="button"
                     onClick={prev}
                     aria-label="Projekti i mëparshëm"
-                    className="grid h-9 w-9 place-items-center rounded-md bg-white/10 transition-colors hover:bg-white/20"
+                    className="grid h-7 w-7 place-items-center rounded bg-white/10 transition-colors hover:bg-white/20"
                   >
-                    <FaChevronLeft className="text-xs" />
+                    <FaChevronLeft className="text-[10px]" />
                   </button>
                   <button
                     type="button"
                     onClick={next}
                     aria-label="Projekti tjetër"
-                    className="grid h-9 w-9 place-items-center rounded-md bg-white/10 transition-colors hover:bg-white/20"
+                    className="grid h-7 w-7 place-items-center rounded bg-white/10 transition-colors hover:bg-white/20"
                   >
-                    <FaChevronRight className="text-xs" />
+                    <FaChevronRight className="text-[10px]" />
                   </button>
                 </div>
-                <Link href="/projektet" className="text-sm font-semibold text-glacier hover:text-white">
+                <Link href="/projektet" className="text-xs font-semibold text-glacier hover:text-white">
                   Të gjitha
                 </Link>
               </div>
