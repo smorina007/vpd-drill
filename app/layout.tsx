@@ -10,6 +10,7 @@ import BackToTopButton from '@/components/BackToTopButton'
 import { OfertaProvider } from '@/app/context/OfertaContext'
 import { WeatherProvider } from '@/app/context/WeatherContext'
 import { MjeteProvider } from '@/app/context/MjeteContext'
+import KursoriShiko from '@/components/KursoriShiko'
 import LoadingScreen from '@/components/LoadingScreen'
 
 // Archivo (variabël: pesha 100–900, gjerësia 62–125%) — e ngarkuar lokalisht,
@@ -174,6 +175,7 @@ export default function RootLayout({
           <FloatingWhatsAppButton />
           <FloatingAIButton />
           <BackToTopButton />
+          <KursoriShiko />
 
           {/* Google Analytics */}
           <Script

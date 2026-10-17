@@ -1,4 +1,5 @@
 import ServiceDetail from '@/components/ServiceDetail'
+import VleresuesiCmimit from '@/components/VleresuesiCmimit'
 import { FaWater, FaRuler, FaClock } from 'react-icons/fa'
 import type { Metadata } from 'next'
 
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
 
 export default function ShpimePusePage() {
   return (
+    <>
     <ServiceDetail
       titulli="Shpime Puse Uji"
       hyrja="Specialistë në shpimin e puseve të ujit në çdo lloj terreni, me makineri të avancuara dhe staf profesional."
@@ -58,5 +60,7 @@ export default function ShpimePusePage() {
         { icon: FaWater, text: '10+ makineri të specializuara' },
       ]}
     />
+    <VleresuesiCmimit />
+    </>
   )
 }

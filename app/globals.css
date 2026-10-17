@@ -145,6 +145,10 @@
 /* Ekrani hyrës: fshihet para paint-it nëse është parë tashmë */
 .intro-done #intro-vpd { display: none !important; }
 
+/* Kursori "Shiko" mbi fotot — fsheh kursorin e zakonshëm vetëm kur është aktiv */
+.kursor-aktiv [data-kursor],
+.kursor-aktiv [data-kursor] * { cursor: none !important; }
+
 @layer utilities {
   .tabular { font-variant-numeric: tabular-nums; }
   .min-h-svh-safe { min-height: 100vh; min-height: 100svh; }

@@ -151,6 +151,7 @@ export default function Hero() {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.35 }}
+                    data-kursor="Shiko"
                     className="group absolute inset-0 cursor-zoom-in"
                     aria-label={`Hap foton: ${p.title}`}
                   >

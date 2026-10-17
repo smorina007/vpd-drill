@@ -179,7 +179,7 @@ export default function Produkte({ showHeading = true }: { showHeading?: boolean
           <ul className="grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             {teShfaqura.map((p, idx) => (
               <li key={p.id}>
-                <button type="button" onClick={() => setLightbox(idx)} className="group block w-full text-left">
+                <button type="button" data-kursor="Shiko" onClick={() => setLightbox(idx)} className="group block w-full text-left">
                   <span className="relative block aspect-square overflow-hidden rounded-lg bg-stone-2 ring-1 ring-stone-line">
                     <Image
                       src={p.image}

@@ -487,6 +487,7 @@ export default function GalleryViewer() {
             <button
               type="button"
               onClick={() => setLightbox(index)}
+              data-kursor="Shiko"
               className="group relative block aspect-[4/3] w-full overflow-hidden rounded-md bg-stone-2"
               aria-label={`Hap foton: ${foto.titulli ?? foto.alt}`}
             >

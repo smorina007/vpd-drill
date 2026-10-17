@@ -51,7 +51,7 @@ export default function Prodhimi() {
                   alt={p.name}
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                  className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.07]"
                 />
               </div>
               <h3 className="display-md mt-6">{p.name}</h3>

@@ -423,6 +423,7 @@ export default function Galeria({ showHeading = true }: { showHeading?: boolean 
                   <button
                     type="button"
                     onClick={() => setLightbox(idx)}
+                    data-kursor="Shiko"
                     className="relative block aspect-[4/3] w-full cursor-zoom-in overflow-hidden rounded-lg bg-stone-2"
                     aria-label={`Hap foton: ${p.titulli}`}
                   >

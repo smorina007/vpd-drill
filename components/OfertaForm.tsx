@@ -11,7 +11,7 @@ const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
 const EMAIL_KOMPANIE = 'info@vllezeritpaqarizi.com'
 const WHATSAPP = '38344184114'
 
-type Sherbimi = 'bunar' | 'pilota' | 'ankera' | 'muri-l' | 'gypa-betoni' | 'pllaka' | 'gypa-per-puse' | 'sajla'
+export type Sherbimi = 'bunar' | 'pilota' | 'ankera' | 'muri-l' | 'gypa-betoni' | 'pllaka' | 'gypa-per-puse' | 'sajla'
 
 const sherbimet: { id: Sherbimi; label: string }[] = [
   { id: 'bunar', label: 'Bunar (Shpim pusi)' },
@@ -69,10 +69,28 @@ const specifikimet: Record<Sherbimi, Fushe[]> = {
 
 const bosh = { emri: '', email: '', telefoni: '', lokacioni: '' }
 
-export default function OfertaForm({ burimi, compact }: { burimi: 'oferte_formular' | 'oferte_modal'; compact?: boolean }) {
-  const [klienti, setKlienti] = useState(bosh)
-  const [sherbimi, setSherbimi] = useState<Sherbimi>('bunar')
-  const [spec, setSpec] = useState<Record<string, string>>({ llojiTerrenit: TERRENET[0] })
+/** Të dhëna që mund të plotësohen paraprakisht (p.sh. nga vlerësuesi i çmimit). */
+export type OfertaPrefill = {
+  burim: string
+  sherbimi?: Sherbimi
+  lokacioni?: string
+  spec?: Record<string, string>
+}
+
+export const TERRENET_OFERTE = TERRENET
+
+export default function OfertaForm({
+  burimi,
+  compact,
+  prefill,
+}: {
+  burimi: 'oferte_formular' | 'oferte_modal'
+  compact?: boolean
+  prefill?: OfertaPrefill
+}) {
+  const [klienti, setKlienti] = useState({ ...bosh, lokacioni: prefill?.lokacioni ?? '' })
+  const [sherbimi, setSherbimi] = useState<Sherbimi>(prefill?.sherbimi ?? 'bunar')
+  const [spec, setSpec] = useState<Record<string, string>>({ llojiTerrenit: TERRENET[0], ...(prefill?.spec ?? {}) })
   const [website, setWebsite] = useState('') // honeypot
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
 
@@ -123,7 +141,7 @@ export default function OfertaForm({ burimi, compact }: { burimi: 'oferte_formul
         },
         EMAILJS_PUBLIC_KEY
       )
-      trackEvent('generate_lead', { form_name: burimi, service: sherbimi })
+      trackEvent('generate_lead', { form_name: burimi, service: sherbimi, ...(prefill ? { burim: prefill.burim } : {}) })
       setStatus('success')
       setKlienti(bosh)
       setSpec({ llojiTerrenit: TERRENET[0] })

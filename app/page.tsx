@@ -12,6 +12,8 @@ import AIAsistent from '@/components/AIAsistent'
 import CTA from '@/components/CTA'
 import Kontakt from '@/components/Kontakt'
 import DepthGauge from '@/components/DepthGauge'
+import ShpimiNeThellesi from '@/components/ShpimiNeThellesi'
+import VleresuesiCmimit from '@/components/VleresuesiCmimit'
 
 export default function Home() {
   return (
@@ -20,6 +22,8 @@ export default function Home() {
       <Hero />
       <StatistikatVizitoreve />
       <Sherbimet />
+      <ShpimiNeThellesi />
+      <VleresuesiCmimit />
       <Makinerite />
       <Prodhimi />
       <Produkte />

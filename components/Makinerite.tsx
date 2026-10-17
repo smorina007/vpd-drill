@@ -24,13 +24,13 @@ export default function Makinerite() {
         <SectionHeading tone="dark" title="Makineritë tona" lede="Flotë e pasur me makineri të specializuara për çdo lloj pune" />
 
         {/* Makineria kryesuese — Bauer MC 32 */}
-        <article className="grid overflow-hidden rounded-xl bg-bedrock ring-1 ring-white/10 lg:grid-cols-2">
-          <div className="relative min-h-[300px] sm:min-h-[420px]">
+        <article className="group grid overflow-hidden rounded-xl bg-bedrock ring-1 ring-white/10 lg:grid-cols-2">
+          <div className="relative min-h-[300px] overflow-hidden sm:min-h-[420px]">
             <Image
               src="/images/makinerite/bauer-mc32.jpg"
               alt="Bauer MC 32 — makineri gërmimi me diafragmë deri mbi 50m thellësi"
               fill
-              className="object-cover"
+              className="object-cover transition-transform duration-[1600ms] ease-out group-hover:scale-[1.07]"
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
             <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded bg-signal px-3 py-1.5 text-xs font-bold text-bedrock sm:left-6 sm:top-6">
