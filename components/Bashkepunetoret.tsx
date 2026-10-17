@@ -20,6 +20,8 @@ const bashkepunetoret = [
   { emri: 'Model Slovenia', logo: 'model-slovenia' },
   { emri: 'Delta Invest', logo: 'delta-invest' },
   { emri: 'Nord Invest', logo: 'nord-invest' },
+  { emri: 'Priinvest', logo: 'priinvest' },
+  { emri: 'EH Group', logo: 'eh-group' },
 ]
 
 function Pllaka({ b, fshehur }: { b: (typeof bashkepunetoret)[number]; fshehur?: boolean }) {
