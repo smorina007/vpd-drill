@@ -12,6 +12,7 @@ import AIAsistent from '@/components/AIAsistent'
 import CTA from '@/components/CTA'
 import Kontakt from '@/components/Kontakt'
 import DepthGauge from '@/components/DepthGauge'
+import Bashkepunetoret from '@/components/Bashkepunetoret'
 import ShpimiNeThellesi from '@/components/ShpimiNeThellesi'
 import VleresuesiCmimit from '@/components/VleresuesiCmimit'
 
@@ -29,6 +30,7 @@ export default function Home() {
       <Produkte />
       <Llogaritesit />
       <Galeria />
+      <Bashkepunetoret />
       <Vleresimet />
       <FormularOferte />
       <AIAsistent />

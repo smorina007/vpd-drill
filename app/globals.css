@@ -162,3 +162,19 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Shiriti i bashkëpunëtorëve */
+.bashkepunetoret-track {
+  animation: bashkepunetoret-leviz 70s linear infinite;
+}
+.bashkepunetoret-shirit:hover .bashkepunetoret-track,
+.bashkepunetoret-shirit:focus-within .bashkepunetoret-track {
+  animation-play-state: paused;
+}
+@keyframes bashkepunetoret-leviz {
+  to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bashkepunetoret-track { animation: none; flex-wrap: wrap; width: auto; justify-content: center; row-gap: 1rem; padding-inline: 1rem; }
+  .bashkepunetoret-track > [aria-hidden='true'] { display: none; }
+}
