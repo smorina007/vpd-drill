@@ -1,8 +1,10 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import Image from 'next/image'
+import { AnimatePresence, motion } from 'framer-motion'
 import Lightbox from './ui/Lightbox'
+import MediaTile from './ui/MediaTile'
+import { mediaTeReja, type MediaItem } from '@/lib/galeriaMedia'
 
 interface Foto {
   id: number
@@ -450,19 +452,40 @@ const fotot: Foto[] = [
   
 ]
 
-/** Galeria e plotë e fotove (hapet nga menuja "Mjete" → Galeria). */
+const TE_GJITHA = 'Të gjitha'
+const VIDEO = 'Video'
+
+const media: MediaItem[] = [
+  ...mediaTeReja,
+  ...fotot.map((f) => ({
+    id: `g${f.id}`,
+    lloji: 'foto' as const,
+    src: f.src,
+    titulli: f.titulli ?? f.alt,
+    kategoria: f.category,
+    lokacioni: f.lokacioni,
+    data: f.data,
+  })),
+]
+
+/** Galeria e plotë e fotove dhe videove (hapet nga menuja "Mjete" → Galeria). */
 export default function GalleryViewer() {
-  const [filter, setFilter] = useState('Të gjitha')
+  const [filter, setFilter] = useState(TE_GJITHA)
   const [lightbox, setLightbox] = useState<number | null>(null)
-  const categories = ['Të gjitha', ...Array.from(new Set(fotot.map((f) => f.category)))]
-  const filteredFotos = useMemo(() => (filter === 'Të gjitha' ? fotot : fotot.filter((f) => f.category === filter)), [filter])
+  const nrVideo = media.filter((m) => m.lloji === 'video').length
+  const categories = [TE_GJITHA, ...Array.from(new Set(media.map((f) => f.kategoria))), ...(nrVideo ? [VIDEO] : [])]
+  const filtered = useMemo(
+    () =>
+      filter === TE_GJITHA ? media : filter === VIDEO ? media.filter((m) => m.lloji === 'video') : media.filter((f) => f.kategoria === filter),
+    [filter],
+  )
 
   return (
     <div>
-      <p className="mb-5 text-[15px] text-slate-ink">Shfletoni të gjitha projektet tona në një galeri të bukur</p>
+      <p className="mb-5 text-[15px] text-slate-ink">Shfletoni të gjitha projektet tona — foto dhe video nga kantieri</p>
       <div className="no-scrollbar -mx-5 mb-6 flex gap-2 overflow-x-auto px-5 sm:mx-0 sm:flex-wrap sm:px-0">
         {categories.map((cat) => {
-          const count = cat === 'Të gjitha' ? fotot.length : fotot.filter((f) => f.category === cat).length
+          const count = cat === TE_GJITHA ? media.length : cat === VIDEO ? nrVideo : media.filter((f) => f.kategoria === cat).length
           const on = filter === cat
           return (
             <button
@@ -470,52 +493,65 @@ export default function GalleryViewer() {
               type="button"
               aria-pressed={on}
               onClick={() => setFilter(cat)}
-              className={`flex shrink-0 items-center gap-2 rounded-md border px-3.5 py-2 text-sm font-semibold transition-colors ${
-                on ? 'border-bedrock bg-bedrock text-white' : 'border-stone-line bg-white text-bedrock hover:border-brand'
+              className={`relative flex shrink-0 items-center gap-2 rounded-md border px-3.5 py-2 text-sm font-semibold transition-colors ${
+                on ? 'border-bedrock text-white' : 'border-stone-line bg-white text-bedrock hover:border-brand'
               }`}
             >
-              {cat}
-              <span className={`tabular text-xs ${on ? 'text-white/60' : 'text-slate-mute'}`}>{count}</span>
+              {on && (
+                <motion.span
+                  layoutId="viewer-filter"
+                  className="absolute inset-0 rounded-[5px] bg-bedrock"
+                  transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                />
+              )}
+              <span className="relative">{cat}</span>
+              <span className={`relative tabular text-xs ${on ? 'text-white/60' : 'text-slate-mute'}`}>{count}</span>
             </button>
           )
         })}
       </div>
 
-      <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-        {filteredFotos.map((foto, index) => (
-          <li key={foto.id}>
-            <button
-              type="button"
-              onClick={() => setLightbox(index)}
-              data-kursor="Shiko"
-              className="group relative block aspect-[4/3] w-full overflow-hidden rounded-md bg-stone-2"
-              aria-label={`Hap foton: ${foto.titulli ?? foto.alt}`}
+      {/* Rrjetë "masonry": fotot vertikale zënë dy rreshta */}
+      <motion.ul layout className="grid grid-flow-dense auto-rows-[120px] grid-cols-2 gap-3 sm:auto-rows-[140px] sm:grid-cols-3 lg:grid-cols-4">
+        <AnimatePresence mode="popLayout">
+          {filtered.map((m, index) => (
+            <motion.li
+              key={m.id}
+              layout
+              initial={{ opacity: 0, scale: 0.85 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.85 }}
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              className={m.vertikale ? 'row-span-2' : ''}
             >
-              <Image
-                src={foto.src}
-                alt={foto.alt}
-                fill
+              <MediaTile
+                src={m.src}
+                poster={m.poster}
+                type={m.lloji}
+                title={m.titulli}
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
-              />
-              <span className="absolute inset-0 flex items-end bg-gradient-to-t from-black/70 via-transparent to-transparent p-3 text-left opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
-                <span>
-                  <span className="block text-sm font-semibold text-white">{foto.titulli}</span>
-                  <span className="block text-xs text-white/75">
-                    {foto.data}, {foto.lokacioni}
-                  </span>
+                className="h-full"
+                fill
+                delay={(index % 4) * 0.06}
+                onOpen={() => setLightbox(index)}
+              >
+                <span className="absolute inset-x-0 bottom-0 p-3 text-left opacity-0 transition-all duration-500 group-hover:opacity-100 group-focus-visible:opacity-100">
+                  <span className="block text-sm font-semibold text-white">{m.titulli}</span>
+                  <span className="block text-xs text-white/75">{[m.kategoria, m.lokacioni, m.data].filter(Boolean).join(' · ')}</span>
                 </span>
-              </span>
-            </button>
-          </li>
-        ))}
-      </ul>
+              </MediaTile>
+            </motion.li>
+          ))}
+        </AnimatePresence>
+      </motion.ul>
 
       <Lightbox
-        items={filteredFotos.map((f) => ({
-          src: f.src,
-          title: f.titulli ?? f.alt,
-          meta: `${f.data ?? ''}${f.lokacioni ? `, ${f.lokacioni}` : ''} — ${f.category}`,
+        items={filtered.map((m) => ({
+          src: m.src,
+          type: m.lloji,
+          poster: m.poster,
+          title: m.titulli,
+          meta: [m.kategoria, m.lokacioni, m.data].filter(Boolean).join(' · '),
         }))}
         index={lightbox}
         onClose={() => setLightbox(null)}

@@ -1,12 +1,14 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import Image from 'next/image'
+import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
 import { FaArrowRight, FaFacebookF, FaTwitter, FaLinkedinIn, FaMapMarkerAlt } from 'react-icons/fa'
 import HartaProjekteve from './HartaProjekteve'
 import SectionHeading from './ui/SectionHeading'
 import Lightbox from './ui/Lightbox'
+import MediaTile from './ui/MediaTile'
+import { mediaTeReja, type MediaItem } from '@/lib/galeriaMedia'
 
 const projektet = [
   {
@@ -349,16 +351,37 @@ const projektet = [
 ]
 
 const NE_BALLINE = 6
+const TE_GJITHA = 'Të gjitha'
+const VIDEO = 'Video'
+
+// Mediat e reja (foto + video) dalin të parat; pastaj projektet ekzistuese.
+const media: MediaItem[] = [
+  ...mediaTeReja,
+  ...projektet.map((p) => ({
+    id: `p${p.id}`,
+    lloji: 'foto' as const,
+    src: p.foto,
+    titulli: p.titulli,
+    kategoria: p.kategoria,
+    lokacioni: p.lokacioni,
+    data: p.data,
+  })),
+]
 
 export default function Galeria({ showHeading = true }: { showHeading?: boolean }) {
   // Në ballinë (showHeading) tregojmë një përzgjedhje; faqja /projektet i tregon të gjitha me filtra.
   const ballina = showHeading
-  const kategorite = ['Të gjitha', ...Array.from(new Set(projektet.map((p) => p.kategoria)))]
-  const [filter, setFilter] = useState('Të gjitha')
+  const nrVideo = media.filter((m) => m.lloji === 'video').length
+  const kategorite = [TE_GJITHA, ...Array.from(new Set(media.map((p) => p.kategoria))), ...(nrVideo ? [VIDEO] : [])]
+  const [filter, setFilter] = useState(TE_GJITHA)
   const [lightbox, setLightbox] = useState<number | null>(null)
 
-  const projektetFiltruar = useMemo(() => {
-    const lista = filter === 'Të gjitha' ? projektet : projektet.filter((p) => p.kategoria === filter)
+  const numero = (kat: string) =>
+    kat === TE_GJITHA ? media.length : kat === VIDEO ? nrVideo : media.filter((p) => p.kategoria === kat).length
+
+  const filtruar = useMemo(() => {
+    const lista =
+      filter === TE_GJITHA ? media : filter === VIDEO ? media.filter((m) => m.lloji === 'video') : media.filter((p) => p.kategoria === filter)
     return ballina ? lista.slice(0, NE_BALLINE) : lista
   }, [filter, ballina])
 
@@ -398,86 +421,103 @@ export default function Galeria({ showHeading = true }: { showHeading?: boolean 
               <div className="no-scrollbar -mx-4 mb-8 flex gap-2 overflow-x-auto px-4 sm:mx-0 sm:flex-wrap sm:justify-center sm:px-0">
                 {kategorite.map((kat) => {
                   const on = filter === kat
-                  const count = kat === 'Të gjitha' ? projektet.length : projektet.filter((p) => p.kategoria === kat).length
                   return (
                     <button
                       key={kat}
                       type="button"
                       onClick={() => setFilter(kat)}
                       aria-pressed={on}
-                      className={`flex shrink-0 items-center gap-2 rounded-md border px-3.5 py-2 text-sm font-semibold transition-colors ${
-                        on ? 'border-bedrock bg-bedrock text-white' : 'border-stone-line bg-white text-bedrock hover:border-brand'
+                      className={`relative flex shrink-0 items-center gap-2 rounded-md border px-3.5 py-2 text-sm font-semibold transition-colors ${
+                        on ? 'border-bedrock text-white' : 'border-stone-line bg-white text-bedrock hover:border-brand'
                       }`}
                     >
-                      {kat}
-                      <span className={`tabular text-xs ${on ? 'text-white/60' : 'text-slate-mute'}`}>{count}</span>
+                      {on && (
+                        <motion.span
+                          layoutId="galeria-filter"
+                          className="absolute inset-0 -z-0 rounded-[5px] bg-bedrock"
+                          transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                        />
+                      )}
+                      <span className="relative">{kat}</span>
+                      <span className={`relative tabular text-xs ${on ? 'text-white/60' : 'text-slate-mute'}`}>{numero(kat)}</span>
                     </button>
                   )
                 })}
               </div>
             )}
 
-            <ul className={`grid gap-x-6 gap-y-10 sm:grid-cols-2 ${ballina ? 'xl:grid-cols-3' : 'lg:grid-cols-3'}`}>
-              {projektetFiltruar.map((p, idx) => (
-                <li key={p.id} className="group">
-                  <button
-                    type="button"
-                    onClick={() => setLightbox(idx)}
-                    data-kursor="Shiko"
-                    className="relative block aspect-[4/3] w-full cursor-zoom-in overflow-hidden rounded-lg bg-stone-2"
-                    aria-label={`Hap foton: ${p.titulli}`}
+            <motion.ul layout className={`grid gap-x-6 gap-y-10 sm:grid-cols-2 ${ballina ? 'xl:grid-cols-3' : 'lg:grid-cols-3'}`}>
+              <AnimatePresence mode="popLayout">
+                {filtruar.map((p, idx) => (
+                  <motion.li
+                    key={p.id}
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                    className="group"
                   >
-                    <Image
-                      src={p.foto}
-                      alt={p.titulli}
-                      fill
+                    <MediaTile
+                      src={p.src}
+                      poster={p.poster}
+                      type={p.lloji}
+                      title={p.titulli}
+                      badge={p.kategoria}
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                      className="aspect-[4/3]"
+                      delay={(idx % 3) * 0.08}
+                      onOpen={() => setLightbox(idx)}
                     />
-                    <span className="absolute left-3 top-3 rounded bg-bedrock/85 px-2 py-1 text-[11px] font-semibold text-white backdrop-blur">
-                      {p.kategoria}
-                    </span>
-                  </button>
-                  <div className="mt-4">
-                    <h3 className="text-[17px] font-bold leading-snug">{p.titulli}</h3>
-                    <div className="mt-1.5 flex items-center justify-between gap-3 text-sm text-slate-mute">
-                      <p className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                        <span className="flex items-center gap-1.5">
-                          <FaMapMarkerAlt className="text-xs text-brand" />
-                          {p.lokacioni}
-                        </span>
-                        <span className="tabular">{p.data}</span>
-                      </p>
-                      <div className="-mr-2 flex shrink-0 opacity-60 transition-opacity group-hover:opacity-100">
-                        {(
-                          [
-                            ['fb', FaFacebookF, 'Share on Facebook'],
-                            ['tw', FaTwitter, 'Share on Twitter'],
-                            ['in', FaLinkedinIn, 'Share on LinkedIn'],
-                          ] as const
-                        ).map(([k, Icon, label]) => (
-                          <button
-                            key={k}
-                            type="button"
-                            onClick={() => share(k, p.titulli)}
-                            aria-label={label}
-                            className="grid h-8 w-8 place-items-center rounded text-[11px] text-slate-mute transition-colors hover:bg-stone hover:text-brand"
-                          >
-                            <Icon />
-                          </button>
-                        ))}
+                    <div className="mt-4">
+                      <h3 className="text-[17px] font-bold leading-snug">{p.titulli}</h3>
+                      <div className="mt-1.5 flex items-center justify-between gap-3 text-sm text-slate-mute">
+                        <p className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                          {p.lokacioni && (
+                            <span className="flex items-center gap-1.5">
+                              <FaMapMarkerAlt className="text-xs text-brand" />
+                              {p.lokacioni}
+                            </span>
+                          )}
+                          {p.data ? <span className="tabular">{p.data}</span> : <span>{p.lloji === 'video' ? 'Video nga kantieri' : 'Foto nga kantieri'}</span>}
+                        </p>
+                        <div className="-mr-2 flex shrink-0 opacity-60 transition-opacity group-hover:opacity-100">
+                          {(
+                            [
+                              ['fb', FaFacebookF, 'Share on Facebook'],
+                              ['tw', FaTwitter, 'Share on Twitter'],
+                              ['in', FaLinkedinIn, 'Share on LinkedIn'],
+                            ] as const
+                          ).map(([k, Icon, label]) => (
+                            <button
+                              key={k}
+                              type="button"
+                              onClick={() => share(k, p.titulli)}
+                              aria-label={label}
+                              className="grid h-8 w-8 place-items-center rounded text-[11px] text-slate-mute transition-colors hover:bg-stone hover:text-brand"
+                            >
+                              <Icon />
+                            </button>
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
+                  </motion.li>
+                ))}
+              </AnimatePresence>
+            </motion.ul>
           </div>
         </div>
       </div>
 
       <Lightbox
-        items={projektetFiltruar.map((p) => ({ src: p.foto, title: p.titulli, meta: `${p.lokacioni}, ${p.data}` }))}
+        items={filtruar.map((p) => ({
+          src: p.src,
+          type: p.lloji,
+          poster: p.poster,
+          title: p.titulli,
+          meta: [p.kategoria, p.lokacioni, p.data].filter(Boolean).join(' · '),
+        }))}
         index={lightbox}
         onClose={() => setLightbox(null)}
         onIndex={setLightbox}
