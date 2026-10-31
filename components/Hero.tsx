@@ -70,8 +70,8 @@ export default function Hero() {
         <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-bedrock via-bedrock/60 to-transparent" />
       </div>
 
-      <div className="shell relative flex min-h-svh-safe flex-col pt-[calc(var(--header-h)+32px)]">
-        <div className="grid flex-1 items-center gap-10 py-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-16">
+      <div className="shell flex min-h-svh-safe flex-col pt-[calc(var(--header-h)+32px)]">
+        <div className="grid flex-1 items-center gap-10 py-8">
           {/* Titulli */}
           <div className="max-w-3xl">
             <p className="anim-fade-up mb-5 flex items-center gap-3 text-[15px] font-semibold text-glacier" style={{ animationDelay: '0.1s' }}>
@@ -114,7 +114,7 @@ export default function Hero() {
             initial={reduce ? false : { opacity: 0, y: 30, rotate: 2 }}
             animate={{ opacity: 1, y: 0, rotate: 0 }}
             transition={{ duration: 0.9, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="group relative hidden aspect-[9/16] w-[250px] overflow-hidden rounded-[26px] bg-black text-left shadow-[0_40px_80px_-30px_rgba(0,0,0,0.85)] ring-1 ring-white/20 lg:block xl:w-[270px]"
+            className="group absolute right-8 top-[max(calc(var(--header-h)+24px),calc(46%-205px))] z-10 2xl:top-[max(calc(var(--header-h)+24px),calc(46%-231px))] hidden aspect-[9/16] w-[230px] overflow-hidden rounded-[26px] bg-black text-left shadow-[0_40px_80px_-30px_rgba(0,0,0,0.85)] ring-1 ring-white/20 xl:block 2xl:right-12 2xl:w-[260px] [@media(max-height:760px)]:w-[190px]"
             aria-label="Shiko videon nga kantieri"
           >
             <video
