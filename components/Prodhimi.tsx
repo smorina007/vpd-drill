@@ -45,7 +45,7 @@ export default function Prodhimi() {
 
         {/* Baza e prodhimit — pamje nga droni */}
         <div className="relative mb-14 aspect-[16/9] overflow-hidden rounded-2xl bg-bedrock sm:aspect-[21/9]">
-          <VideoNePamje src="/videos/te-reja/fabrika.mp4" poster="/videos/te-reja/fabrika.jpg" className="h-full w-full object-cover" />
+          <VideoNePamje src="/videos/hero-fabrika.mp4" poster="/videos/hero-fabrika.jpg" className="h-full w-full object-cover" />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-bedrock/80 via-bedrock/10 to-transparent" />
           <div className="absolute bottom-0 left-0 p-5 text-white sm:p-8">
             <p className="text-xs font-semibold uppercase tracking-wider text-glacier">Pamje nga droni</p>

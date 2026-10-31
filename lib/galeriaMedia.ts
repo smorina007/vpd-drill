@@ -122,7 +122,7 @@ const vid = (id: string, t: string, kategoria: string, vertikale = true): MediaI
 
 /** Videot e dërguara më 31.10.2026 (pa zë — disa kishin muzikë TikTok). */
 const videoTeReja: MediaItem[] = [
-  vid('fabrika', 'Baza e prodhimit të VPD — pamje nga droni', KAT_PRODHIMI, false),
+  { ...vid('fabrika', 'Baza e prodhimit të VPD — pamje nga droni', KAT_PRODHIMI, false), src: '/videos/hero-fabrika.mp4', poster: '/videos/hero-fabrika.jpg' },
   vid('mur-pilotash', 'Mur pilotash pas gërmimit', KAT_DIAFRAGME),
   vid('shpim-pilotash', 'Shpimi i pilotave', KAT_PILOTA),
   vid('vinc-1', 'Montimi i shtyllës së tensionit me vinç', KAT_VINC),

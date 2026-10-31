@@ -66,7 +66,7 @@ export default function Hero() {
           aria-hidden="true"
           className="absolute inset-0 h-full w-full object-cover md:hidden"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(14,42,48,0.92)_0%,rgba(14,42,48,0.6)_45%,rgba(14,42,48,0.2)_100%)] max-md:bg-[linear-gradient(180deg,rgba(14,42,48,0.75)_0%,rgba(14,42,48,0.6)_45%,rgba(14,42,48,0.92)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(14,42,48,0.88)_0%,rgba(14,42,48,0.5)_45%,rgba(14,42,48,0.1)_100%)] max-md:bg-[linear-gradient(180deg,rgba(14,42,48,0.75)_0%,rgba(14,42,48,0.6)_45%,rgba(14,42,48,0.92)_100%)]" />
         <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-bedrock via-bedrock/60 to-transparent" />
       </div>
 
