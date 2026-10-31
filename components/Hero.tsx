@@ -14,7 +14,7 @@ import Lightbox from '@/components/ui/Lightbox'
 const projects = Array.from({ length: 29 }, (_, i) => ({
   id: i + 1,
   title: 'Projekt në Prishtinë',
-  image: `/images/projekte/p${i + 1}.jpeg`,
+  image: `/images/galeria/p${i + 1}.jpeg`,
 }))
 
 const stats = [

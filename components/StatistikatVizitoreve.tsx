@@ -5,12 +5,12 @@ import { useInView, useReducedMotion } from 'framer-motion'
 import { FaFutbol } from 'react-icons/fa'
 
 /** Shifra reale të kompanisë — me animacion numërimi kur seksioni hyn në pamje. */
-const stats = [
+const stats: { target: number; label: string; prefix?: string; suffix?: string }[] = [
   { target: 500, suffix: 'm', label: 'Thellësi në terrene të forta' },
   { target: 55, suffix: 'm', label: 'Thellësi në terrene të buta' },
   { target: 100, suffix: '+', label: 'Projekte të realizuara' },
   { target: 10, suffix: '+', label: 'Makineri shpimi moderne' },
-  { target: 90, prefix: '>', suffix: '%', label: 'Klientë të kënaqur' },
+  { target: 22, label: 'Qytete ku kemi punuar' },
 ]
 
 function useCountUp(target: number, active: boolean, duration = 1400) {

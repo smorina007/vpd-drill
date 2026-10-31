@@ -54,6 +54,14 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error'] } : false,
   },
   turbopack: {}, // Shtohet për të shmangur gabimet
+  // Linke të shkurtra për t'ua dërguar klientëve (p.sh. vpddrill.com/vleresim në WhatsApp)
+  async redirects() {
+    return [
+      { source: '/vleresim', destination: 'https://g.page/r/CV3TdYF4-rIGEBI/review', permanent: false },
+      { source: '/google', destination: 'https://g.page/r/CV3TdYF4-rIGEBI', permanent: false },
+      { source: '/facebook', destination: 'https://www.facebook.com/VllezeritPaqarizi', permanent: false },
+    ]
+  },
 }
 
 module.exports = withPWA(nextConfig)

@@ -79,10 +79,17 @@ export const metadata: Metadata = {
     apple: '/apple-touch-icon.png',
   },
   manifest: '/manifest.webmanifest',
+  // Kodi i Google Search Console: vendoseni te Vercel → Settings → Environment Variables
+  verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
+    : undefined,
   alternates: {
     canonical: 'https://vpddrill.com',
     languages: {
-      'sq-AL': 'https://vpddrill.com',
+      sq: 'https://vpddrill.com',
+      de: 'https://vpddrill.com/de',
+      en: 'https://vpddrill.com/en',
+      'x-default': 'https://vpddrill.com',
     },
   },
 }

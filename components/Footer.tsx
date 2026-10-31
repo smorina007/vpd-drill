@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaHeart, FaGoogle } from 'react-icons/fa'
+import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaGoogle } from 'react-icons/fa'
 import { trackEvent } from '@/lib/gtag'
 import { rrjetet } from './Kontakt'
 import { GOOGLE_PROFILE_URL, QYTETET_E_PUNES } from '@/lib/site'
@@ -120,18 +120,16 @@ export default function Footer() {
           </p>
         </div>
 
-        {/* Dedikim i veçantë */}
-        <div className="mt-14 border-t border-white/10 pt-10 text-center">
-          <p className="inline-flex items-center gap-2 text-xs font-semibold text-glacier">
-            <FaHeart className="text-[10px]" /> DEDIKIM I VEÇANTË <FaHeart className="text-[10px]" />
-          </p>
-          <p className="mt-3 text-lg italic text-white/85">&ldquo;Për ty, frymëzim i çdo dite.&rdquo;</p>
-          <p className="mt-2 text-sm text-white/50">Me shumë dashuri dhe mirënjohje,</p>
-        </div>
 
         <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-6 text-sm text-white/50 sm:flex-row">
           <p>&copy; {currentYear} VPD DRILL. Të gjitha të drejtat e rezervuara.</p>
           <div className="flex items-center gap-5">
+            <Link href="/de" hrefLang="de" className="transition-colors hover:text-white">
+              Deutsch
+            </Link>
+            <Link href="/en" hrefLang="en" className="transition-colors hover:text-white">
+              English
+            </Link>
             <Link href="/politika-e-privatesise" className="transition-colors hover:text-white">
               Politika e Privatësisë
             </Link>

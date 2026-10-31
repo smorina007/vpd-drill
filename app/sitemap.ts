@@ -31,6 +31,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/sherbimet/shpime-puse',
     '/pyetje-te-shpeshta',
     '/politika-e-privatesise',
+    '/de',
+    '/en',
   ]
 
   const videot = mediaTeReja
