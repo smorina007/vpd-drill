@@ -96,7 +96,7 @@ export default function ShpimiNeThellesi() {
       className={`relative bg-bedrock text-white ${reduce ? '' : 'h-[320vh]'}`}
     >
       <div className={`${reduce ? '' : 'sticky top-0 h-svh'} overflow-hidden`}>
-        <div className="shell grid h-full grid-cols-[minmax(120px,0.8fr)_minmax(0,1.2fr)] gap-6 pb-8 pt-[calc(var(--header-h)+24px)] sm:gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16 lg:pb-12">
+        <div className="shell grid h-full grid-cols-[minmax(120px,0.8fr)_minmax(0,1.2fr)] max-[420px]:grid-cols-[88px_minmax(0,1fr)] max-[420px]:gap-4 gap-6 pb-8 pt-[calc(var(--header-h)+24px)] [@media(max-height:760px)]:!pb-4 [@media(max-height:760px)]:!pt-[calc(var(--header-h)+12px)] sm:gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16 lg:pb-12">
           {/* Prerja e tokës */}
           <div className="relative flex min-h-0 flex-col">
             <div className="relative flex-1 overflow-hidden rounded-lg ring-1 ring-white/10" aria-hidden="true">
@@ -123,7 +123,7 @@ export default function ShpimiNeThellesi() {
               {shtresat.map((s) => (
                 <span
                   key={s.emri}
-                  className="absolute right-2 rounded bg-black/35 px-1.5 py-0.5 text-[10px] font-semibold text-white/85 backdrop-blur-sm sm:right-3 sm:text-xs"
+                  className="absolute right-2 rounded bg-black/35 px-1.5 py-0.5 max-[420px]:right-0.5 max-[420px]:px-1 max-[420px]:text-[8px] max-[420px]:leading-tight text-[10px] font-semibold text-white/85 backdrop-blur-sm sm:right-3 sm:text-xs"
                   style={{
                     top:
                       s.nga === 0
@@ -164,25 +164,25 @@ export default function ShpimiNeThellesi() {
                 </span>
               ))}
             </div>
-            <p className="mt-2 text-[10px] text-white/40 sm:text-xs">Shtresat e tokës janë ilustruese.</p>
+            <p className="mt-2 text-[10px] text-white/40 sm:text-xs [@media(max-height:760px)]:hidden">Shtresat e tokës janë ilustruese.</p>
           </div>
 
           {/* Teksti */}
           <div className="flex min-h-0 flex-col">
-            <h2 className="display-lg text-white">Nga sipërfaqja deri në 500 metra</h2>
-            <p className="mt-3 max-w-[48ch] text-sm text-white/65 sm:text-base">
+            <h2 className="display-lg text-white [@media(max-height:900px)]:!text-[clamp(1.5rem,3vw,2.4rem)] [@media(max-height:680px)]:!text-[1.3rem]">Nga sipërfaqja deri në 500 metra</h2>
+            <p className="mt-3 max-w-[48ch] text-sm text-white/65 sm:text-base [@media(max-height:760px)]:hidden">
               Çdo shërbim ka thellësinë e vet. {reduce ? '' : 'Bëni scroll për të zbritur.'}
             </p>
 
-            <div className="mt-6 flex flex-wrap items-end gap-x-4 gap-y-1 border-y border-white/10 py-4 sm:mt-8">
-              <p className="text-5xl font-extrabold font-xwide tabular text-white sm:text-7xl" aria-live="off">
+            <div className="mt-6 flex flex-wrap items-end gap-x-4 gap-y-1 border-y border-white/10 py-4 sm:mt-8 [@media(max-height:900px)]:!mt-3 [@media(max-height:900px)]:!py-2 [@media(max-height:680px)]:!mt-2 [@media(max-height:680px)]:!py-1">
+              <p className="text-5xl font-extrabold font-xwide tabular text-white sm:text-7xl [@media(max-height:900px)]:!text-5xl [@media(max-height:760px)]:!text-4xl [@media(max-height:680px)]:!text-3xl" aria-live="off">
                 −{thellesia}
                 <span className="ml-1 text-2xl text-glacier sm:text-3xl">m</span>
               </p>
               <p className="text-sm text-white/60 sm:pb-2">{shtresaAktive.emri}</p>
             </div>
 
-            <ol className="mt-5 grid gap-2 overflow-hidden sm:gap-3">
+            <ol className="mt-5 grid gap-2 sm:gap-3 [@media(max-height:900px)]:!mt-3 [@media(max-height:900px)]:!gap-1.5">
               {piket.map((pk) => {
                 const arritur = thellesia >= pk.d
                 return (
@@ -191,7 +191,7 @@ export default function ShpimiNeThellesi() {
                       href={pk.href}
                       className={`group flex items-center gap-3 rounded-md px-3 py-2.5 transition-all duration-500 sm:gap-4 sm:px-4 sm:py-3 ${
                         arritur ? 'bg-white/[0.07] opacity-100' : 'translate-x-2 opacity-30'
-                      }`}
+                      } [@media(max-height:900px)]:!py-1.5 [@media(max-height:760px)]:!py-1`}
                     >
                       <span
                         className={`w-14 shrink-0 text-right text-sm font-extrabold font-wide tabular sm:w-16 sm:text-base ${
@@ -202,7 +202,7 @@ export default function ShpimiNeThellesi() {
                       </span>
                       <span className="min-w-0 flex-1">
                         <span className="block text-sm font-bold text-white sm:text-[15px]">{pk.titulli}</span>
-                        <span className="hidden text-xs text-white/60 sm:block sm:text-[13px]">{pk.tekst}</span>
+                        <span className="hidden text-xs text-white/60 sm:block sm:text-[13px] [@media(max-height:900px)]:!hidden">{pk.tekst}</span>
                       </span>
                       <FaArrowRight className="shrink-0 text-xs text-white/40 transition-transform group-hover:translate-x-1 group-hover:text-white" />
                     </Link>
