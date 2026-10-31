@@ -8,7 +8,7 @@ import { FaFutbol } from 'react-icons/fa'
 const stats = [
   { target: 500, suffix: 'm', label: 'Thellësi në terrene të forta' },
   { target: 55, suffix: 'm', label: 'Thellësi në terrene të buta' },
-  { target: 42, suffix: '+', label: 'Projekte të realizuara' },
+  { target: 100, suffix: '+', label: 'Projekte të realizuara' },
   { target: 10, suffix: '+', label: 'Makineri shpimi moderne' },
   { target: 90, prefix: '>', suffix: '%', label: 'Klientë të kënaqur' },
 ]
