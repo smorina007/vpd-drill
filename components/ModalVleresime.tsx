@@ -71,7 +71,7 @@ export default function ModalVleresime({ isOpen, onClose }: ModalProps) {
         <div className="space-y-3 py-6 text-center" role="status">
           <FaCheckCircle className="mx-auto text-5xl text-brand" />
           <p className="font-bold text-bedrock">Faleminderit për vlerësimin tuaj!</p>
-          <p className="text-sm text-slate-mute">E kemi marrë dhe do ta shqyrtojmë përpara se ta publikojmë.</p>
+          <p className="text-sm text-slate-mute">E kemi marrë dhe e lexojmë me vëmendje.</p>
           <p className="pt-2 text-sm text-slate-ink">Na ndihmoni edhe më shumë — lini të njëjtin vlerësim në Google:</p>
           <a href={GOOGLE_REVIEW_URL} target="_blank" rel="noopener noreferrer" className="btn-brand mx-auto px-6">
             <FaGoogle /> Vlerëso në Google

@@ -124,6 +124,14 @@ export default function RootLayout({
               telephone: ['+38344184114', '+38344204877', '+38345700201'],
               email: 'info@vllezeritpaqarizi.com',
               hasMap: GOOGLE_PROFILE_URL,
+              openingHoursSpecification: [
+                {
+                  '@type': 'OpeningHoursSpecification',
+                  dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+                  opens: '07:00',
+                  closes: '19:00',
+                },
+              ],
               address: {
                 '@type': 'PostalAddress',
                 streetAddress: 'Fsh Dragobil',
@@ -139,9 +147,6 @@ export default function RootLayout({
               sameAs: [
                 GOOGLE_PROFILE_URL,
                 FACEBOOK_URL,
-                'https://instagram.com/vpddrill',
-                'https://linkedin.com/company/vpddrill',
-                'https://youtube.com/@vpddrill',
               ],
               hasOfferCatalog: {
                 '@type': 'OfferCatalog',

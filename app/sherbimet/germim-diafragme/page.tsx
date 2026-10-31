@@ -25,7 +25,7 @@ export default function GermimDiafragmePage() {
       paragrafi="Muri me diafragmë është një strukturë nëntokësore e ndërtuar duke gërmuar një kanal të ngushtë dhe të thellë, i cili mbushet me beton dhe armaturë. Kjo teknikë përdoret për të krijuar mure mbajtëse, themele të thella dhe struktura nëntokësore."
       listaTitulli="Avantazhet e metodës"
       lista={[
-        { icon: FaHammer, titulli: 'Thellësi deri 30m', pershkrimi: 'Mund të arrijmë thellësi të mëdha për projekte që kërkojnë themele të forta.' },
+        { icon: FaHammer, titulli: 'Thellësi deri 50m', pershkrimi: 'Me makinën Bauer MC 32 arrijmë thellësi mbi 50m për projekte që kërkojnë themele të forta.' },
         { icon: FaRuler, titulli: 'Precizion i lartë', pershkrimi: 'Përdorim makineri dhe teknologji efikase dhe staf me pervojë në këtë fushë.' },
         { icon: FaWater, titulli: 'Stabilizim me bentonit', pershkrimi: 'Gjatë gërmimit, përdorim llucë bentoniti për të parandaluar shembjen e mureve të kanalit.' },
         { icon: FaHardHat, titulli: 'Për çdo lloj terreni', pershkrimi: 'Metoda përshtatet për terrene të forta, të buta dhe në prani të ujërave nëntokësore.' },

@@ -1,132 +1,94 @@
 'use client'
 
-import { FaStar, FaQuoteLeft, FaGoogle, FaFacebookF } from 'react-icons/fa'
-import { FACEBOOK_URL, GOOGLE_REVIEW_URL } from '@/lib/site'
-import { trackEvent } from '@/lib/gtag'
+import { FaGoogle, FaFacebookF, FaExternalLinkAlt, FaPen } from 'react-icons/fa'
 import { useMjete } from '@/app/context/MjeteContext'
 import SectionHeading from './ui/SectionHeading'
+import { FACEBOOK_URL, GOOGLE_PROFILE_URL, GOOGLE_REVIEW_URL } from '@/lib/site'
+import { trackEvent } from '@/lib/gtag'
 
-const vleresimet = [
-  {
-    id: 1,
-    emri: 'Besim Krasniqi',
-    roli: 'Kontraktues, Malisheve',
-    vleresimi: 5,
-    data: '15.02.2026',
-    komenti: 'Punë profesionale dhe në kohë. Pilotat e vendosur për objektin tim janë të shkëlqyeshëm. E rekomandoj patjetër!',
-  },
-  {
-    id: 2,
-    emri: 'Valon Berisha',
-    roli: 'Inxhinier Ndërtimi',
-    vleresimi: 5,
-    data: '10.02.2026',
-    komenti: 'Bashkëpunim i shkëlqyer për shpimin e pusit. Makineritë moderne dhe ekipi profesional bënë diferencën.',
-  },
-  {
-    id: 3,
-    emri: 'Lumni Gashi',
-    roli: 'Investitor',
-    vleresimi: 4.5,
-    data: '05.02.2026',
-    komenti: 'Muri L i porositur ishte cilësor dhe montimi i shpejtë. Çmimet konkurruese.',
-  },
-  {
-    id: 4,
-    emri: 'Artan Hoxha',
-    roli: 'Arkitekt',
-    vleresimi: 5,
-    data: '28.01.2026',
-    komenti: 'Profesionalizëm në çdo detaj. Llogaritjet e sakta dhe ekzekutimi perfekt për projektin tonë.',
-  },
-]
-
-/** Yjet me mbushje të pjesshme (p.sh. 4.9 → 4 yje + 90% e të pestit). */
-function Yjet({ vlera, size = 'text-sm' }: { vlera: number; size?: string }) {
-  return (
-    <span className={`inline-flex gap-0.5 ${size}`} aria-label={`${vlera} nga 5 yje`}>
-      {[0, 1, 2, 3, 4].map((i) => {
-        const mbushja = Math.max(0, Math.min(1, vlera - i))
-        return (
-          <span key={i} className="relative inline-block">
-            <FaStar className="text-stone-line" />
-            <span className="absolute inset-0 overflow-hidden" style={{ width: `${mbushja * 100}%` }}>
-              <FaStar className="text-signal" />
-            </span>
-          </span>
-        )
-      })}
-    </span>
-  )
-}
-
+/**
+ * Vlerësimet e klientëve. Nuk shfaqim vlerësime të shkruara në kod —
+ * vlerësimet reale jetojnë në profilin e biznesit në Google dhe në Facebook,
+ * prandaj seksioni i dërgon vizitorët atje për t'i lexuar dhe për të lënë një.
+ */
 export default function Vleresimet() {
   const { hap } = useMjete()
-  const total = vleresimet.length
-  const mesatarja = (vleresimet.reduce((a, v) => a + v.vleresimi, 0) / total).toFixed(1)
 
   return (
     <section id="vleresimet" data-shtresa="Vlerësimet" className="bg-stone py-20 sm:py-28">
       <div className="shell">
         <SectionHeading
           title="Vlerësimet e Klientëve"
-          lede="Çfarë thonë klientët tanë për punën tonë"
-          action={
-            <div className="flex items-center gap-6">
-              <div>
-                <p className="text-4xl font-extrabold font-xwide tabular text-bedrock">{mesatarja}</p>
-                <Yjet vlera={parseFloat(mesatarja)} />
-                <p className="mt-1 text-xs text-slate-mute">Vlerësim mesatar</p>
-              </div>
-              <div className="h-14 w-px bg-stone-line" />
-              <div>
-                <p className="text-4xl font-extrabold font-xwide tabular text-bedrock">{total}</p>
-                <p className="mt-1 text-xs text-slate-mute">Vlerësime totale</p>
-              </div>
-            </div>
-          }
+          lede="Lexoni çfarë thonë klientët tanë realë — ose ndani përvojën tuaj me VPD DRILL"
         />
 
-        <div className="grid gap-px overflow-hidden rounded-xl bg-stone-line ring-1 ring-stone-line md:grid-cols-2">
-          {vleresimet.map((v) => (
-            <figure key={v.id} className="flex flex-col bg-white p-6 sm:p-8">
-              <FaQuoteLeft className="text-2xl text-brand/25" />
-              <blockquote className="mt-4 flex-1 text-[17px] leading-relaxed text-bedrock">{v.komenti}</blockquote>
-              <figcaption className="mt-6 flex items-end justify-between gap-4 border-t border-stone-line pt-4">
-                <div>
-                  <p className="font-bold text-bedrock">{v.emri}</p>
-                  <p className="text-sm text-slate-mute">{v.roli}</p>
-                </div>
-                <div className="text-right">
-                  <Yjet vlera={v.vleresimi} />
-                  <p className="mt-1 text-xs tabular text-slate-mute">{v.data}</p>
-                </div>
-              </figcaption>
-            </figure>
-          ))}
-        </div>
+        <div className="grid gap-5 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
+          {/* Google */}
+          <div className="relative overflow-hidden rounded-xl bg-white p-7 ring-1 ring-stone-line sm:p-10">
+            <div className="flex items-center gap-4">
+              <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-stone text-2xl text-brand">
+                <FaGoogle />
+              </span>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wider text-slate-mute">Profili i biznesit në Google</p>
+                <p className="text-2xl font-extrabold text-bedrock">VPD DRILL</p>
+              </div>
+            </div>
+            <p className="mt-6 max-w-[52ch] text-[17px] leading-relaxed text-slate-ink">
+              Vlerësimet e klientëve tanë janë publike në Google Maps. Nëse keni punuar me ne, një vlerësim i juaji ndihmon
+              klientët e tjerë të na gjejnë dhe të zgjedhin me besim.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a
+                href={GOOGLE_REVIEW_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackEvent('click_google_review', { location: 'vleresimet' })}
+                className="btn-brand px-7"
+              >
+                <FaPen className="text-sm" /> Na vlerësoni në Google
+              </a>
+              <a
+                href={GOOGLE_PROFILE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackEvent('click_google_profile', { location: 'vleresimet' })}
+                className="btn-ghost px-6"
+              >
+                Lexoni vlerësimet <FaExternalLinkAlt className="text-xs" />
+              </a>
+            </div>
+          </div>
 
-        <div className="mt-10 flex flex-wrap items-center gap-3">
-          <a
-            href={GOOGLE_REVIEW_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => trackEvent('click_google_review', { location: 'vleresimet' })}
-            className="btn-brand px-7"
-          >
-            <FaGoogle /> Na vlerësoni në Google
-          </a>
-          <a
-            href={FACEBOOK_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-ghost px-6"
-          >
-            <FaFacebookF /> Na ndiqni në Facebook
-          </a>
-          <button type="button" onClick={() => hap('vleresime')} className="btn-ghost px-6">
-            Lini një vlerësim këtu
-          </button>
+          <div className="grid gap-5">
+            {/* Facebook */}
+            <a
+              href={FACEBOOK_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackEvent('click_facebook', { location: 'vleresimet' })}
+              className="group flex items-center gap-5 rounded-xl bg-bedrock p-7 text-white transition-colors hover:bg-bedrock-2"
+            >
+              <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-white/10 text-xl transition-colors group-hover:bg-brand">
+                <FaFacebookF />
+              </span>
+              <span>
+                <span className="block text-lg font-bold">Na ndiqni në Facebook</span>
+                <span className="mt-1 block text-sm text-white/65">Foto dhe video nga punimet tona më të fundit</span>
+              </span>
+            </a>
+
+            {/* Vlerësim në faqe */}
+            <div className="flex flex-col justify-between rounded-xl bg-white p-7 ring-1 ring-stone-line">
+              <div>
+                <p className="text-lg font-bold text-bedrock">Preferoni të na shkruani direkt?</p>
+                <p className="mt-1 text-sm text-slate-mute">Na dërgoni mendimin tuaj këtu — e lexojmë çdo mesazh.</p>
+              </div>
+              <button type="button" onClick={() => hap('vleresime')} className="btn-ghost mt-5 self-start px-6">
+                Lini një vlerësim këtu
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>

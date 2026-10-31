@@ -2,7 +2,7 @@
 
 import { FormEvent, useRef, useState } from 'react'
 import emailjs from '@emailjs/browser'
-import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaClock, FaFacebookF, FaInstagram, FaLinkedinIn, FaYoutube, FaGoogle, FaCheckCircle, FaExclamationTriangle, FaSpinner } from 'react-icons/fa'
+import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaClock, FaFacebookF, FaGoogle, FaCheckCircle, FaExclamationTriangle, FaSpinner } from 'react-icons/fa'
 import { trackEvent } from '@/lib/gtag'
 import { FACEBOOK_URL, GOOGLE_PROFILE_URL } from '@/lib/site'
 
@@ -19,9 +19,6 @@ const telefonat = [
 export const rrjetet = [
   { href: GOOGLE_PROFILE_URL, label: 'Google', icon: FaGoogle },
   { href: FACEBOOK_URL, label: 'Facebook', icon: FaFacebookF },
-  { href: 'https://instagram.com/vpddrill', label: 'Instagram', icon: FaInstagram },
-  { href: 'https://linkedin.com/company/vpddrill', label: 'LinkedIn', icon: FaLinkedinIn },
-  { href: 'https://youtube.com/@vpddrill', label: 'YouTube', icon: FaYoutube },
 ]
 
 /**
@@ -118,7 +115,7 @@ export default function Kontakt({ faqe = false }: { faqe?: boolean }) {
             </dl>
 
             <div className="mt-8">
-              <h3 className="mb-4 text-base font-bold">Na ndiqni në rrjete sociale</h3>
+              <h3 className="mb-4 text-base font-bold">Na gjeni në Google dhe Facebook</h3>
               <div className="flex gap-2">
                 {rrjetet.map((r) => (
                   <a
