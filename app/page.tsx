@@ -14,6 +14,7 @@ import CTA from '@/components/CTA'
 import Kontakt from '@/components/Kontakt'
 import DepthGauge from '@/components/DepthGauge'
 import Bashkepunetoret from '@/components/Bashkepunetoret'
+import GrupiVPD from '@/components/GrupiVPD'
 import ShpimiNeThellesi from '@/components/ShpimiNeThellesi'
 import VleresuesiCmimit from '@/components/VleresuesiCmimit'
 
@@ -33,6 +34,7 @@ export default function Home() {
       <Llogaritesit />
       <Galeria />
       <Bashkepunetoret />
+      <GrupiVPD />
       <Vleresimet />
       <FormularOferte />
       <AIAsistent />

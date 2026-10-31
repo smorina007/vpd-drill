@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { FaArrowRight, FaCheckCircle, FaRuler, FaClock } from 'react-icons/fa'
 import SectionHeading from './ui/SectionHeading'
+import VideoNePamje from './ui/VideoNePamje'
 
 const produktet = [
   {
@@ -41,6 +42,16 @@ export default function Prodhimi() {
     <section id="prodhimi" data-shtresa="Prodhimi" className="bg-white py-20 sm:py-28">
       <div className="shell">
         <SectionHeading title="Prodhimi Betoni" lede="Prodhim i elementeve të betonit me cilësi të lartë për çdo lloj projekti" />
+
+        {/* Baza e prodhimit — pamje nga droni */}
+        <div className="relative mb-14 aspect-[16/9] overflow-hidden rounded-2xl bg-bedrock sm:aspect-[21/9]">
+          <VideoNePamje src="/videos/te-reja/fabrika.mp4" poster="/videos/te-reja/fabrika.jpg" className="h-full w-full object-cover" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-bedrock/80 via-bedrock/10 to-transparent" />
+          <div className="absolute bottom-0 left-0 p-5 text-white sm:p-8">
+            <p className="text-xs font-semibold uppercase tracking-wider text-glacier">Pamje nga droni</p>
+            <p className="mt-1 text-xl font-bold sm:text-2xl">Baza jonë e prodhimit — gypa, mure L dhe pllaka betoni</p>
+          </div>
+        </div>
 
         <div className="grid gap-x-8 gap-y-12 md:grid-cols-3">
           {produktet.map((p) => (

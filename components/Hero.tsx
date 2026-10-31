@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { motion, useReducedMotion } from 'framer-motion'
 import { FaArrowDown, FaPlay, FaVolumeMute } from 'react-icons/fa'
 import { useOferta } from '@/app/context/OfertaContext'
@@ -33,30 +32,29 @@ export default function Hero() {
   const reduce = useReducedMotion()
   const bgRef = useRef<HTMLVideoElement>(null)
   const cardRef = useRef<HTMLVideoElement>(null)
+  const deskRef = useRef<HTMLVideoElement>(null)
   const [hapur, setHapur] = useState<number | null>(null)
 
   useAutoplay(bgRef, !reduce)
   useAutoplay(cardRef, !reduce)
+  useAutoplay(deskRef, !reduce)
 
   return (
     <section id="ballina" data-shtresa="Sipërfaqja" className="relative isolate overflow-hidden bg-bedrock text-white">
-      {/* Sfondi: foto në desktop, video portret në celular */}
+      {/* Sfondi: video me dron në desktop, video portret në celular */}
       <div className="absolute inset-0 -z-10">
-        <motion.div
-          className="absolute inset-0 hidden md:block"
-          initial={reduce ? false : { scale: 1.08 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 2.4, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <Image
-            src="/images/hero/casagrande.jpg"
-            alt="VPD DRILL - Makineri Casagrande në punë"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-center"
-          />
-        </motion.div>
+        {/* Desktop: video me dron e bazës së prodhimit */}
+        <video
+          ref={deskRef}
+          src="/videos/hero-fabrika.mp4"
+          poster="/videos/hero-fabrika.jpg"
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          aria-hidden="true"
+          className="absolute inset-0 hidden h-full w-full object-cover md:block"
+        />
         <video
           ref={bgRef}
           src={`${REEL}.mp4`}

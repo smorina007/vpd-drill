@@ -77,6 +77,26 @@ const fotoMuriL: MediaItem[] = [
   { n: 4, t: 'Lulishte me mure L' },
   { n: 5, t: 'Mure L dhe pllaka betoni' },
   { n: 6, t: 'Mure L përgjatë parkingut' },
+  { n: 7, t: 'Mure L rreth tarracës së shtëpisë' },
+  { n: 8, t: 'Oborr i rregulluar me mure L' },
+  { n: 9, t: 'Transporti i mureve L me kamion' },
+  { n: 10, v: true, t: 'Mure L gati për shkarkim' },
+  { n: 11, v: true, t: 'Montimi i mureve L në kanal' },
+  { n: 12, v: true, t: 'Mure L të montuara përgjatë parcelës' },
+  { n: 13, v: true, t: 'Montimi i elementeve me vinç' },
+  { n: 14, v: true, t: 'Mur mbajtës nga elemente L' },
+  { n: 15, v: true, t: 'Fiksimi i elementeve gjatë montimit' },
+  { n: 16, t: 'Transporti i mureve L' },
+  { n: 17, t: 'Kamion me mure L drejt kantierit' },
+  { n: 18, t: 'Mure L të ngarkuara për transport' },
+  { n: 19, t: 'Tarracë me mure L dhe pllaka' },
+  { n: 20, t: 'Ngarkimi i mureve L dhe gypave' },
+  { n: 21, t: 'Mure L të ngarkuara në bazë' },
+  { n: 22, t: 'Mur mbajtës rreth oborrit' },
+  { n: 23, t: 'Mure L dhe shkallë betoni' },
+  { n: 24, t: 'Sheshi i shtruar me mure L anash' },
+  { n: 25, t: 'Rregullim oborri me mure L' },
+  { n: 26, t: 'Mure L para pikës VPD OIL' },
 ].map(({ n, v, t }) => ({
   id: `m${n}`,
   lloji: 'foto' as const,
@@ -86,11 +106,53 @@ const fotoMuriL: MediaItem[] = [
   vertikale: !!v,
 }))
 
+export const KAT_PILOTA = 'Pilota dhe ankera'
+export const KAT_PRODHIMI = 'Prodhimi'
+export const KAT_VINC = 'Vinça & Montime'
+
+const vid = (id: string, t: string, kategoria: string, vertikale = true): MediaItem => ({
+  id,
+  lloji: 'video',
+  src: `/videos/te-reja/${id}.mp4`,
+  poster: `/videos/te-reja/${id}.jpg`,
+  titulli: t,
+  kategoria,
+  vertikale,
+})
+
+/** Videot e dërguara më 31.10.2026 (pa zë — disa kishin muzikë TikTok). */
+const videoTeReja: MediaItem[] = [
+  vid('fabrika', 'Baza e prodhimit të VPD — pamje nga droni', KAT_PRODHIMI, false),
+  vid('mur-pilotash', 'Mur pilotash pas gërmimit', KAT_DIAFRAGME),
+  vid('shpim-pilotash', 'Shpimi i pilotave', KAT_PILOTA),
+  vid('vinc-1', 'Montimi i shtyllës së tensionit me vinç', KAT_VINC),
+  vid('armatura', 'Prodhimi dhe saldimi i kafazëve të armaturës', KAT_PRODHIMI),
+  vid('gropa', 'Gropë themeli e përfunduar', KAT_DIAFRAGME),
+  vid('makinat-shpimit', 'Disa makina shpimi në një kantier', KAT_PILOTA),
+  vid('sajla', 'Prodhimi i sajlave', KAT_PRODHIMI),
+  vid('vinc-2', 'Ngritja e shtyllës së tensionit', KAT_VINC),
+  vid('kantieri-mbremje', 'Makinat e shpimit në kantier', KAT_PILOTA),
+]
+
+const fotoVinc: MediaItem[] = [
+  { n: 1, t: 'Vinç dhe makinë shpimi në kantier' },
+  { n: 2, t: 'Vinçi në punë pranë objekteve' },
+  { n: 3, t: 'Montim me vinç në terren' },
+].map(({ n, t }) => ({
+  id: `k${n}`,
+  lloji: 'foto' as const,
+  src: `/images/galeria/vinc/k${n}.jpg`,
+  titulli: t,
+  kategoria: KAT_VINC,
+  vertikale: true,
+}))
+
 /** Të gjitha mediat e reja — videot e para, pastaj fotot. */
 export const mediaTeReja: MediaItem[] = [
   // ndërthurim video/foto që rrjeta të duket e gjallë
+  ...interleave(videoTeReja, [...fotoMuriL.slice(6), ...fotoVinc]),
   ...interleave(videoDiafragme, fotoDiafragme),
-  ...fotoMuriL,
+  ...fotoMuriL.slice(0, 6),
 ]
 
 function interleave<T>(a: T[], b: T[]): T[] {
