@@ -2,6 +2,7 @@ import ServiceDetail from '@/components/ServiceDetail'
 import HapMjetButton from '@/components/HapMjetButton'
 import { FaBuilding, FaRuler, FaWeightHanging, FaHardHat, FaCalculator } from 'react-icons/fa'
 import type { Metadata } from 'next'
+import GaleriaSherbimit from '@/components/GaleriaSherbimit'
 
 export const metadata: Metadata = {
   title: 'Pilota për Objekte — Themele të Sigurta me Metodën CFA',
@@ -18,6 +19,7 @@ export const metadata: Metadata = {
 
 export default function PilotaPage() {
   return (
+    <>
     <ServiceDetail
       titulli="Pilota për Objekte"
       hyrja="Themele të sigurta me pilota të thellë për çdo lloj objekti, nga ndërtesat individuale deri te komplekset industriale."
@@ -60,5 +62,7 @@ export default function PilotaPage() {
         </HapMjetButton>
       }
     />
+    <GaleriaSherbimit titulli="Pilota në kantier" kategorite={['Pilota dhe ankera', 'Shpime']} fjaleKyce={['pilot']} />
+    </>
   )
 }

@@ -81,6 +81,16 @@ export default function Prodhimi() {
             </article>
           ))}
         </div>
+
+        <div className="mt-14 flex flex-col items-start justify-between gap-4 rounded-xl bg-stone p-6 sm:flex-row sm:items-center sm:p-8">
+          <div>
+            <p className="text-lg font-bold text-bedrock">Katalogu i plotë i produkteve</p>
+            <p className="mt-1 text-sm text-slate-mute">Gypa për puse, gypa betoni, kosha armature, sajla, mure L, pllaka dhe më shumë.</p>
+          </div>
+          <Link href="/produktet" className="btn-brand shrink-0 px-6">
+            Shiko katalogun <FaArrowRight className="text-xs" />
+          </Link>
+        </div>
       </div>
     </section>
   )

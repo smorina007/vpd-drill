@@ -1,6 +1,7 @@
 import ServiceDetail, { ListeHapash } from '@/components/ServiceDetail'
 import { FaAnchor, FaMountain, FaHardHat, FaShieldAlt } from 'react-icons/fa'
 import type { Metadata } from 'next'
+import GaleriaSherbimit from '@/components/GaleriaSherbimit'
 
 export const metadata: Metadata = {
   title: 'Ankera dhe Stabilizim Shpatesh — Siguri Ndërtimore',
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
 
 export default function AnkeraPage() {
   return (
+    <>
     <ServiceDetail
       titulli="Ankera dhe Stabilizim"
       hyrja="Mbrojtje dhe stabilizim i themeleve dhe shpateve me ankera të tensionuar. Zgjidhje inxhinierike për terrene problematike."
@@ -53,5 +55,7 @@ export default function AnkeraPage() {
         { icon: FaShieldAlt, text: 'Jetëgjatësi: mbi 50 vjet' },
       ]}
     />
+    <GaleriaSherbimit titulli="Ankerim dhe stabilizim në kantier" kategorite={['Pilota dhe ankera']} fjaleKyce={['anker', 'mur pilotash', 'muri mbajtës', 'gropë', 'gropa']} />
+    </>
   )
 }

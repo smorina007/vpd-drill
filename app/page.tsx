@@ -1,43 +1,38 @@
 import Hero from '@/components/Hero'
-import StatistikatVizitoreve from '@/components/StatistikatVizitoreve'
 import Sherbimet from '@/components/Sherbimet'
 import SiPunojme from '@/components/SiPunojme'
+import ShpimiNeThellesi from '@/components/ShpimiNeThellesi'
+import VleresuesiCmimit from '@/components/VleresuesiCmimit'
 import Makinerite from '@/components/Makinerite'
 import Prodhimi from '@/components/Prodhimi'
-import Produkte from '@/components/Produkte'
-import Llogaritesit from '@/components/Llogaritesit'
 import Galeria from '@/components/Galeria'
+import GrupiVPD from '@/components/GrupiVPD'
 import Vleresimet from '@/components/Vleresimet'
-import FormularOferte from '@/components/FormularOferte'
-import AIAsistent from '@/components/AIAsistent'
+import Bashkepunetoret from '@/components/Bashkepunetoret'
 import CTA from '@/components/CTA'
 import Kontakt from '@/components/Kontakt'
 import DepthGauge from '@/components/DepthGauge'
-import Bashkepunetoret from '@/components/Bashkepunetoret'
-import GrupiVPD from '@/components/GrupiVPD'
-import ShpimiNeThellesi from '@/components/ShpimiNeThellesi'
-import VleresuesiCmimit from '@/components/VleresuesiCmimit'
 
+/**
+ * Ballina — e përmbledhur: çdo seksion ka një qëllim të vetëm.
+ * (Shifrat janë në hyrje; katalogu i plotë është te /produktet; llogaritësit hapen nga
+ * "Sa kushton pusi im?" ose menuja "Mjete"; oferta dhe asistenti AI nga butonat lart dhe poshtë.)
+ */
 export default function Home() {
   return (
     <>
       <DepthGauge />
       <Hero />
-      <StatistikatVizitoreve />
       <Sherbimet />
       <SiPunojme />
       <ShpimiNeThellesi />
       <VleresuesiCmimit />
       <Makinerite />
       <Prodhimi />
-      <Produkte />
-      <Llogaritesit />
       <Galeria />
-      <Bashkepunetoret />
       <GrupiVPD />
       <Vleresimet />
-      <FormularOferte />
-      <AIAsistent />
+      <Bashkepunetoret />
       <CTA />
       <Kontakt />
     </>

@@ -1,6 +1,7 @@
 import ServiceDetail, { ListeThjeshte } from '@/components/ServiceDetail'
 import { FaHammer, FaRuler, FaWater, FaHardHat } from 'react-icons/fa'
 import type { Metadata } from 'next'
+import GaleriaSherbimit from '@/components/GaleriaSherbimit'
 import SiPunojme from '@/components/SiPunojme'
 
 export const metadata: Metadata = {
@@ -54,6 +55,7 @@ export default function GermimDiafragmePage() {
         { icon: FaHammer, text: 'Makineri të specializuara' },
       ]}
     />
+    <GaleriaSherbimit titulli="Gërmime me diafragmë në kantier" kategorite={['Gërmim Diafragmë']} />
     <SiPunojme />
     </>
   )

@@ -1,5 +1,16 @@
 'use client'
 
+import type { ComponentType } from 'react'
+import { useMjete, type Mjet } from '@/app/context/MjeteContext'
+import { FaLayerGroup as LlFaLayer, FaColumns as LlFaColumns, FaDraftingCompass as LlFaCompass, FaWater as LlFaWater } from 'react-icons/fa'
+
+const LLOGARITESIT: { id: Mjet; emri: string; icon: ComponentType<{ className?: string }> }[] = [
+  { id: 'muriL', emri: 'Muri L', icon: LlFaLayer },
+  { id: 'pilota', emri: 'Pilota', icon: LlFaColumns },
+  { id: 'konstruksion', emri: 'Armatura e pilotave', icon: LlFaCompass },
+  { id: 'uji', emri: 'Uji në pus', icon: LlFaWater },
+]
+
 import { useMemo, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { FaArrowLeft, FaArrowRight, FaCheck, FaMapMarkerAlt, FaMountain, FaRulerVertical, FaWhatsapp } from 'react-icons/fa'
@@ -34,6 +45,7 @@ const HAPAT = [
  */
 export default function VleresuesiCmimit() {
   const { openOferta } = useOferta()
+  const { hap } = useMjete()
   const [hapi, setHapi] = useState(0)
   const [lokacioni, setLokacioni] = useState('')
   const [terreni, setTerreni] = useState<Terreni | null>(null)
@@ -112,6 +124,24 @@ export default function VleresuesiCmimit() {
               )
             })}
           </ol>
+
+          {/* Llogaritësit e tjerë (hapen në dritare) — zëvendësojnë seksionin e veçantë në ballinë */}
+          <div className="mt-10 rounded-xl bg-stone p-5">
+            <p className="text-sm font-bold text-bedrock">Më shumë llogaritës falas, me simulim 3D</p>
+            <div className="mt-3 grid grid-cols-2 gap-2">
+              {LLOGARITESIT.map((l) => (
+                <button
+                  key={l.id}
+                  type="button"
+                  onClick={() => hap(l.id)}
+                  className="flex items-center gap-2 rounded-lg bg-white px-3 py-2.5 text-left text-sm font-semibold text-bedrock ring-1 ring-stone-line transition-colors hover:ring-brand"
+                >
+                  <l.icon className="shrink-0 text-brand" />
+                  {l.emri}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
 
         <div className="min-w-0 rounded-xl bg-stone p-5 ring-1 ring-stone-line sm:p-8">
