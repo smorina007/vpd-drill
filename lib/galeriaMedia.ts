@@ -164,3 +164,19 @@ export const projektet: Projekt[] = [
   { id: 47, data: '30.01.2026', titulli: 'Pilota', kategoria: 'Shpime', lokacioni: 'Prishtinë', foto: '/images/galeria/G19.jpeg' },
   { id: 48, data: '30.01.2026', titulli: 'Pilota', kategoria: 'Shpime', lokacioni: 'Prishtinë', foto: '/images/galeria/G20.jpeg' },
 ]
+
+/** Të gjitha mediat e galerisë (të rejat + projektet), me id unike për linke të shpërndashme. */
+export const teGjithaMediat: MediaItem[] = [
+  ...mediaTeReja,
+  ...projektet.map((p) => ({
+    id: `p${p.id}`,
+    lloji: 'foto' as const,
+    src: p.foto,
+    titulli: p.titulli,
+    kategoria: p.kategoria,
+    lokacioni: p.lokacioni,
+    data: p.data,
+  })),
+]
+
+export const linkuIMedias = (id: string) => `https://vpddrill.com/projektet/${id}`

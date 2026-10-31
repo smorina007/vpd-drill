@@ -4,23 +4,12 @@ import { useMemo, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import Lightbox from './ui/Lightbox'
 import MediaTile from './ui/MediaTile'
-import { mediaTeReja, projektet, type MediaItem } from '@/lib/galeriaMedia'
+import { teGjithaMediat, linkuIMedias, type MediaItem } from '@/lib/galeriaMedia'
 
 const TE_GJITHA = 'Të gjitha'
 const VIDEO = 'Video'
 
-const media: MediaItem[] = [
-  ...mediaTeReja,
-  ...projektet.map((p) => ({
-    id: `p${p.id}`,
-    lloji: 'foto' as const,
-    src: p.foto,
-    titulli: p.titulli,
-    kategoria: p.kategoria,
-    lokacioni: p.lokacioni,
-    data: p.data,
-  })),
-]
+const media: MediaItem[] = teGjithaMediat
 
 /** Galeria e plotë e fotove dhe videove (hapet nga menuja "Mjete" → Galeria). */
 export default function GalleryViewer() {
@@ -104,6 +93,7 @@ export default function GalleryViewer() {
           src: m.src,
           type: m.lloji,
           poster: m.poster,
+          shareUrl: linkuIMedias(m.id),
           title: m.titulli,
           meta: [m.kategoria, m.lokacioni, m.data].filter(Boolean).join(' · '),
         }))}

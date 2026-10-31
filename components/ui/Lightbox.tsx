@@ -3,6 +3,7 @@
 import { type MouseEvent, ReactNode, useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { AnimatePresence, motion, type PanInfo } from 'framer-motion'
+import Shperndaj from './Shperndaj'
 import { FaChevronLeft, FaChevronRight, FaTimes, FaPlay, FaPause, FaSearchPlus, FaSearchMinus } from 'react-icons/fa'
 
 export type LightboxItem = {
@@ -12,6 +13,8 @@ export type LightboxItem = {
   /** 'video' luan videon; parazgjedhja është 'foto'. */
   type?: 'foto' | 'video'
   poster?: string
+  /** Nëse jepet, shfaqet butoni "Shpërndaj" për këtë foto/video */
+  shareUrl?: string
 }
 
 type Props = {
@@ -192,6 +195,7 @@ export default function Lightbox({ items, index, onClose, onIndex }: Props) {
               {index! + 1} / {items.length}
             </span>
             <div className="flex items-center gap-1">
+              {item.shareUrl && <Shperndaj url={item.shareUrl} titulli={item.title} tema="dark" drejtimi="poshte" />}
               {!isVideo && (
                 <button
                   type="button"

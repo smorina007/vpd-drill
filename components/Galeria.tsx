@@ -1,14 +1,15 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
-import { FaArrowRight, FaFacebookF, FaTwitter, FaLinkedinIn, FaMapMarkerAlt } from 'react-icons/fa'
+import { FaArrowRight, FaMapMarkerAlt } from 'react-icons/fa'
 import HartaProjekteve from './HartaProjekteve'
 import SectionHeading from './ui/SectionHeading'
 import Lightbox from './ui/Lightbox'
 import MediaTile from './ui/MediaTile'
-import { mediaTeReja, projektet, type MediaItem } from '@/lib/galeriaMedia'
+import { projektet, teGjithaMediat, linkuIMedias, type MediaItem } from '@/lib/galeriaMedia'
+import Shperndaj from './ui/Shperndaj'
 
 
 const NE_BALLINE = 6
@@ -16,20 +17,9 @@ const TE_GJITHA = 'Të gjitha'
 const VIDEO = 'Video'
 
 // Mediat e reja (foto + video) dalin të parat; pastaj projektet ekzistuese.
-const media: MediaItem[] = [
-  ...mediaTeReja,
-  ...projektet.map((p) => ({
-    id: `p${p.id}`,
-    lloji: 'foto' as const,
-    src: p.foto,
-    titulli: p.titulli,
-    kategoria: p.kategoria,
-    lokacioni: p.lokacioni,
-    data: p.data,
-  })),
-]
+const media: MediaItem[] = teGjithaMediat
 
-export default function Galeria({ showHeading = true }: { showHeading?: boolean }) {
+export default function Galeria({ showHeading = true, hapId }: { showHeading?: boolean; hapId?: string }) {
   // Në ballinë (showHeading) tregojmë një përzgjedhje; faqja /projektet i tregon të gjitha me filtra.
   const ballina = showHeading
   const nrVideo = media.filter((m) => m.lloji === 'video').length
@@ -46,15 +36,24 @@ export default function Galeria({ showHeading = true }: { showHeading?: boolean 
     return ballina ? lista.slice(0, NE_BALLINE) : lista
   }, [filter, ballina])
 
-  const share = (rrjeti: 'fb' | 'tw' | 'in', titulli: string) => {
-    const url = encodeURIComponent(window.location.href)
-    const links = {
-      fb: `https://www.facebook.com/sharer/sharer.php?u=${url}`,
-      tw: `https://twitter.com/intent/tweet?url=${url}&text=${encodeURIComponent(titulli)}`,
-      in: `https://www.linkedin.com/sharing/share-offsite/?url=${url}`,
+  // Linku i shpërndarë /projektet/<id> hap direkt atë foto/video
+  const hapurNgaLinku = useRef(false)
+  useEffect(() => {
+    if (!hapId || hapurNgaLinku.current) return
+    const i = media.findIndex((m) => m.id === hapId)
+    if (i >= 0) {
+      hapurNgaLinku.current = true
+      setLightbox(i)
     }
-    window.open(links[rrjeti], '_blank', 'noopener,noreferrer')
-  }
+  }, [hapId])
+
+  // Në faqen e projekteve, adresa ndjek foton e hapur — kështu linku nga shfletuesi është gjithmonë i saktë
+  useEffect(() => {
+    if (ballina) return
+    const id = lightbox !== null ? filtruar[lightbox]?.id : null
+    const path = id ? `/projektet/${id}` : '/projektet'
+    if (window.location.pathname !== path) window.history.replaceState(null, '', path)
+  }, [lightbox, filtruar, ballina])
 
   return (
     <section id="projektet" data-shtresa="Projektet" className="bg-white py-20 sm:py-28">
@@ -142,24 +141,8 @@ export default function Galeria({ showHeading = true }: { showHeading?: boolean 
                           )}
                           {p.data ? <span className="tabular">{p.data}</span> : <span>{p.lloji === 'video' ? 'Video nga kantieri' : 'Foto nga kantieri'}</span>}
                         </p>
-                        <div className="-mr-2 flex shrink-0 opacity-60 transition-opacity group-hover:opacity-100">
-                          {(
-                            [
-                              ['fb', FaFacebookF, 'Share on Facebook'],
-                              ['tw', FaTwitter, 'Share on Twitter'],
-                              ['in', FaLinkedinIn, 'Share on LinkedIn'],
-                            ] as const
-                          ).map(([k, Icon, label]) => (
-                            <button
-                              key={k}
-                              type="button"
-                              onClick={() => share(k, p.titulli)}
-                              aria-label={label}
-                              className="grid h-8 w-8 place-items-center rounded text-[11px] text-slate-mute transition-colors hover:bg-stone hover:text-brand"
-                            >
-                              <Icon />
-                            </button>
-                          ))}
+                        <div className="-mr-2 shrink-0 opacity-70 transition-opacity group-hover:opacity-100">
+                          <Shperndaj url={linkuIMedias(p.id)} titulli={p.titulli} />
                         </div>
                       </div>
                     </div>
@@ -176,6 +159,7 @@ export default function Galeria({ showHeading = true }: { showHeading?: boolean 
           src: p.src,
           type: p.lloji,
           poster: p.poster,
+          shareUrl: linkuIMedias(p.id),
           title: p.titulli,
           meta: [p.kategoria, p.lokacioni, p.data].filter(Boolean).join(' · '),
         }))}
