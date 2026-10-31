@@ -88,7 +88,7 @@ export default function Prodhimi() {
             <p className="mt-1 text-sm text-slate-mute">Gypa për puse, gypa betoni, kosha armature, sajla, mure L, pllaka dhe më shumë.</p>
           </div>
           <Link href="/produktet" className="btn-brand shrink-0 px-6">
-            Shiko katalogun <FaArrowRight className="text-xs" />
+            Hap katalogun <FaArrowRight className="text-xs" />
           </Link>
         </div>
       </div>

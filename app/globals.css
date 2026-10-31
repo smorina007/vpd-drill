@@ -189,3 +189,15 @@
 @media (prefers-reduced-motion: reduce) {
   .anim-rise, .anim-fade-up, .anim-lift { animation: none; }
 }
+
+/* Shkrim ari me shkëlqim që lëviz (kopertina e katalogut) */
+.ari {
+  background: linear-gradient(110deg, #a67c1a 0%, #f6e3a1 22%, #c9a54a 40%, #fff3c4 50%, #b8892e 62%, #f3dc8b 80%, #a67c1a 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: vpd-ari 6s linear infinite;
+}
+@keyframes vpd-ari { from { background-position: 100% 0; } to { background-position: -150% 0; } }
+@media (prefers-reduced-motion: reduce) { .ari { animation: none; } }

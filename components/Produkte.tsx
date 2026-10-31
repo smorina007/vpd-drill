@@ -2,100 +2,10 @@
 
 import { useMemo, useState } from 'react'
 import Image from 'next/image'
-import { FaWater, FaWrench, FaRuler, FaCog, FaBolt, FaShieldAlt, FaSearch, FaThLarge, FaExpand } from 'react-icons/fa'
+import { FaSearch, FaThLarge, FaExpand } from 'react-icons/fa'
+import { produkteKategorite } from '@/lib/produktet'
 import SectionHeading from './ui/SectionHeading'
 import Lightbox from './ui/Lightbox'
-
-const produkteKategorite = [
-  {
-    title: 'Muri L',
-    icon: FaShieldAlt,
-    items: [
-      { name: 'Muri L - 0.5m', image: '/images/produktet/ML1.jpeg' },
-      { name: 'Muri L - 0.75m', image: '/images/produktet/ML2.jpeg' },
-      { name: 'Muri L - 1m', image: '/images/produktet/ML3.jpeg' },
-      { name: 'Muri L - 1.25m', image: '/images/produktet/ML4.jpeg' },
-      { name: 'Muri L - 1.5 m', image: '/images/produktet/ML5.jpeg' },
-      { name: 'Muri L - 1.75m', image: '/images/produktet/ML6.jpg' },
-      { name: 'Muri L - 2m', image: '/images/produktet/ML6.jpg' },
-    ]
-  },
-  {
-    title: 'Gypa betoni',
-    icon: FaRuler,
-    items: [
-      { name: 'Gyp betoni 300mm', image: '/images/produktet/GB1.jpg' },
-      { name: 'Gyp betoni 400mm', image: '/images/produktet/GB1.jpg' },
-      { name: 'Gyp betoni 500mm', image: '/images/produktet/GB1.jpg' },
-      { name: 'Gyp betoni 600mm', image: '/images/produktet/GB1.jpg' },
-      { name: 'Gyp betoni 800mm', image: '/images/produktet/GB1.jpg' },
-      { name: 'Gyp betoni 1000mm', image: '/images/produktet/GB1.jpg' },
-    ]
-  },
-  {
-    title: 'Pllaka betoni',
-    icon: FaBolt,
-    items: [
-      { name: 'Pllakë betoni - 80x30x8cm', image: '/images/produktet/P1.jpg' },
-      { name: 'Pllakë betoni - 100x30x8cm', image: '/images/produktet/P2.jpg' },
-      { name: 'Pllakë betoni - 150x30x8cm', image: '/images/produktet/P3.jpg' },
-      { name: 'Pllakë betoni - 200x30x8cm', image: '/images/produktet/P4.jpg' },
-      { name: 'Pllakë betoni - 80x50x8cm', image: '/images/produktet/P5.jpg' },
-      { name: 'Pllakë betoni - 150x50x8cm', image: '/images/produktet/P6.jpg' },
-      { name: 'Pllakë betoni - 200x50x8cm', image: '/images/produktet/P6.jpg' },
-      { name: 'Pllakë betoni - 80x80x8xm', image: '/images/produktet/P6.jpg' },
-      { name: 'Pllakë betoni - 100x80x8xm', image: '/images/produktet/P6.jpg' },
-      { name: 'Pllakë betoni - 150x80x8xm', image: '/images/produktet/P6.jpg' },
-      { name: 'Pllakë betoni - 200x80x8xm', image: '/images/produktet/P6.jpg' },
-    ]
-  },
-  {
-    title: 'Gypa plastike për puse',
-    icon: FaWater,
-    items: [
-      { name: 'Gyp plastik 125mm', image: '/images/produktet/GP1.jpg' },
-      { name: 'Gyp plastik 140mm', image: '/images/produktet/GP1.jpg' },
-      { name: 'Gyp plastik 160mm', image: '/images/produktet/GP1.jpg' },
-      { name: 'Gyp plastik 175mm', image: '/images/produktet/GP2.jpg' },
-      { name: 'Gyp plastik 200mm', image: '/images/produktet/GP3.jpg' },
-      { name: 'Gyp plastik 225mm', image: '/images/produktet/GP3.jpg' },
-      { name: 'Gyp plastik 250mm', image: '/images/produktet/GP3.jpg' },
-    ]
-  },
-  {
-    title: 'Gypa hekuri',
-    icon: FaCog,
-    items: [
-      { name: 'Gyp hekuri i galvanizuar', image: '/images/produktet/GH1.jpg' },
-      { name: 'Gyp hekuri pa galvanizuar', image: '/images/produktet/GH2.jpg' },
-    ]
-  },
-  {
-    title: 'Elemente shpimi',
-    icon: FaWrench,
-    items: [
-      { name: 'Element shpimi 1', image: '/images/produktet/ESH1.jpg' },
-      { name: 'Element shpimi 2', image: '/images/produktet/ESH2.jpg' },
-      { name: 'Element shpimi 3', image: '/images/produktet/ESH3.jpg' },
-      { name: 'Element shpimi 4', image: '/images/produktet/ESH4.jpg' },
-    ]
-  },
-  {
-    title: 'Kosha armature',
-    icon: FaBolt,
-    items: [
-      { name: 'Kosh arme 1', image: '/images/produktet/KA1.jpg' },
-      { name: 'Kosh arme 2', image: '/images/produktet/KA2.jpg' },
-    ]
-  },
-  {
-    title: 'Sajla (shufra hekuri)',
-    icon: FaRuler,
-    items: [
-      { name: 'Sajla 10-24mm', image: '/images/produktet/SH.jpg' },
-    ]
-  }
-]
 
 // Rrafshojmë të gjitha produktet në një listë të vetme, secili me referencën e kategorisë
 const teGjithaProduktet = produkteKategorite.flatMap((kat, katIndex) =>
