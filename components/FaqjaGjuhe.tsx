@@ -1,11 +1,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { FaWater, FaBuilding, FaAnchor, FaHammer, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaClock, FaWhatsapp, FaGoogle, FaFacebookF } from 'react-icons/fa'
+import { SEKSIONET } from '@/lib/gjuha'
 import { BIZNESI_ID, FACEBOOK_URL, GOOGLE_PROFILE_URL, QYTETET_E_PUNES, SITE_URL } from '@/lib/site'
 
 /** Faqe hyrëse për vizitorët që nuk flasin shqip (diaspora, investitorë të huaj). */
 
-export type Gjuha = 'de' | 'en'
+export type Gjuha = 'de' | 'en'  // faqet e huaja; shqipja është ballina
 
 const T = {
   de: {
@@ -106,16 +107,6 @@ export default function FaqjaGjuhe({ gjuha }: { gjuha: Gjuha }) {
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(14,42,48,0.96)_0%,rgba(14,42,48,0.75)_60%,rgba(14,42,48,0.5)_100%)]" />
         </div>
         <div className="shell pb-16 pt-[calc(var(--header-h)+56px)] sm:pb-24 sm:pt-[calc(var(--header-h)+88px)]">
-          <div className="mb-6 flex gap-2 text-sm">
-            {(['de', 'en'] as const).map((g) => (
-              <Link key={g} href={`/${g}`} aria-current={g === gjuha ? 'page' : undefined} className={`rounded px-2.5 py-1 font-semibold ${g === gjuha ? 'bg-white text-bedrock' : 'bg-white/10 text-white/80 hover:bg-white/20'}`}>
-                {g.toUpperCase()}
-              </Link>
-            ))}
-            <Link href="/" hrefLang="sq" className="rounded bg-white/10 px-2.5 py-1 font-semibold text-white/80 hover:bg-white/20">
-              {t.sq}
-            </Link>
-          </div>
           <p className="text-sm font-semibold uppercase tracking-wider text-glacier">{t.eyebrow}</p>
           <h1 className="display-lg mt-3 max-w-4xl text-white">{t.h1}</h1>
           <p className="mt-6 max-w-[62ch] text-base leading-relaxed text-white/75 sm:text-lg">{t.lead}</p>
@@ -130,7 +121,7 @@ export default function FaqjaGjuhe({ gjuha }: { gjuha: Gjuha }) {
         </div>
       </section>
 
-      <section className="bg-white py-16 sm:py-24">
+      <section id={SEKSIONET.sherbimet} className="bg-white py-16 sm:py-24">
         <div className="shell">
           <h2 className="display-lg">{t.servicesTitle}</h2>
           <div className="mt-10 grid gap-px overflow-hidden rounded-xl bg-stone-line ring-1 ring-stone-line sm:grid-cols-2">
@@ -167,7 +158,7 @@ export default function FaqjaGjuhe({ gjuha }: { gjuha: Gjuha }) {
         </div>
       </section>
 
-      <section className="bg-white py-16 sm:py-24">
+      <section id={SEKSIONET.projektet} className="bg-white py-16 sm:py-24">
         <div className="shell">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <h2 className="display-lg">{t.projectsTitle}</h2>
@@ -189,7 +180,7 @@ export default function FaqjaGjuhe({ gjuha }: { gjuha: Gjuha }) {
         </div>
       </section>
 
-      <section className="bg-stone py-16 sm:py-24">
+      <section id={SEKSIONET.kontakti} className="bg-stone py-16 sm:py-24">
         <div className="shell grid gap-10 lg:grid-cols-2">
           <div>
             <h2 className="display-lg">{t.contactTitle}</h2>

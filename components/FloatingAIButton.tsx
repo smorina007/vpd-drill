@@ -3,10 +3,13 @@
 import { useEffect, useState } from 'react'
 import { FaRobot } from 'react-icons/fa'
 import { useMjete } from '@/app/context/MjeteContext'
+import { usePathname } from 'next/navigation'
+import { gjuhaNgaPath, TEKSTET } from '@/lib/gjuha'
 
 export default function FloatingAIButton() {
   const { hap } = useMjete()
   const [showTooltip, setShowTooltip] = useState(false)
+  const gjuha = gjuhaNgaPath(usePathname())
 
   // Tregon ftesën vetëm një herë, pak pas ngarkimit, dhe e fsheh pas 5 sekondash
   useEffect(() => {
@@ -25,7 +28,7 @@ export default function FloatingAIButton() {
           showTooltip ? 'translate-x-0 opacity-100' : 'translate-x-2 opacity-0'
         }`}
       >
-        Pyet Asistentin AI! 🤖
+        {gjuha === 'sq' ? 'Pyet Asistentin AI! 🤖' : TEKSTET[gjuha].ai}
       </span>
       <button
         type="button"

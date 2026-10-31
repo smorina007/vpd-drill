@@ -4,6 +4,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaGoogle } from 'react-icons/fa'
 import { trackEvent } from '@/lib/gtag'
+import { usePathname } from 'next/navigation'
+import { gjuhaNgaPath, GJUHET, TEKSTET } from '@/lib/gjuha'
 import { rrjetet } from './Kontakt'
 import { GOOGLE_PROFILE_URL, QYTETET_E_PUNES } from '@/lib/site'
 
@@ -24,6 +26,11 @@ const telefonat = [
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
+  const gjuha = gjuhaNgaPath(usePathname())
+  const tx = gjuha === 'sq' ? null : TEKSTET[gjuha]
+  const f = tx?.footer
+  const navFooter: readonly { href: string; label: string }[] = tx ? tx.nav : linket
+  const tel = (t: (typeof telefonat)[number]) => (tx ? `+383 ${t.shfaq.slice(1)}` : t.shfaq)
 
   return (
     <footer className="bg-bedrock text-white/70">
@@ -40,7 +47,7 @@ export default function Footer() {
               </p>
             </div>
             <p className="mt-5 max-w-xs text-[15px] leading-relaxed">
-              Ekspertizë e thellë, themele të sigurta. Specialiste në shpime dhe produkte betoni.
+              {f ? f.moto : 'Ekspertizë e thellë, themele të sigurta. Specialiste në shpime dhe produkte betoni.'}
             </p>
             <div className="mt-6 flex gap-2">
               {rrjetet.map((r) => (
@@ -58,10 +65,10 @@ export default function Footer() {
             </div>
           </div>
 
-          <nav aria-label="Linke të shpejta">
-            <h4 className="mb-4 text-sm font-bold text-white">Linke të shpejta</h4>
+          <nav aria-label={f ? f.linket : 'Linke të shpejta'}>
+            <h4 className="mb-4 text-sm font-bold text-white">{f ? f.linket : 'Linke të shpejta'}</h4>
             <ul className="space-y-2.5 text-[15px]">
-              {linket.map((l) => (
+              {navFooter.map((l) => (
                 <li key={l.href}>
                   <Link href={l.href} className="transition-colors hover:text-white">
                     {l.label}
@@ -72,7 +79,7 @@ export default function Footer() {
           </nav>
 
           <div>
-            <h4 className="mb-4 text-sm font-bold text-white">Kontakti</h4>
+            <h4 className="mb-4 text-sm font-bold text-white">{f ? f.kontakti : 'Kontakti'}</h4>
             <ul className="space-y-2.5 text-[15px]">
               {telefonat.map((t) => (
                 <li key={t.tel}>
@@ -82,7 +89,7 @@ export default function Footer() {
                     className="flex items-center gap-3 tabular transition-colors hover:text-white"
                   >
                     <FaPhoneAlt className="text-xs text-glacier" />
-                    {t.shfaq}
+                    {tel(t)}
                   </a>
                 </li>
               ))}
@@ -96,10 +103,10 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="mb-4 text-sm font-bold text-white">Adresa</h4>
+            <h4 className="mb-4 text-sm font-bold text-white">{f ? f.adresa : 'Adresa'}</h4>
             <p className="flex items-start gap-3 text-[15px]">
               <FaMapMarkerAlt className="mt-1 shrink-0 text-xs text-glacier" />
-              Fsh Dragobil, 24000 Malisheve, Kosovë
+              {f ? f.adresaTekst : 'Fsh Dragobil, 24000 Malisheve, Kosovë'}
             </p>
             <a
               href={GOOGLE_PROFILE_URL}
@@ -107,31 +114,32 @@ export default function Footer() {
               rel="noopener noreferrer"
               className="mt-3 inline-flex items-center gap-2 text-sm text-glacier transition-colors hover:text-white"
             >
-              <FaGoogle className="text-xs" /> Na gjeni në Google Maps
+              <FaGoogle className="text-xs" /> {f ? f.maps : 'Na gjeni në Google Maps'}
             </a>
           </div>
         </div>
 
         {/* Zonat që mbulojmë — tekst i dukshëm për kërkimet lokale */}
         <div className="mt-12 border-t border-white/10 pt-8">
-          <h4 className="mb-3 text-sm font-bold text-white">Zonat ku kemi punuar</h4>
+          <h4 className="mb-3 text-sm font-bold text-white">{f ? f.zonat : 'Zonat ku kemi punuar'}</h4>
           <p className="text-sm leading-relaxed text-white/55">
-            Shpime pusesh uji, pilota, ankera dhe gërmime me diafragmë në {QYTETET_E_PUNES.join(', ')} dhe anembanë Kosovës.
+            {f
+              ? f.zonatTekst(QYTETET_E_PUNES.join(', '))
+              : `Shpime pusesh uji, pilota, ankera dhe gërmime me diafragmë në ${QYTETET_E_PUNES.join(', ')} dhe anembanë Kosovës.`}
           </p>
         </div>
 
 
         <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-6 text-sm text-white/50 sm:flex-row">
-          <p>&copy; {currentYear} VPD DRILL. Të gjitha të drejtat e rezervuara.</p>
-          <div className="flex items-center gap-5">
-            <Link href="/de" hrefLang="de" className="transition-colors hover:text-white">
-              Deutsch
-            </Link>
-            <Link href="/en" hrefLang="en" className="transition-colors hover:text-white">
-              English
-            </Link>
+          <p>&copy; {currentYear} VPD DRILL. {f ? f.te_drejtat : 'Të gjitha të drejtat e rezervuara.'}</p>
+          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+            {GJUHET.filter((g) => g.kodi !== gjuha).map((g) => (
+              <Link key={g.kodi} href={g.href} hrefLang={g.kodi} className="transition-colors hover:text-white">
+                {g.emri}
+              </Link>
+            ))}
             <Link href="/politika-e-privatesise" className="transition-colors hover:text-white">
-              Politika e Privatësisë
+              {f ? f.privatesia : 'Politika e Privatësisë'}
             </Link>
             <span>Project by Selami Morina</span>
           </div>

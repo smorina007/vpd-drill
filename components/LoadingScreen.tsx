@@ -25,6 +25,8 @@ export default function LoadingScreen() {
     try {
       shown = sessionStorage.getItem(SESSION_KEY) === '1'
     } catch {}
+    // Ekrani hyrës është në shqip — nuk e shfaqim në faqet DE/EN
+    if (/^\/(de|en)(\/|$)/.test(window.location.pathname)) shown = true
     if (shown || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setIsLoading(false)
       try {

@@ -113,7 +113,7 @@ export default function RootLayout({
         {/* Fsheh menjëherë ekranin hyrës nëse është parë në këtë session (pa "kërcim" të faqes) */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{if(sessionStorage.getItem('vpd-drill-loading-shown')==='1')document.documentElement.classList.add('intro-done')}catch(e){}`,
+            __html: `try{if(sessionStorage.getItem('vpd-drill-loading-shown')==='1'||/^\\/(de|en)(\\/|$)/.test(location.pathname))document.documentElement.classList.add('intro-done')}catch(e){}`,
           }}
         />
         <script

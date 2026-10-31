@@ -13,6 +13,9 @@ import { useOferta } from '@/app/context/OfertaContext'
 import { useWeather } from '@/app/context/WeatherContext'
 import { useMjete, Mjet } from '@/app/context/MjeteContext'
 import { trackEvent } from '@/lib/gtag'
+import { gjuhaNgaPath, TEKSTET, WHATSAPP } from '@/lib/gjuha'
+import NderruesiGjuhes from './NderruesiGjuhes'
+import { FaWhatsapp } from 'react-icons/fa'
 
 const navLinks = [
   { href: '/', label: 'Ballina' },
@@ -53,6 +56,11 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [toolsOpen, setToolsOpen] = useState(false)
   const toolsRef = useRef<HTMLDivElement>(null)
+  const gjuha = gjuhaNgaPath(pathname)
+  const tx = gjuha === 'sq' ? null : TEKSTET[gjuha]
+  const homeHref = tx ? `/${gjuha}` : '/'
+  const linket: readonly { href: string; label: string }[] = tx ? tx.nav : navLinks
+  const waHref = tx ? `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(tx.ofertaWa)}` : ''
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
@@ -96,14 +104,14 @@ export default function Header() {
 
   // Nëse jemi tashmë në ballinë, Link s'bën asgjë — e kthejmë manualisht në krye.
   const handleHomeClick = (e: React.MouseEvent) => {
-    if (pathname === '/') {
+    if (pathname === homeHref) {
       e.preventDefault()
       window.scrollTo({ top: 0, behavior: 'smooth' })
     }
   }
 
   const solid = scrolled || mobileOpen
-  const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href))
+  const isActive = (href: string) => (tx ? false : href === '/' ? pathname === '/' : pathname.startsWith(href))
 
   const hapMjet = (m: Mjet) => {
     setToolsOpen(false)
@@ -120,7 +128,7 @@ export default function Header() {
     >
       <div className="shell flex h-[var(--header-h)] items-center gap-6">
         {/* Logo */}
-        <Link href="/" onClick={handleHomeClick} className="flex shrink-0 items-center gap-2.5" aria-label="VPD DRILL — Ballina">
+        <Link href={homeHref} onClick={handleHomeClick} className="flex shrink-0 items-center gap-2.5" aria-label="VPD DRILL">
           <span className="grid h-11 w-11 place-items-center rounded-md bg-white p-1 shadow-sm">
             <Image src="/images/logo.png" alt="" width={40} height={40} className="h-auto w-full object-contain" priority />
           </span>
@@ -130,12 +138,12 @@ export default function Header() {
         </Link>
 
         {/* Navigimi (desktop) */}
-        <nav aria-label="Navigimi kryesor" className="ml-4 hidden items-center gap-1 lg:flex">
-          {navLinks.map((l) => (
+        <nav aria-label={tx ? tx.navAria : 'Navigimi kryesor'} className="ml-4 hidden items-center gap-1 lg:flex">
+          {linket.map((l) => (
             <Link
               key={l.href}
               href={l.href}
-              onClick={l.href === '/' ? handleHomeClick : undefined}
+              onClick={l.href === homeHref ? handleHomeClick : undefined}
               aria-current={isActive(l.href) ? 'page' : undefined}
               className={`relative rounded-md px-3 py-2 text-[15px] font-semibold transition-colors ${
                 solid ? 'hover:bg-stone' : 'hover:bg-white/10'
@@ -146,7 +154,8 @@ export default function Header() {
             </Link>
           ))}
 
-          {/* Mjete */}
+          {/* Mjete (vetëm shqip — llogaritësit dhe asistenti janë në shqip) */}
+          {!tx && (
           <div ref={toolsRef} className="relative">
             <button
               type="button"
@@ -193,6 +202,7 @@ export default function Header() {
               )}
             </AnimatePresence>
           </div>
+          )}
         </nav>
 
         {/* Djathtas */}
@@ -201,7 +211,7 @@ export default function Header() {
             type="button"
             onClick={() => hap('moti')}
             title="Shiko parashikimin 5-ditor"
-            className={`hidden items-center gap-2 whitespace-nowrap rounded-md px-2.5 py-2 text-sm font-semibold transition-colors 2xl:flex ${
+            className={`${tx ? '!hidden' : ''} hidden items-center gap-2 whitespace-nowrap rounded-md px-2.5 py-2 text-sm font-semibold transition-colors 2xl:flex ${
               solid ? 'text-slate-ink hover:bg-stone' : 'text-white/85 hover:bg-white/10'
             }`}
           >
@@ -218,18 +228,31 @@ export default function Header() {
             }`}
           >
             <FaPhoneAlt className={`text-xs ${solid ? 'text-brand' : 'text-glacier'}`} />
-            044 184 114
+            {tx ? '+383 44 184 114' : '044 184 114'}
           </a>
-          <button type="button" onClick={openOferta} className="btn-signal hidden px-4 py-2.5 sm:inline-flex">
-            Kërko Ofertë
-          </button>
+          <NderruesiGjuhes gjuha={gjuha} solid={solid} />
+          {tx ? (
+            <a
+              href={waHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackEvent('whatsapp_click', { location: `header_${gjuha}` })}
+              className="btn-signal hidden px-4 py-2.5 sm:inline-flex"
+            >
+              <FaWhatsapp /> {tx.oferta}
+            </a>
+          ) : (
+            <button type="button" onClick={openOferta} className="btn-signal hidden px-4 py-2.5 sm:inline-flex">
+              Kërko Ofertë
+            </button>
+          )}
           <button
             type="button"
             className={`grid h-11 w-11 place-items-center rounded-md text-lg lg:hidden ${solid ? 'hover:bg-stone' : 'hover:bg-white/10'}`}
             onClick={() => setMobileOpen((v) => !v)}
             aria-expanded={mobileOpen}
             aria-controls="menuja-celular"
-            aria-label={mobileOpen ? 'Mbyll menunë' : 'Hap menunë'}
+            aria-label={mobileOpen ? (tx ? tx.menuMbyll : 'Mbyll menunë') : tx ? tx.menuHap : 'Hap menunë'}
           >
             {mobileOpen ? <FaTimes /> : <FaBars />}
           </button>
@@ -249,9 +272,9 @@ export default function Header() {
             transition={{ duration: 0.18 }}
             className="fixed inset-x-0 bottom-0 top-[var(--header-h)] z-[49] overflow-y-auto bg-bedrock text-white lg:hidden"
           >
-            <nav aria-label="Navigimi kryesor" className="shell pb-10 pt-4">
+            <nav aria-label={tx ? tx.navAria : 'Navigimi kryesor'} className="shell pb-10 pt-4">
               <ul>
-                {navLinks.map((l, i) => (
+                {linket.map((l, i) => (
                   <motion.li
                     key={l.href}
                     initial={{ opacity: 0, x: -12 }}
@@ -262,7 +285,7 @@ export default function Header() {
                     <Link
                       href={l.href}
                       onClick={(e) => {
-                        if (l.href === '/') handleHomeClick(e)
+                        if (l.href === homeHref) handleHomeClick(e)
                         setMobileOpen(false)
                       }}
                       aria-current={isActive(l.href) ? 'page' : undefined}
@@ -275,7 +298,12 @@ export default function Header() {
                 ))}
               </ul>
 
-              {grupetMjeteve.map((g) => (
+              <div className="mt-8">
+                <p className="mb-3 text-sm font-semibold text-white/50">{tx ? tx.gjuha : 'Gjuha'}</p>
+                <NderruesiGjuhes gjuha={gjuha} variant="rresht" />
+              </div>
+
+              {!tx && grupetMjeteve.map((g) => (
                 <div key={g.titulli} className="mt-8">
                   <p className="mb-3 text-sm font-semibold text-white/50">{g.titulli}</p>
                   <div className="grid grid-cols-2 gap-2">
@@ -295,18 +323,24 @@ export default function Header() {
               ))}
 
               <div className="mt-8 grid gap-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setMobileOpen(false)
-                    openOferta()
-                  }}
-                  className="btn-signal w-full py-3.5"
-                >
-                  <FaFileAlt /> Kërko Ofertë
-                </button>
+                {tx ? (
+                  <a href={waHref} target="_blank" rel="noopener noreferrer" className="btn-signal w-full py-3.5">
+                    <FaWhatsapp /> {tx.oferta}
+                  </a>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMobileOpen(false)
+                      openOferta()
+                    }}
+                    className="btn-signal w-full py-3.5"
+                  >
+                    <FaFileAlt /> Kërko Ofertë
+                  </button>
+                )}
                 <a href="tel:+38344184114" className="btn-ghost-light w-full py-3.5">
-                  <FaPhoneAlt className="text-xs" /> 044 184 114
+                  <FaPhoneAlt className="text-xs" /> {tx ? '+383 44 184 114' : '044 184 114'}
                 </a>
               </div>
             </nav>
