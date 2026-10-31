@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FaMapMarkerAlt, FaTimes } from 'react-icons/fa'
+import { QYTETET_E_PUNES } from '@/lib/site'
 
 interface Projekti {
   id: number
@@ -45,12 +46,6 @@ const QYTETET: Record<string, { lat: number; lng: number }> = {
   'Gjakovë': { lat: 42.3803, lng: 20.4310 },
 }
 
-// Qytetet ku kemi realizuar projekte — shfaqen në hartë edhe kur nuk kanë ende foto në galeri.
-const QYTETET_E_PUNES = [
-  'Prishtinë', 'Gjilan', 'Vushtrri', 'Pejë', 'Gjakovë', 'Prizren', 'Klinë', 'Malishevë', 'Suharekë',
-  'Ferizaj', 'Mitrovicë', 'Podujevë', 'Drenas', 'Skenderaj', 'Istog', 'Deçan', 'Kamenicë', 'Lipjan',
-  'Kaçanik', 'Rahovec', 'Viti', 'Dragash',
-]
 const NR_PROJEKTEVE = '100+'
 
 // Ku shfaqet emri i qytetit në raport me pikën (parazgjedhja: poshtë) — për të shmangur mbivendosjet.

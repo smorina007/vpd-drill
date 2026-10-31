@@ -1,6 +1,8 @@
 'use client'
 
-import { FaStar, FaQuoteLeft } from 'react-icons/fa'
+import { FaStar, FaQuoteLeft, FaGoogle, FaFacebookF } from 'react-icons/fa'
+import { FACEBOOK_URL, GOOGLE_REVIEW_URL } from '@/lib/site'
+import { trackEvent } from '@/lib/gtag'
 import { useMjete } from '@/app/context/MjeteContext'
 import SectionHeading from './ui/SectionHeading'
 
@@ -104,9 +106,26 @@ export default function Vleresimet() {
           ))}
         </div>
 
-        <div className="mt-10">
-          <button type="button" onClick={() => hap('vleresime')} className="btn-brand px-7">
-            Lini një vlerësim
+        <div className="mt-10 flex flex-wrap items-center gap-3">
+          <a
+            href={GOOGLE_REVIEW_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => trackEvent('click_google_review', { location: 'vleresimet' })}
+            className="btn-brand px-7"
+          >
+            <FaGoogle /> Na vlerësoni në Google
+          </a>
+          <a
+            href={FACEBOOK_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-ghost px-6"
+          >
+            <FaFacebookF /> Na ndiqni në Facebook
+          </a>
+          <button type="button" onClick={() => hap('vleresime')} className="btn-ghost px-6">
+            Lini një vlerësim këtu
           </button>
         </div>
       </div>

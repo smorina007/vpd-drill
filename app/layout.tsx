@@ -12,6 +12,7 @@ import { WeatherProvider } from '@/app/context/WeatherContext'
 import { MjeteProvider } from '@/app/context/MjeteContext'
 import KursoriShiko from '@/components/KursoriShiko'
 import LoadingScreen from '@/components/LoadingScreen'
+import { BIZNESI_ID, FACEBOOK_URL, GOOGLE_PROFILE_URL, QYTETET_E_PUNES, SITE_URL } from '@/lib/site'
 
 // Archivo (variabël: pesha 100–900, gjerësia 62–125%) — e ngarkuar lokalisht,
 // pa varësi nga Google Fonts gjatë build-it. Licenca: app/fonts/OFL-Archivo.txt
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
     template: '%s | VPD DRILL'
   },
   description: 'Ekspertizë e thellë, themele të sigurta. Specialiste në shpime puse uji deri 500m, pilota për objekte, ankera stabilizues, germim me diafragmë dhe produkte betoni në Kosovë.',
-  keywords: 'shpime puse uji, pilota, ankera, germim diafragme, muri l, gypa betoni, pllaka betoni, gypa per puse, sajla, casagrande, mait, xcmg, kosove, malisheve',
+  keywords: 'shpime puse uji, shpim bunari, pilota, ankera, germim diafragme, mur diafragme, muri l, gypa betoni, pllaka betoni, gypa per puse, sajla, casagrande, mait, xcmg, kosove, malisheve, prishtine, prizren, peje, gjakove, ferizaj, gjilan, mitrovice, vllezerit paqarizi',
   authors: [{ name: 'VPD DRILL', url: 'https://vpddrill.com' }],
   creator: 'VPD DRILL',
   publisher: 'VPD DRILL',
@@ -114,11 +115,15 @@ export default function RootLayout({
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'GeneralContractor',
+              '@id': BIZNESI_ID,
               name: 'VPD DRILL',
-              alternateName: 'VPD DRILL SHPK',
-              image: 'https://vpddrill.com/images/og-image.jpg',
-              url: 'https://vpddrill.com',
-              telephone: ['+383044184114', '+383044204877'],
+              alternateName: ['VPD DRILL SHPK', 'Vëllezërit Paqarizi', 'Vllezerit Paqarizi'],
+              image: `${SITE_URL}/images/og-image.jpg`,
+              logo: `${SITE_URL}/images/logo1.png`,
+              url: SITE_URL,
+              telephone: ['+38344184114', '+38344204877', '+38345700201'],
+              email: 'info@vllezeritpaqarizi.com',
+              hasMap: GOOGLE_PROFILE_URL,
               address: {
                 '@type': 'PostalAddress',
                 streetAddress: 'Fsh Dragobil',
@@ -126,9 +131,14 @@ export default function RootLayout({
                 postalCode: '24000',
                 addressCountry: 'XK',
               },
-              areaServed: ['Kosovë', 'Kosovo'],
+              areaServed: [
+                { '@type': 'Country', name: 'Kosovë' },
+                ...QYTETET_E_PUNES.map((q) => ({ '@type': 'City', name: q })),
+              ],
+              knowsAbout: ['Shpim pusesh uji', 'Pilota CFA', 'Ankera', 'Gërmim me diafragmë', 'Mure L', 'Gypa betoni', 'Pllaka betoni'],
               sameAs: [
-                'https://www.facebook.com/VllezeritPaqarizi',
+                GOOGLE_PROFILE_URL,
+                FACEBOOK_URL,
                 'https://instagram.com/vpddrill',
                 'https://linkedin.com/company/vpddrill',
                 'https://youtube.com/@vpddrill',
@@ -147,6 +157,20 @@ export default function RootLayout({
               },
               description:
                 'Ekspertizë e thellë, themele të sigurta. Specialistë në shpime puse uji deri 500m, pilota për objekte, ankera stabilizues, germim me diafragmë dhe produkte betoni në Kosovë.',
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'WebSite',
+              '@id': `${SITE_URL}/#website`,
+              url: SITE_URL,
+              name: 'VPD DRILL',
+              inLanguage: 'sq',
+              publisher: { '@id': BIZNESI_ID },
             }),
           }}
         />

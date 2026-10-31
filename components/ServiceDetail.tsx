@@ -3,6 +3,7 @@ import { ReactNode } from 'react'
 import { IconType } from 'react-icons'
 import { FaArrowRight } from 'react-icons/fa'
 import PageHeroBanner from './PageHeroBanner'
+import { BIZNESI_ID, QYTETET_E_PUNES } from '@/lib/site'
 
 type Pike = { icon: IconType; titulli: string; pershkrimi: string }
 
@@ -28,6 +29,20 @@ export type ServiceDetailProps = {
 export default function ServiceDetail(p: ServiceDetailProps) {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Service',
+            name: p.titulli,
+            serviceType: p.titulli,
+            description: p.hyrja,
+            provider: { '@id': BIZNESI_ID },
+            areaServed: [{ '@type': 'Country', name: 'Kosovë' }, ...QYTETET_E_PUNES.map((q) => ({ '@type': 'City', name: q }))],
+          }),
+        }}
+      />
       <PageHeroBanner
         title={p.titulli}
         subtitle={p.hyrja}

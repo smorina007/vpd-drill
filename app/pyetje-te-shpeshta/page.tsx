@@ -2,6 +2,7 @@ import PageHeroBanner from '@/components/PageHeroBanner'
 import { FaQuestionCircle } from 'react-icons/fa'
 import Link from 'next/link'
 import type { Metadata } from 'next'
+import { QYTETET_E_PUNES } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: 'Pyetje të Shpeshta — Shpim Pusesh, Pilota, Çmime',
@@ -30,11 +31,15 @@ const pyetjet = [
   },
   {
     q: 'Në cilat zona të Kosovës operoni?',
-    a: 'Operojmë anembanë Kosovës — nga baza jonë në Malishevë, me projekte të realizuara në Prishtinë dhe qytete të tjera. Shihni disa prej tyre te faqja e Projekteve.',
+    a: `Operojmë anembanë Kosovës nga baza jonë në Dragobil, Malishevë. Kemi realizuar mbi 100 projekte në ${QYTETET_E_PUNES.join(', ')}. Shihni disa prej tyre te faqja e Projekteve.`,
   },
   {
     q: 'A ofroni sondazhe/vlerësim gjeologjik para punës?',
     a: 'Po, para çdo shpimi bëjmë vlerësim të terrenit për të përcaktuar thellësinë, diametrin dhe metodën optimale — kjo ju kursen kohë dhe kosto të panevojshme.',
+  },
+  {
+    q: 'Ku mund t\'ju gjej në Google Maps dhe Facebook?',
+    a: 'Profilin tonë të biznesit e gjeni në Google Maps si "VPD DRILL" (https://g.page/r/CV3TdYF4-rIGEBI), ku mund të lini edhe vlerësim. Në Facebook na gjeni te faqja "Vllezerit Paqarizi" (https://www.facebook.com/VllezeritPaqarizi).',
   },
   {
     q: 'Si mund të kërkoj ofertë?',

@@ -2,9 +2,10 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaHeart } from 'react-icons/fa'
+import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaHeart, FaGoogle } from 'react-icons/fa'
 import { trackEvent } from '@/lib/gtag'
 import { rrjetet } from './Kontakt'
+import { GOOGLE_PROFILE_URL, QYTETET_E_PUNES } from '@/lib/site'
 
 const linket = [
   { href: '/', label: 'Ballina' },
@@ -100,7 +101,23 @@ export default function Footer() {
               <FaMapMarkerAlt className="mt-1 shrink-0 text-xs text-glacier" />
               Fsh Dragobil, 24000 Malisheve, Kosovë
             </p>
+            <a
+              href={GOOGLE_PROFILE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 inline-flex items-center gap-2 text-sm text-glacier transition-colors hover:text-white"
+            >
+              <FaGoogle className="text-xs" /> Na gjeni në Google Maps
+            </a>
           </div>
+        </div>
+
+        {/* Zonat që mbulojmë — tekst i dukshëm për kërkimet lokale */}
+        <div className="mt-12 border-t border-white/10 pt-8">
+          <h4 className="mb-3 text-sm font-bold text-white">Zonat ku kemi punuar</h4>
+          <p className="text-sm leading-relaxed text-white/55">
+            Shpime pusesh uji, pilota, ankera dhe gërmime me diafragmë në {QYTETET_E_PUNES.join(', ')} dhe anembanë Kosovës.
+          </p>
         </div>
 
         {/* Dedikim i veçantë */}

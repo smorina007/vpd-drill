@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { FaChevronRight } from 'react-icons/fa'
 import { IconType } from 'react-icons'
 import { ReactNode } from 'react'
+import { SITE_URL } from '@/lib/site'
 
 interface Crumb {
   label: string
@@ -27,6 +28,21 @@ interface PageHeroBannerProps {
 export default function PageHeroBanner({ icon: Icon, title, subtitle, crumbs, stat, image, children }: PageHeroBannerProps) {
   return (
     <section className="relative isolate overflow-hidden bg-bedrock text-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: crumbs.map((c, i) => ({
+              '@type': 'ListItem',
+              position: i + 1,
+              name: c.label,
+              ...(c.href ? { item: `${SITE_URL}${c.href === '/' ? '' : c.href}` } : {}),
+            })),
+          }),
+        }}
+      />
       {image && (
         <div className="absolute inset-0 -z-10">
           <Image src={image} alt="" fill priority sizes="100vw" className="object-cover opacity-45" />
