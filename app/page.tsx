@@ -1,6 +1,7 @@
 import Hero from '@/components/Hero'
 import StatistikatVizitoreve from '@/components/StatistikatVizitoreve'
 import Sherbimet from '@/components/Sherbimet'
+import SiPunojme from '@/components/SiPunojme'
 import Makinerite from '@/components/Makinerite'
 import Prodhimi from '@/components/Prodhimi'
 import Produkte from '@/components/Produkte'
@@ -23,6 +24,7 @@ export default function Home() {
       <Hero />
       <StatistikatVizitoreve />
       <Sherbimet />
+      <SiPunojme />
       <ShpimiNeThellesi />
       <VleresuesiCmimit />
       <Makinerite />

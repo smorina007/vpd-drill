@@ -4,14 +4,12 @@ import Script from 'next/script'
 import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import FloatingAIButton from '@/components/FloatingAIButton'
-import FloatingWhatsAppButton from '@/components/FloatingWhatsAppButton'
+import ButoniKontaktit from '@/components/ButoniKontaktit'
 import BackToTopButton from '@/components/BackToTopButton'
 import { OfertaProvider } from '@/app/context/OfertaContext'
 import { WeatherProvider } from '@/app/context/WeatherContext'
 import { MjeteProvider } from '@/app/context/MjeteContext'
 import KursoriShiko from '@/components/KursoriShiko'
-import LoadingScreen from '@/components/LoadingScreen'
 import { BIZNESI_ID, FACEBOOK_URL, GOOGLE_PROFILE_URL, QYTETET_E_PUNES, SITE_URL } from '@/lib/site'
 
 // Archivo (variabël: pesha 100–900, gjerësia 62–125%) — e ngarkuar lokalisht,
@@ -110,12 +108,6 @@ export default function RootLayout({
   return (
     <html lang="sq" suppressHydrationWarning>
       <head>
-        {/* Fsheh menjëherë ekranin hyrës nëse është parë në këtë session (pa "kërcim" të faqes) */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `try{if(sessionStorage.getItem('vpd-drill-loading-shown')==='1'||/^\\/(de|en)(\\/|$)/.test(location.pathname))document.documentElement.classList.add('intro-done')}catch(e){}`,
-          }}
-        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -188,8 +180,6 @@ export default function RootLayout({
         />
       </head>
       <body className={`${archivo.variable} font-sans`}>
-        <LoadingScreen />
-
         <OfertaProvider>
         <WeatherProvider>
         <MjeteProvider>
@@ -208,8 +198,7 @@ export default function RootLayout({
 
           <Footer />
 
-          <FloatingWhatsAppButton />
-          <FloatingAIButton />
+          <ButoniKontaktit />
           <BackToTopButton />
           <KursoriShiko />
 

@@ -1,6 +1,7 @@
 import ServiceDetail, { ListeThjeshte } from '@/components/ServiceDetail'
 import { FaHammer, FaRuler, FaWater, FaHardHat } from 'react-icons/fa'
 import type { Metadata } from 'next'
+import SiPunojme from '@/components/SiPunojme'
 
 export const metadata: Metadata = {
   title: 'Gërmim me Diafragmë — Mure Nëntokësore deri 50m',
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
 
 export default function GermimDiafragmePage() {
   return (
+    <>
     <ServiceDetail
       titulli="Germim me Diafragmë"
       hyrja="Germime precize për mure nëntokësore, themele të thella dhe struktura mbajtëse, me stabilizim duke përdorur bentonit."
@@ -52,5 +54,7 @@ export default function GermimDiafragmePage() {
         { icon: FaHammer, text: 'Makineri të specializuara' },
       ]}
     />
+    <SiPunojme />
+    </>
   )
 }

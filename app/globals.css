@@ -178,3 +178,14 @@
   .bashkepunetoret-track { animation: none; flex-wrap: wrap; width: auto; justify-content: center; row-gap: 1rem; padding-inline: 1rem; }
   .bashkepunetoret-track > [aria-hidden='true'] { display: none; }
 }
+
+/* Animacione hyrëse me CSS — nisin që në vizatimin e parë, pa pritur JavaScript-in (LCP i shpejtë) */
+@keyframes vpd-rise { from { transform: translateY(0.35em); } to { transform: none; } }
+@keyframes vpd-lift { from { transform: translateY(14px); } to { transform: none; } }
+@keyframes vpd-fade-up { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.anim-rise { animation: vpd-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.anim-fade-up { animation: vpd-fade-up 0.6s ease-out both; }
+.anim-lift { animation: vpd-lift 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+@media (prefers-reduced-motion: reduce) {
+  .anim-rise, .anim-fade-up, .anim-lift { animation: none; }
+}
