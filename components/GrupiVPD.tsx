@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { FaGasPump, FaCarSide, FaHandSparkles, FaUtensils, FaShoppingBasket, FaChild } from 'react-icons/fa'
+import { FaGasPump, FaCarSide, FaHandSparkles, FaUtensils, FaShoppingBasket, FaChild, FaClock } from 'react-icons/fa'
 import Lightbox from './ui/Lightbox'
 
 const FOTOT = [
@@ -23,9 +23,29 @@ const SHERBIMET = [
   { icon: FaChild, t: 'Kënd lojërash' },
 ]
 
+const ORARI = [
+  { icon: FaGasPump, emri: 'VPD OIL', pershkrimi: 'Pika e karburantit', orari: '24 orë / 7 ditë', hapur: null as null | [number, number] },
+  { icon: FaCarSide, emri: 'Autolarje', pershkrimi: 'Automatike & self-service', orari: '24 orë / 7 ditë', hapur: null as null | [number, number] },
+  { icon: FaUtensils, emri: 'VPD Center', pershkrimi: 'Restorant, market, kënd lojërash', orari: '06:30 – 23:00', hapur: [6 * 60 + 30, 23 * 60] as [number, number] },
+]
+
+/** Minutat e ditës sipas orës së Kosovës */
+function minutatTani() {
+  const p = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Belgrade', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(new Date())
+  const h = Number(p.find((x) => x.type === 'hour')?.value ?? 0) % 24
+  const m = Number(p.find((x) => x.type === 'minute')?.value ?? 0)
+  return h * 60 + m
+}
+
 /** "Familja VPD" — VPD OIL dhe VPD Center, pjesë e të njëjtit grup me VPD DRILL. */
 export default function GrupiVPD() {
   const [hapur, setHapur] = useState<number | null>(null)
+  const [tani, setTani] = useState<number | null>(null)
+  useEffect(() => {
+    setTani(minutatTani())
+    const id = setInterval(() => setTani(minutatTani()), 60_000)
+    return () => clearInterval(id)
+  }, [])
 
   return (
     <section id="grupi-vpd" data-shtresa="Grupi VPD" className="relative overflow-hidden bg-bedrock py-20 text-white sm:py-28">
@@ -49,6 +69,37 @@ export default function GrupiVPD() {
               </li>
             ))}
           </ul>
+
+          <div className="mt-8 rounded-xl bg-white/[0.04] p-5 ring-1 ring-white/10">
+            <p className="flex items-center gap-2 text-sm font-semibold text-glacier">
+              <FaClock /> Orari i punës
+            </p>
+            <ul className="mt-3 divide-y divide-white/10">
+              {ORARI.map((o) => {
+                const eshteHapur = o.hapur === null ? true : tani === null ? null : tani >= o.hapur[0] && tani < o.hapur[1]
+                return (
+                  <li key={o.emri} className="flex items-center gap-3 py-3 first:pt-1 last:pb-0">
+                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/[0.07] text-glacier">
+                      <o.icon className="text-sm" />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-sm font-bold text-white">{o.emri}</span>
+                      <span className="block truncate text-xs text-white/60">{o.pershkrimi}</span>
+                    </span>
+                    <span className="text-right">
+                      <span className="block text-sm font-bold tabular text-white">{o.orari}</span>
+                      {eshteHapur !== null && (
+                        <span className={`mt-0.5 inline-flex items-center gap-1.5 text-[11px] font-semibold ${eshteHapur ? 'text-emerald-300' : 'text-white/60'}`}>
+                          <span className={`h-1.5 w-1.5 rounded-full ${eshteHapur ? 'bg-emerald-400' : 'bg-white/40'}`} />
+                          {eshteHapur ? 'Hapur tani' : 'Mbyllur tani'}
+                        </span>
+                      )}
+                    </span>
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
         </div>
 
         <div className="grid auto-rows-[120px] grid-cols-3 gap-3 sm:auto-rows-[150px]">
