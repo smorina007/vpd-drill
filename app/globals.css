@@ -201,3 +201,19 @@
 }
 @keyframes vpd-ari { from { background-position: 100% 0; } to { background-position: -150% 0; } }
 @media (prefers-reduced-motion: reduce) { .ari { animation: none; } }
+
+/* Prerja gjeologjike (seksioni i thellësive) */
+@keyframes prerja-uji { from { transform: translateX(0); } to { transform: translateX(33.333%); } }
+.prerja-uji { animation: prerja-uji 6s linear infinite; }
+@keyframes prerja-drita { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+.prerja-drita { animation: prerja-drita 1.4s ease-in-out infinite; }
+@keyframes prerja-spiralja { from { background-position: 0 0, 0 0; } to { background-position: 0 18px, 0 0; } }
+.prerja-spiralja { animation: prerja-spiralja 0.45s linear infinite; }
+@keyframes prerja-shkendija {
+  0% { transform: translate(0, -4px) scale(1); opacity: 1; }
+  100% { transform: translate(var(--dx), -22px) scale(0.3); opacity: 0; }
+}
+.prerja-shkendija { animation: prerja-shkendija 0.9s ease-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .prerja-uji, .prerja-drita, .prerja-spiralja, .prerja-shkendija { animation: none; }
+}

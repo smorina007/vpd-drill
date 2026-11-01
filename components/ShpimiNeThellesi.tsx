@@ -2,8 +2,9 @@
 
 import { useRef, useState } from 'react'
 import Link from 'next/link'
-import { motion, useMotionValueEvent, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
+import { useMotionValueEvent, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
 import { FaArrowRight } from 'react-icons/fa'
+import PrerjaETokes from './PrerjaETokes'
 
 /**
  * "Shpimi" — seksion që lëviz me scroll-in: sfida zbret nëpër shtresat e tokës
@@ -41,38 +42,6 @@ const piket = [
   { d: 500, titulli: 'Puse në terrene të forta', tekst: 'Terrene të forta (shkëmbore) — deri 500m', href: '/sherbimet/shpime-puse' },
 ]
 
-const shenjat = [0, 10, 20, 30, 40, 50, 60, 100, 200, 300, 400, 500]
-
-function Motivi({ id, lloji }: { id: string; lloji: string }) {
-  if (lloji === 'dots')
-    return (
-      <pattern id={id} width="14" height="14" patternUnits="userSpaceOnUse">
-        <circle cx="3" cy="4" r="1.2" fill="rgba(255,255,255,0.18)" />
-        <circle cx="10" cy="10" r="1" fill="rgba(0,0,0,0.25)" />
-      </pattern>
-    )
-  if (lloji === 'lines')
-    return (
-      <pattern id={id} width="40" height="10" patternUnits="userSpaceOnUse">
-        <path d="M0 5 Q10 2 20 5 T40 5" stroke="rgba(0,0,0,0.18)" fill="none" strokeWidth="1" />
-      </pattern>
-    )
-  if (lloji === 'gravel')
-    return (
-      <pattern id={id} width="22" height="18" patternUnits="userSpaceOnUse">
-        <ellipse cx="5" cy="5" rx="3" ry="2" fill="rgba(0,0,0,0.16)" />
-        <ellipse cx="15" cy="12" rx="2.4" ry="1.7" fill="rgba(255,255,255,0.18)" />
-        <circle cx="18" cy="3" r="1" fill="rgba(0,0,0,0.2)" />
-      </pattern>
-    )
-  return (
-    <pattern id={id} width="60" height="40" patternUnits="userSpaceOnUse">
-      <path d="M0 20 L18 14 L34 24 L60 16" stroke="rgba(255,255,255,0.12)" fill="none" />
-      <path d="M8 40 L22 30 L40 36 L52 28" stroke="rgba(0,0,0,0.25)" fill="none" />
-    </pattern>
-  )
-}
-
 export default function ShpimiNeThellesi() {
   const ref = useRef<HTMLElement>(null)
   const reduce = useReducedMotion()
@@ -85,7 +54,7 @@ export default function ShpimiNeThellesi() {
     if (!reduce) setThellesia(Math.round(thellesiaNgaY(kufizo(v))))
   })
 
-  const topi = useTransform(p, (v) => `${kufizo(v) * 100}%`)
+  const progres = useTransform(p, (v) => (reduce ? 1 : kufizo(v)))
   const shtresaAktive = [...shtresat].reverse().find((s) => thellesia >= s.nga) ?? shtresat[0]
 
   return (
@@ -99,70 +68,14 @@ export default function ShpimiNeThellesi() {
         <div className="shell grid h-full grid-cols-[minmax(120px,0.8fr)_minmax(0,1.2fr)] max-[420px]:grid-cols-[88px_minmax(0,1fr)] max-[420px]:gap-4 gap-6 pb-8 pt-[calc(var(--header-h)+24px)] [@media(max-height:760px)]:!pb-4 [@media(max-height:760px)]:!pt-[calc(var(--header-h)+12px)] sm:gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16 lg:pb-12">
           {/* Prerja e tokës */}
           <div className="relative flex min-h-0 flex-col">
-            <div className="relative flex-1 overflow-hidden rounded-lg ring-1 ring-white/10" aria-hidden="true">
-              <svg className="absolute inset-0 h-full w-full" preserveAspectRatio="none" viewBox="0 0 100 1000">
-                <defs>
-                  {shtresat.map((s) => (
-                    <Motivi key={s.emri} id={`m-${s.motiv}`} lloji={s.motiv} />
-                  ))}
-                </defs>
-                {shtresat.map((s) => {
-                  const y1 = yNgaThellesia(s.nga) * 1000
-                  const y2 = yNgaThellesia(s.deri) * 1000
-                  return (
-                    <g key={s.emri}>
-                      <rect x="0" y={y1} width="100" height={y2 - y1} fill={s.ngjyra} />
-                      <rect x="0" y={y1} width="100" height={y2 - y1} fill={`url(#m-${s.motiv})`} />
-                      <line x1="0" x2="100" y1={y1} y2={y1} stroke="rgba(0,0,0,0.35)" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
-                    </g>
-                  )
-                })}
-              </svg>
-
-              {/* Emrat e shtresave */}
-              {shtresat.map((s) => (
-                <span
-                  key={s.emri}
-                  className="absolute right-2 rounded bg-black/35 px-1.5 py-0.5 max-[420px]:right-0.5 max-[420px]:px-1 max-[420px]:text-[8px] max-[420px]:leading-tight text-[10px] font-semibold text-white/85 backdrop-blur-sm sm:right-3 sm:text-xs"
-                  style={{
-                    top:
-                      s.nga === 0
-                        ? '6px'
-                        : `calc(${((yNgaThellesia(s.nga) + yNgaThellesia(Math.min(s.deri, s.nga + 120))) / 2) * 100}% - 9px)`,
-                  }}
-                >
-                  {s.emri}
-                </span>
-              ))}
-
-              {/* Vrima e shpuar */}
-              <motion.div
-                className="absolute left-1/2 top-0 w-[14%] max-w-[44px] -translate-x-1/2 bg-[linear-gradient(90deg,#0b2026,#183c44_50%,#0b2026)] shadow-[inset_0_0_8px_rgba(0,0,0,0.6)]"
-                style={{ height: reduce ? '100%' : topi }}
+            <div className="relative min-h-0 flex-1">
+              <PrerjaETokes
+                progres={progres}
+                thellesia={thellesia}
+                yNgaThellesia={yNgaThellesia}
+                piket={piket.map((pk) => ({ d: pk.d, emri: pk.titulli }))}
+                reduce={reduce}
               />
-              {/* Sfida */}
-              <motion.div
-                className="absolute left-1/2 w-[14%] max-w-[44px] -translate-x-1/2 -translate-y-full"
-                style={{ top: reduce ? '100%' : topi }}
-              >
-                <svg viewBox="0 0 40 60" className="w-full drop-shadow-[0_0_10px_rgba(242,183,5,0.45)]">
-                  <rect x="17" y="0" width="6" height="30" fill="#c9d1d1" />
-                  <path d="M6 30 H34 L20 60 Z" fill="#F2B705" />
-                  <path d="M8 36 L32 40 M10 44 L30 47 M13 51 L27 53" stroke="#0E2A30" strokeWidth="2" />
-                </svg>
-              </motion.div>
-
-              {/* Shenjat e thellësisë */}
-              {shenjat.map((d) => (
-                <span
-                  key={d}
-                  className="absolute left-0 flex -translate-y-1/2 items-center gap-1 text-[9px] font-semibold tabular text-white/70 sm:text-[10px]"
-                  style={{ top: `${yNgaThellesia(d) * 100}%` }}
-                >
-                  <span className="h-px w-2.5 bg-white/60" />
-                  {d}
-                </span>
-              ))}
             </div>
             <p className="mt-2 text-[10px] text-white/40 sm:text-xs [@media(max-height:760px)]:hidden">Shtresat e tokës janë ilustruese.</p>
           </div>
