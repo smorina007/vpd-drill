@@ -90,7 +90,7 @@ export default function PrerjaETokes({
     const guralecet: { x: number; y: number; rx: number; ry: number; rot: number; c: string }[] = []
     const yRL = Y(22) + 6
     const yRP = Y(58) - 6
-    const n = Math.round((w * (yRP - yRL)) / 260)
+    const n = Math.min(260, Math.round((w * (yRP - yRL)) / 520))
     for (let i = 0; i < n; i++) {
       const rx = 1.5 + r() * (r() > 0.85 ? 7 : 3.5)
       guralecet.push({
@@ -151,9 +151,11 @@ export default function PrerjaETokes({
   const yUjiP = Y(UJI.deri)
   const shenjat = [0, 10, 20, 30, 40, 50, 60, 100, 200, 300, 400, 500]
 
-  return (
-    <div ref={ref} className="relative h-full w-full overflow-hidden rounded-2xl bg-[#13323a] shadow-[0_30px_60px_-30px_rgba(0,0,0,0.8)] ring-1 ring-white/10">
-      <svg width={w} height={h} className="absolute inset-0 block" aria-hidden="true">
+  // Pjesa e palëvizshme e prerjes (shtresat, guralecët, uji, çarjet) — vizatohet vetëm kur ndryshon madhësia,
+  // jo në çdo lëvizje të scroll-it.
+  const statike = useMemo(
+    () => (
+      <>
         <defs>
           <linearGradient id="qielli" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stopColor="#0f2f37" />
@@ -257,6 +259,16 @@ export default function PrerjaETokes({
           ))}
         </g>
 
+      </>
+    ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [gjeo, w, h, reduce],
+  )
+
+  return (
+    <div ref={ref} className="relative h-full w-full overflow-hidden rounded-2xl bg-[#13323a] shadow-[0_30px_60px_-30px_rgba(0,0,0,0.8)] ring-1 ring-white/10">
+      <svg width={w} height={h} className="absolute inset-0 block" aria-hidden="true">
+        {statike}
         {/* Pikat e shërbimeve në skajin e djathtë */}
         {piket.map((pk) => {
           const y = Y(pk.d)

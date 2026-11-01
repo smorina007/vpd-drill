@@ -17,6 +17,19 @@ const stats = [
 ]
 
 /** Video pa zë që luan vetëm kur është në ekran (kursen bateri/të dhëna). */
+/** true/false pasi montohet në shfletues (null gjatë renderimit në server) */
+function useMedia(query: string) {
+  const [ok, setOk] = useState<boolean | null>(null)
+  useEffect(() => {
+    const m = window.matchMedia(query)
+    const f = () => setOk(m.matches)
+    f()
+    m.addEventListener('change', f)
+    return () => m.removeEventListener('change', f)
+  }, [query])
+  return ok
+}
+
 function useAutoplay(ref: React.RefObject<HTMLVideoElement | null>, enabled: boolean) {
   useEffect(() => {
     const v = ref.current
@@ -35,9 +48,12 @@ export default function Hero() {
   const deskRef = useRef<HTMLVideoElement>(null)
   const [hapur, setHapur] = useState<number | null>(null)
 
-  useAutoplay(bgRef, !reduce)
-  useAutoplay(cardRef, !reduce)
-  useAutoplay(deskRef, !reduce)
+  // Çdo video shkarkohet vetëm në pajisjen ku shfaqet (më parë celulari shkarkonte edhe videon e kartelës)
+  const md = useMedia('(min-width: 768px)')
+  const xl = useMedia('(min-width: 1280px)')
+  useAutoplay(bgRef, !reduce && md === false)
+  useAutoplay(cardRef, !reduce && !!xl)
+  useAutoplay(deskRef, !reduce && !!md)
 
   return (
     <section id="ballina" data-shtresa="Sipërfaqja" className="relative isolate overflow-hidden bg-bedrock text-white">
@@ -46,8 +62,8 @@ export default function Hero() {
         {/* Desktop: video me dron e bazës së prodhimit */}
         <video
           ref={deskRef}
-          src="/videos/hero-fabrika.mp4"
-          poster="/videos/hero-fabrika.jpg"
+          src={md ? '/videos/hero-fabrika.mp4' : undefined}
+          poster={md ? '/videos/hero-fabrika.jpg' : undefined}
           muted
           loop
           playsInline
@@ -57,8 +73,8 @@ export default function Hero() {
         />
         <video
           ref={bgRef}
-          src={`${REEL}.mp4`}
-          poster={`${REEL}.jpg`}
+          src={md === false ? `${REEL}.mp4` : undefined}
+          poster={md === false ? `${REEL}.jpg` : undefined}
           muted
           loop
           playsInline
@@ -119,8 +135,8 @@ export default function Hero() {
           >
             <video
               ref={cardRef}
-              src={`${REEL}.mp4`}
-              poster={`${REEL}.jpg`}
+              src={xl ? `${REEL}.mp4` : undefined}
+              poster={xl ? `${REEL}.jpg` : undefined}
               muted
               loop
               playsInline
