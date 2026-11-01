@@ -4,6 +4,7 @@ export const SITE_URL = 'https://vpddrill.com'
 export const BIZNESI_ID = `${SITE_URL}/#biznesi`
 
 export const FACEBOOK_URL = 'https://www.facebook.com/VllezeritPaqarizi'
+export const YOUTUBE_URL = 'https://www.youtube.com/@multiokii'
 /** Profili i biznesit në Google (Maps / Kërkim). */
 export const GOOGLE_PROFILE_URL = 'https://g.page/r/CV3TdYF4-rIGEBI'
 /** Linku që hap direkt formularin e vlerësimit në Google. */

@@ -60,6 +60,7 @@ const nextConfig = {
       { source: '/vleresim', destination: 'https://g.page/r/CV3TdYF4-rIGEBI/review', permanent: false },
       { source: '/google', destination: 'https://g.page/r/CV3TdYF4-rIGEBI', permanent: false },
       { source: '/facebook', destination: 'https://www.facebook.com/VllezeritPaqarizi', permanent: false },
+      { source: '/youtube', destination: 'https://www.youtube.com/@multiokii', permanent: false },
     ]
   },
 }

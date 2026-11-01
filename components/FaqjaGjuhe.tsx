@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { FaWater, FaBuilding, FaAnchor, FaHammer, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaClock, FaWhatsapp, FaGoogle, FaFacebookF } from 'react-icons/fa'
+import { FaWater, FaBuilding, FaAnchor, FaHammer, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaClock, FaWhatsapp, FaGoogle, FaFacebookF, FaYoutube } from 'react-icons/fa'
 import { SEKSIONET } from '@/lib/gjuha'
-import { BIZNESI_ID, FACEBOOK_URL, GOOGLE_PROFILE_URL, QYTETET_E_PUNES, SITE_URL } from '@/lib/site'
+import { BIZNESI_ID, FACEBOOK_URL, YOUTUBE_URL, GOOGLE_PROFILE_URL, QYTETET_E_PUNES, SITE_URL } from '@/lib/site'
 
 /** Faqe hyrëse për vizitorët që nuk flasin shqip (diaspora, investitorë të huaj). */
 
@@ -214,6 +214,9 @@ export default function FaqjaGjuhe({ gjuha }: { gjuha: Gjuha }) {
             </a>
             <a href={FACEBOOK_URL} target="_blank" rel="noopener noreferrer" className="btn-ghost justify-center px-6">
               <FaFacebookF /> {t.facebook}
+            </a>
+            <a href={YOUTUBE_URL} target="_blank" rel="noopener noreferrer" className="btn-ghost justify-center px-6">
+              <FaYoutube /> YouTube
             </a>
           </div>
         </div>

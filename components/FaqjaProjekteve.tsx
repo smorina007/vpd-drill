@@ -1,6 +1,8 @@
 import Galeria from '@/components/Galeria'
 import PageHeroBanner from '@/components/PageHeroBanner'
 import ShowreelButon from '@/components/ShowreelButon'
+import { FaYoutube } from 'react-icons/fa'
+import { YOUTUBE_URL } from '@/lib/site'
 import { FaImages } from 'react-icons/fa'
 import { BIZNESI_ID, QYTETET_E_PUNES, SITE_URL } from '@/lib/site'
 import { mediaTeReja, teGjithaMediat } from '@/lib/galeriaMedia'
@@ -39,7 +41,12 @@ export default function FaqjaProjekteve({ hapId }: { hapId?: string }) {
         crumbs={[{ label: 'Ballina', href: '/' }, { label: 'Projektet' }]}
         image="/images/galeria/diafragme/d7.jpg"
       >
-        <ShowreelButon />
+        <div className="flex flex-wrap items-center gap-3">
+          <ShowreelButon />
+          <a href={YOUTUBE_URL} target="_blank" rel="noopener noreferrer" className="btn-ghost-light px-6 py-3">
+            <FaYoutube className="text-[#FF4E45]" /> Kanali në YouTube
+          </a>
+        </div>
       </PageHeroBanner>
       <div className="border-b border-stone-line bg-white">
         <dl className="shell grid grid-cols-2 lg:grid-cols-4">

@@ -2,9 +2,9 @@
 
 import { FormEvent, useRef, useState } from 'react'
 import emailjs from '@emailjs/browser'
-import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaClock, FaFacebookF, FaGoogle, FaCheckCircle, FaExclamationTriangle, FaSpinner } from 'react-icons/fa'
+import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaClock, FaFacebookF, FaYoutube, FaGoogle, FaCheckCircle, FaExclamationTriangle, FaSpinner } from 'react-icons/fa'
 import { trackEvent } from '@/lib/gtag'
-import { FACEBOOK_URL, GOOGLE_PROFILE_URL } from '@/lib/site'
+import { FACEBOOK_URL, GOOGLE_PROFILE_URL, YOUTUBE_URL } from '@/lib/site'
 
 const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!
 const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_CONTACT!
@@ -19,6 +19,7 @@ const telefonat = [
 export const rrjetet = [
   { href: GOOGLE_PROFILE_URL, label: 'Google', icon: FaGoogle },
   { href: FACEBOOK_URL, label: 'Facebook', icon: FaFacebookF },
+  { href: YOUTUBE_URL, label: 'YouTube', icon: FaYoutube },
 ]
 
 /**

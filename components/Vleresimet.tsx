@@ -1,9 +1,9 @@
 'use client'
 
-import { FaGoogle, FaFacebookF, FaExternalLinkAlt, FaPen } from 'react-icons/fa'
+import { FaGoogle, FaFacebookF, FaYoutube, FaExternalLinkAlt, FaPen } from 'react-icons/fa'
 import { useMjete } from '@/app/context/MjeteContext'
 import SectionHeading from './ui/SectionHeading'
-import { FACEBOOK_URL, GOOGLE_PROFILE_URL, GOOGLE_REVIEW_URL } from '@/lib/site'
+import { FACEBOOK_URL, YOUTUBE_URL, GOOGLE_PROFILE_URL, GOOGLE_REVIEW_URL } from '@/lib/site'
 import { trackEvent } from '@/lib/gtag'
 
 /**
@@ -75,6 +75,23 @@ export default function Vleresimet() {
               <span>
                 <span className="block text-lg font-bold">Na ndiqni në Facebook</span>
                 <span className="mt-1 block text-sm text-white/65">Foto dhe video nga punimet tona më të fundit</span>
+              </span>
+            </a>
+
+            {/* YouTube */}
+            <a
+              href={YOUTUBE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackEvent('click_youtube', { location: 'vleresimet' })}
+              className="group flex items-center gap-5 rounded-xl bg-bedrock p-7 text-white transition-colors hover:bg-bedrock-2"
+            >
+              <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-white/10 text-xl transition-colors group-hover:bg-[#FF0000]">
+                <FaYoutube />
+              </span>
+              <span>
+                <span className="block text-lg font-bold">Shikoni videot në YouTube</span>
+                <span className="mt-1 block text-sm text-white/65">Shpime, pilota dhe diafragmë — video të plota nga kantieret</span>
               </span>
             </a>
 

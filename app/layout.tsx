@@ -10,7 +10,7 @@ import { OfertaProvider } from '@/app/context/OfertaContext'
 import { WeatherProvider } from '@/app/context/WeatherContext'
 import { MjeteProvider } from '@/app/context/MjeteContext'
 import KursoriShiko from '@/components/KursoriShiko'
-import { BIZNESI_ID, FACEBOOK_URL, GOOGLE_PROFILE_URL, QYTETET_E_PUNES, SITE_URL } from '@/lib/site'
+import { BIZNESI_ID, FACEBOOK_URL, YOUTUBE_URL, GOOGLE_PROFILE_URL, QYTETET_E_PUNES, SITE_URL } from '@/lib/site'
 
 // Archivo (variabël: pesha 100–900, gjerësia 62–125%) — e ngarkuar lokalisht,
 // pa varësi nga Google Fonts gjatë build-it. Licenca: app/fonts/OFL-Archivo.txt
@@ -146,6 +146,7 @@ export default function RootLayout({
               sameAs: [
                 GOOGLE_PROFILE_URL,
                 FACEBOOK_URL,
+                YOUTUBE_URL,
               ],
               hasOfferCatalog: {
                 '@type': 'OfferCatalog',
