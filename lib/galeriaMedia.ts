@@ -109,6 +109,7 @@ const fotoMuriL: MediaItem[] = [
 export const KAT_PILOTA = 'Pilota dhe ankera'
 export const KAT_PRODHIMI = 'Prodhimi'
 export const KAT_VINC = 'Vinça & Montime'
+export const KAT_PUSE = 'Puse uji'
 
 const vid = (id: string, t: string, kategoria: string, vertikale = true): MediaItem => ({
   id,
@@ -122,6 +123,11 @@ const vid = (id: string, t: string, kategoria: string, vertikale = true): MediaI
 
 /** Videot e dërguara më 31.10.2026 (pa zë — disa kishin muzikë TikTok). */
 const videoTeReja: MediaItem[] = [
+  vid('soilmec-4k', 'Soilmec SR-30 — shpimi i pilotave', KAT_PILOTA, false),
+  vid('hapja-pilotave', 'Hapja e pilotave pranë objektit', KAT_PILOTA),
+  vid('pus-uji', 'Shpimi i pusit — uji shpërthen nga thellësia', KAT_PUSE, false),
+  { ...vid('albanica-prizren', 'Pilota për Albanica Residence', KAT_PILOTA), lokacioni: 'Prizren' },
+  vid('kantier-pilotash', 'Kantier me disa makina shpimi', KAT_PILOTA, false),
   { ...vid('fabrika', 'Baza e prodhimit të VPD — pamje nga droni', KAT_PRODHIMI, false), src: '/videos/hero-fabrika.mp4', poster: '/videos/hero-fabrika.jpg' },
   vid('mur-pilotash', 'Mur pilotash pas gërmimit', KAT_DIAFRAGME),
   vid('shpim-pilotash', 'Shpimi i pilotave', KAT_PILOTA),

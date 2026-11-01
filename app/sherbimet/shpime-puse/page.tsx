@@ -61,7 +61,7 @@ export default function ShpimePusePage() {
         { icon: FaWater, text: '10+ makineri të specializuara' },
       ]}
     />
-    <GaleriaSherbimit titulli="Makineritë tona të shpimit" kategorite={['Shpime']} fjaleKyce={['makina e shpimit', 'makinat e shpimit']} />
+    <GaleriaSherbimit titulli="Shpime pusesh dhe makineritë tona" kategorite={['Puse uji', 'Shpime']} fjaleKyce={['makina e shpimit', 'makinat e shpimit']} />
     <VleresuesiCmimit />
     </>
   )
