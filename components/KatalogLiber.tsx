@@ -78,10 +78,10 @@ function Kopertina({ mbrapa = false }: { mbrapa?: boolean }) {
             <Image src="/images/logo1.png" alt="" width={120} height={120} className="h-auto w-full" />
           </span>
           <p className="mt-[1.4em] text-[0.7em] font-semibold uppercase tracking-[0.35em] text-[#d8bd6a]">VPD DRILL SHPK</p>
-          <h3 className="ari mt-[0.5em] font-xwide text-[2.25em] font-extrabold leading-[1.02]">
+          <h2 className="ari mt-[0.5em] font-xwide text-[2.25em] font-extrabold leading-[1.02]">
             Katalogu
             <br />i Produkteve
-          </h3>
+          </h2>
           <div className="mt-[1.2em] h-px w-[40%] bg-gradient-to-r from-transparent via-[#c9a54a] to-transparent" />
           <div className="relative mt-[1.6em] aspect-[16/9] w-full overflow-hidden rounded-[0.35em] shadow-[0_0_0_0.12em_#c9a54a,0_0.8em_2em_rgba(0,0,0,0.55)]">
             <Image src="/images/katalogu/kopertina.jpg" alt="Baza e prodhimit të VPD" fill sizes="400px" className="object-cover" />
@@ -115,7 +115,7 @@ function PermbajtjaFaqe({ shko }: { shko: (faqe: number) => void }) {
     <Leter ana="djathtas" nr={2}>
       <div className="flex h-full flex-col px-[10%] pb-[12%] pt-[11%]">
         <p className="text-[0.62em] font-bold uppercase tracking-[0.3em] text-brand">Përmbajtja</p>
-        <h3 className="mt-[0.4em] font-xwide text-[1.6em] font-extrabold">Produktet</h3>
+        <h2 className="mt-[0.4em] font-xwide text-[1.6em] font-extrabold">Produktet</h2>
         <ol className="mt-[1.4em] flex-1 space-y-[0.15em]">
           {produkteKategorite.map((k, i) => (
             <li key={k.slug}>
@@ -151,7 +151,7 @@ function FaqeFoto({ kat, nr, faqe }: { kat: KategoriProduktesh; nr: number; faqe
         </div>
         <div className="relative z-10 -mt-[2.2em] flex-1 px-[10%] pb-[12%]">
           <p className="font-xwide text-[3.2em] font-extrabold leading-none text-signal drop-shadow-[0_0.08em_0.2em_rgba(0,0,0,0.25)]">{String(nr).padStart(2, '0')}</p>
-          <h3 className="mt-[0.15em] font-xwide text-[1.55em] font-extrabold leading-tight">{kat.title}</h3>
+          <h2 className="mt-[0.15em] font-xwide text-[1.55em] font-extrabold leading-tight">{kat.title}</h2>
           <div className="mt-[0.7em] h-[0.18em] w-[2.6em] bg-brand" />
           <p className="mt-[0.9em] text-[0.82em] leading-relaxed text-slate-ink">{kat.pershkrimi}</p>
           <p className="mt-[0.9em] text-[0.68em] font-semibold text-slate-mute">{kat.items.length} modele në katalog →</p>
@@ -172,7 +172,7 @@ function FaqeLista({ kat, faqe }: { kat: KategoriProduktesh; faqe: number }) {
           </span>
           <div>
             <p className="text-[0.58em] font-bold uppercase tracking-[0.25em] text-brand">Modelet</p>
-            <h4 className="text-[1.05em] font-extrabold leading-tight">{kat.title}</h4>
+            <h3 className="text-[1.05em] font-extrabold leading-tight">{kat.title}</h3>
           </div>
         </div>
         <ul className={`mt-[1em] flex-1 divide-y divide-bedrock/10 overflow-y-auto pr-[0.3em] ${shume ? 'text-[0.78em]' : 'text-[0.86em]'}`}>
@@ -216,7 +216,7 @@ function FaqeHyrja() {
     <Leter ana="majtas" nr={1}>
       <div className="flex h-full flex-col px-[10%] pb-[12%] pt-[11%]">
         <p className="text-[0.62em] font-bold uppercase tracking-[0.3em] text-brand">Mirë se vini</p>
-        <h3 className="mt-[0.4em] font-xwide text-[1.45em] font-extrabold leading-tight">Prodhim betoni për themele të sigurta</h3>
+        <h2 className="mt-[0.4em] font-xwide text-[1.45em] font-extrabold leading-tight">Prodhim betoni për themele të sigurta</h2>
         <p className="mt-[1em] text-[0.82em] leading-relaxed text-slate-ink">
           Në këtë katalog gjeni produktet që VPD DRILL prodhon dhe furnizon për ndërtim, puse dhe shpime — nga muret L te gypat e betonit dhe kafazët e armaturës.
         </p>
@@ -251,7 +251,7 @@ function FaqeRreth({ faqe }: { faqe: number }) {
         </div>
         <div className="relative z-10 -mt-[1.5em] px-[10%] pb-[12%]">
           <p className="text-[0.62em] font-bold uppercase tracking-[0.3em] text-brand">Nga baza deri te kantieri</p>
-          <h3 className="mt-[0.3em] font-xwide text-[1.4em] font-extrabold leading-tight">Prodhim · Transport · Montim</h3>
+          <h2 className="mt-[0.3em] font-xwide text-[1.4em] font-extrabold leading-tight">Prodhim · Transport · Montim</h2>
           <ul className="mt-[0.9em] space-y-[0.45em] text-[0.8em] text-slate-ink">
             <li>✓ Elemente të prodhuara në bazën tonë të prodhimit</li>
             <li>✓ Transport me kamion deri në lokacionin tuaj</li>
@@ -269,7 +269,7 @@ function FaqeKontakti({ faqe }: { faqe: number }) {
     <Leter ana="djathtas" nr={faqe}>
       <div className="flex h-full flex-col px-[10%] pb-[12%] pt-[11%]">
         <p className="text-[0.62em] font-bold uppercase tracking-[0.3em] text-brand">Kontakti</p>
-        <h3 className="mt-[0.4em] font-xwide text-[1.45em] font-extrabold leading-tight">Kërkoni ofertë sot</h3>
+        <h2 className="mt-[0.4em] font-xwide text-[1.45em] font-extrabold leading-tight">Kërkoni ofertë sot</h2>
         <ul className="mt-[1.2em] space-y-[0.7em] text-[0.8em]">
           <li className="flex items-center gap-[0.7em]"><FaPhoneAlt className="text-brand" /> +383 44 184 114 · +383 44 204 877</li>
           <li className="flex items-center gap-[0.7em]"><FaEnvelope className="text-brand" /> info@vllezeritpaqarizi.com</li>

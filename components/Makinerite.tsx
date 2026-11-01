@@ -75,9 +75,12 @@ export default function Makinerite() {
             <dl className="mt-8 grid grid-cols-3 border-y border-white/10">
               {bauerSpecs.map((s, k) => (
                 <div key={s.label} className={`py-4 ${k > 0 ? 'border-l border-white/10 pl-4' : 'pr-4'}`}>
-                  <s.icon className="mb-2 text-glacier" />
+                  <dt className="text-xs text-white/65">
+                    <s.icon className="mb-2 text-glacier" aria-hidden="true" />
+                    <span className="sr-only">{s.label}</span>
+                  </dt>
                   <dd className="text-lg font-bold font-wide text-white sm:text-2xl">{s.value}</dd>
-                  <dt className="mt-0.5 text-xs text-white/55">{s.label}</dt>
+                  <dd className="mt-0.5 text-xs text-white/65" aria-hidden="true">{s.label}</dd>
                 </div>
               ))}
             </dl>

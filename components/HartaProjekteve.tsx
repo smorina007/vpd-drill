@@ -94,10 +94,10 @@ export default function HartaProjekteve({ projektet }: { projektet: Projekti[] }
   return (
     <div className="w-full overflow-hidden rounded-xl bg-bedrock ring-1 ring-bedrock/10">
       <div className="px-4 sm:px-5 pt-4 sm:pt-5">
-        <h3 className="text-white font-bold text-base sm:text-lg flex items-center gap-2">
+        <h2 className="text-white font-bold text-base sm:text-lg flex items-center gap-2">
           <FaMapMarkerAlt className="text-glacier" />
           Ku kemi punuar
-        </h3>
+        </h2>
         <p className="text-white/60 text-xs sm:text-sm mt-1">
           {NR_PROJEKTEVE} projekte në {qytetet.length} qytete anembanë Kosovës
         </p>
@@ -123,7 +123,6 @@ export default function HartaProjekteve({ projektet }: { projektet: Projekti[] }
             <button
               key={qyteti}
               type="button"
-              aria-label={paFoto ? `${qyteti}: projekte të realizuara` : `${qyteti}: ${count} foto projektesh`}
               aria-pressed={isActive}
               onClick={() => setAktivi(isActive ? null : qyteti)}
               style={{ left: `${x}%`, top: `${y}%`, width: madhesia, height: madhesia }}
@@ -143,11 +142,12 @@ export default function HartaProjekteve({ projektet }: { projektet: Projekti[] }
                 }`}
                 style={{ fontSize: madhesia * 0.4 }}
               >
-                {paFoto ? '' : count}
+                <span aria-hidden="true">{paFoto ? '' : count}</span>
               </span>
               <span className={`absolute ${ETIKETA_KLASA[ETIKETA[qyteti] ?? 'poshte']} text-[9px] sm:text-[10px] text-white/80 font-medium whitespace-nowrap pointer-events-none`}>
                 {qyteti}
               </span>
+              <span className="sr-only">{paFoto ? ': projekte të realizuara' : `: ${count} foto projektesh`}</span>
             </button>
           )
         })}
@@ -165,11 +165,11 @@ export default function HartaProjekteve({ projektet }: { projektet: Projekti[] }
           >
             <div className="p-5 sm:p-6">
               <div className="flex items-center justify-between mb-3">
-                <h4 className="text-white font-semibold flex items-center gap-2">
+                <h3 className="text-white font-semibold flex items-center gap-2">
                   <FaMapMarkerAlt className="text-glacier" />
                   {aktivi}
                   {grupetSipasQytetit[aktivi].length > 0 && <span className="text-white/50 font-normal">— {grupetSipasQytetit[aktivi].length} foto</span>}
-                </h4>
+                </h3>
                 <button type="button" aria-label="Mbyll" onClick={() => setAktivi(null)} className="text-white/50 hover:text-white transition">
                   <FaTimes />
                 </button>
@@ -196,7 +196,7 @@ export default function HartaProjekteve({ projektet }: { projektet: Projekti[] }
       </AnimatePresence>
 
       {!aktivi && (
-        <p className="text-center text-white/40 text-xs py-3 px-4">
+        <p className="text-center text-white/65 text-xs py-3 px-4">
           Prek një pikë në hartë për të parë projektet e atij qyteti
         </p>
       )}

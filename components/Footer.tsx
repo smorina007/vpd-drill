@@ -66,7 +66,7 @@ export default function Footer() {
           </div>
 
           <nav aria-label={f ? f.linket : 'Linke të shpejta'}>
-            <h4 className="mb-4 text-sm font-bold text-white">{f ? f.linket : 'Linke të shpejta'}</h4>
+            <h2 className="mb-4 text-sm font-bold text-white">{f ? f.linket : 'Linke të shpejta'}</h2>
             <ul className="space-y-2.5 text-[15px]">
               {navFooter.map((l) => (
                 <li key={l.href}>
@@ -79,7 +79,7 @@ export default function Footer() {
           </nav>
 
           <div>
-            <h4 className="mb-4 text-sm font-bold text-white">{f ? f.kontakti : 'Kontakti'}</h4>
+            <h2 className="mb-4 text-sm font-bold text-white">{f ? f.kontakti : 'Kontakti'}</h2>
             <ul className="space-y-2.5 text-[15px]">
               {telefonat.map((t) => (
                 <li key={t.tel}>
@@ -103,7 +103,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="mb-4 text-sm font-bold text-white">{f ? f.adresa : 'Adresa'}</h4>
+            <h2 className="mb-4 text-sm font-bold text-white">{f ? f.adresa : 'Adresa'}</h2>
             <p className="flex items-start gap-3 text-[15px]">
               <FaMapMarkerAlt className="mt-1 shrink-0 text-xs text-glacier" />
               {f ? f.adresaTekst : 'Fsh Dragobil, 24000 Malisheve, Kosovë'}
@@ -121,7 +121,7 @@ export default function Footer() {
 
         {/* Zonat që mbulojmë — tekst i dukshëm për kërkimet lokale */}
         <div className="mt-12 border-t border-white/10 pt-8">
-          <h4 className="mb-3 text-sm font-bold text-white">{f ? f.zonat : 'Zonat ku kemi punuar'}</h4>
+          <h2 className="mb-3 text-sm font-bold text-white">{f ? f.zonat : 'Zonat ku kemi punuar'}</h2>
           <p className="text-sm leading-relaxed text-white/55">
             {f
               ? f.zonatTekst(QYTETET_E_PUNES.join(', '))

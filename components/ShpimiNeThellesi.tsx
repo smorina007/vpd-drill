@@ -77,7 +77,7 @@ export default function ShpimiNeThellesi() {
                 reduce={reduce}
               />
             </div>
-            <p className="mt-2 text-[10px] text-white/40 sm:text-xs [@media(max-height:760px)]:hidden">Shtresat e tokës janë ilustruese.</p>
+            <p className="mt-2 text-[10px] text-white/65 sm:text-xs [@media(max-height:760px)]:hidden">Shtresat e tokës janë ilustruese.</p>
           </div>
 
           {/* Teksti */}
@@ -103,12 +103,12 @@ export default function ShpimiNeThellesi() {
                     <Link
                       href={pk.href}
                       className={`group flex items-center gap-3 rounded-md px-3 py-2.5 transition-all duration-500 sm:gap-4 sm:px-4 sm:py-3 ${
-                        arritur ? 'bg-white/[0.07] opacity-100' : 'translate-x-2 opacity-30'
+                        arritur ? 'bg-white/[0.07] opacity-100' : 'translate-x-2 opacity-60'
                       } [@media(max-height:900px)]:!py-1.5 [@media(max-height:760px)]:!py-1`}
                     >
                       <span
                         className={`w-14 shrink-0 text-right text-sm font-extrabold font-wide tabular sm:w-16 sm:text-base ${
-                          arritur ? 'text-signal' : 'text-white/50'
+                          arritur ? 'text-signal' : 'text-white'
                         }`}
                       >
                         {pk.d} m

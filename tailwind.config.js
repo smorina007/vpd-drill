@@ -12,7 +12,7 @@ module.exports = {
         brand: { DEFAULT: '#256D7B', dark: '#1A4F5A', light: '#3C8796' },
         glacier: '#7FC8D9',
         stone: { DEFAULT: '#F3F5F4', 2: '#E7ECEB', line: '#D3DCDB' },
-        slate: { ink: '#3F5559', mute: '#6B7F82' },
+        slate: { ink: '#3F5559', mute: '#586C6F' },
         signal: { DEFAULT: '#F2B705', dark: '#D9A300' },
       },
       fontFamily: {

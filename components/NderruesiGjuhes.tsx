@@ -62,7 +62,7 @@ export default function NderruesiGjuhes({
         onClick={() => setHapur((v) => !v)}
         aria-expanded={hapur}
         aria-haspopup="true"
-        aria-label="Gjuha / Sprache / Language"
+        aria-label={`${gjuha.toUpperCase()} – Gjuha / Sprache / Language`}
         className={`flex items-center gap-1.5 rounded-md px-2.5 py-2 text-sm font-bold transition-colors ${
           solid ? 'text-slate-ink hover:bg-stone' : 'text-white/90 hover:bg-white/10'
         } ${hapur ? (solid ? 'bg-stone' : 'bg-white/10') : ''}`}
