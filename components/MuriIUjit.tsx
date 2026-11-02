@@ -8,7 +8,7 @@ import VideoNePamje from './ui/VideoNePamje'
 import Lightbox from './ui/Lightbox'
 import { linkuIMedias } from '@/lib/galeriaMedia'
 
-const KLIPET = Array.from({ length: 10 }, (_, i) => ({ src: `/videos/puse/p${i + 1}.mp4`, poster: `/videos/puse/p${i + 1}.jpg` }))
+const KLIPET = Array.from({ length: 10 }, (_, i) => ({ src: `/videos/puse/u${i + 1}.mp4`, poster: `/videos/puse/u${i + 1}.jpg` }))
 
 /** Kolonat e murit: secila lëviz me shpejtësi dhe drejtim tjetër */
 const KOLONAT = [

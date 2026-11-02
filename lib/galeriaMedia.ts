@@ -124,6 +124,16 @@ const vid = (id: string, t: string, kategoria: string, vertikale = true): MediaI
 /** Videot e dërguara më 31.10.2026 (pa zë — disa kishin muzikë TikTok). */
 const videoTeReja: MediaItem[] = [
   { ...vid('kolazh-puse', 'Uji nga thellësia — kolazh nga shpimet e puseve', KAT_PUSE), src: '/videos/puse/kolazh-puse.mp4', poster: '/videos/puse/kolazh-puse.jpg' },
+  { ...vid('uji-1', 'Uji shpërthen nga pusi', KAT_PUSE), src: '/videos/puse/u1.mp4', poster: '/videos/puse/u1.jpg' },
+  { ...vid('uji-2', 'Prurje e fortë uji gjatë shpimit', KAT_PUSE), src: '/videos/puse/u2.mp4', poster: '/videos/puse/u2.jpg' },
+  { ...vid('uji-3', 'Avull nga uji i pusit të sapohapur', KAT_PUSE), src: '/videos/puse/u3.mp4', poster: '/videos/puse/u3.jpg' },
+  { ...vid('uji-4', 'Uji i pastër nga thellësia', KAT_PUSE), src: '/videos/puse/u4.mp4', poster: '/videos/puse/u4.jpg' },
+  { ...vid('uji-5', 'Uji rrjedh nga gypi i pusit', KAT_PUSE), src: '/videos/puse/u5.mp4', poster: '/videos/puse/u5.jpg' },
+  { ...vid('uji-6', 'Shpimi i pusit me kompresor', KAT_PUSE), src: '/videos/puse/u6.mp4', poster: '/videos/puse/u6.jpg' },
+  { ...vid('uji-7', 'Shpim pusi pranë fabrikës', KAT_PUSE), src: '/videos/puse/u7.mp4', poster: '/videos/puse/u7.jpg' },
+  { ...vid('uji-8', 'Makina e shpimit të puseve në punë', KAT_PUSE), src: '/videos/puse/u8.mp4', poster: '/videos/puse/u8.jpg' },
+  { ...vid('uji-9', 'Shpim pusi në terren argjilor', KAT_PUSE), src: '/videos/puse/u9.mp4', poster: '/videos/puse/u9.jpg' },
+  { ...vid('uji-10', 'Vinçi dhe makina e shpimit në kantier urban', KAT_VINC), src: '/videos/puse/u10.mp4', poster: '/videos/puse/u10.jpg' },
   vid('soilmec-4k', 'Soilmec SR-30 — shpimi i pilotave', KAT_PILOTA, false),
   vid('hapja-pilotave', 'Hapja e pilotave pranë objektit', KAT_PILOTA),
   vid('pus-uji', 'Shpimi i pusit — uji shpërthen nga thellësia', KAT_PUSE, false),
