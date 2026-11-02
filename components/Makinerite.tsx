@@ -30,7 +30,7 @@ const flota = [
   {
     titulli: 'Krane dhe ngritës',
     pershkrimi: 'Ngritje dhe montim: kafazë armature, mure L, shtylla dhe elemente të rënda.',
-    video: '/videos/te-reja/vinc-1',
+    video: '/videos/puse/u10',
     modelet: ['XCMG kran i peshave të rënda', 'Krane ndihmëse'],
     icon: GiCrane,
   },
