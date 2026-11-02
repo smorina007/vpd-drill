@@ -3,6 +3,7 @@ import VleresuesiCmimit from '@/components/VleresuesiCmimit'
 import { FaWater, FaRuler, FaClock } from 'react-icons/fa'
 import type { Metadata } from 'next'
 import GaleriaSherbimit from '@/components/GaleriaSherbimit'
+import MuriIUjit from '@/components/MuriIUjit'
 
 export const metadata: Metadata = {
   title: 'Shpim Pusesh Uji (Bunar) deri 500m Thellësi',
@@ -61,6 +62,7 @@ export default function ShpimePusePage() {
         { icon: FaWater, text: '10+ makineri të specializuara' },
       ]}
     />
+    <MuriIUjit />
     <GaleriaSherbimit titulli="Shpime pusesh dhe makineritë tona" kategorite={['Puse uji', 'Shpime']} fjaleKyce={['makina e shpimit', 'makinat e shpimit']} />
     <VleresuesiCmimit />
     </>

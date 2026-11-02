@@ -6,6 +6,7 @@ import VleresuesiCmimit from '@/components/VleresuesiCmimit'
 import Makinerite from '@/components/Makinerite'
 import Prodhimi from '@/components/Prodhimi'
 import Galeria from '@/components/Galeria'
+import MuriIUjit from '@/components/MuriIUjit'
 import GrupiVPD from '@/components/GrupiVPD'
 import Vleresimet from '@/components/Vleresimet'
 import Bashkepunetoret from '@/components/Bashkepunetoret'
@@ -29,6 +30,7 @@ export default function Home() {
       <VleresuesiCmimit />
       <Makinerite />
       <Prodhimi />
+      <MuriIUjit />
       <Galeria />
       <GrupiVPD />
       <Vleresimet />

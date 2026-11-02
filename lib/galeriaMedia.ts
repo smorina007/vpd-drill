@@ -123,6 +123,7 @@ const vid = (id: string, t: string, kategoria: string, vertikale = true): MediaI
 
 /** Videot e dërguara më 31.10.2026 (pa zë — disa kishin muzikë TikTok). */
 const videoTeReja: MediaItem[] = [
+  { ...vid('kolazh-puse', 'Uji nga thellësia — kolazh nga shpimet e puseve', KAT_PUSE), src: '/videos/puse/kolazh-puse.mp4', poster: '/videos/puse/kolazh-puse.jpg' },
   vid('soilmec-4k', 'Soilmec SR-30 — shpimi i pilotave', KAT_PILOTA, false),
   vid('hapja-pilotave', 'Hapja e pilotave pranë objektit', KAT_PILOTA),
   vid('pus-uji', 'Shpimi i pusit — uji shpërthen nga thellësia', KAT_PUSE, false),

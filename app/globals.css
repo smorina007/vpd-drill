@@ -217,3 +217,11 @@
 @media (prefers-reduced-motion: reduce) {
   .prerja-uji, .prerja-drita, .prerja-spiralja, .prerja-shkendija { animation: none; }
 }
+
+/* Muri i videove të puseve — lëvizje e pafundme vertikale */
+@keyframes muri-leviz {
+  from { transform: translateY(0); }
+  to { transform: translateY(calc(-50% - 0.5rem)); }
+}
+.muri-leviz { animation: muri-leviz linear infinite; will-change: transform; }
+.muri-leviz:hover { animation-play-state: paused; }
