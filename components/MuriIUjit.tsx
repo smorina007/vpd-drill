@@ -18,8 +18,8 @@ const KOLONAT = [
 ]
 
 const FILMI = {
-  src: '/videos/puse/kolazh-puse.mp4',
-  poster: '/videos/puse/kolazh-puse.jpg',
+  src: '/videos/puse/promo-uji.mp4',
+  poster: '/videos/puse/promo-uji.jpg',
   type: 'video' as const,
   title: 'Uji nga thellësia',
   meta: 'Shpime pusesh uji · VPD DRILL',
@@ -70,7 +70,7 @@ export default function MuriIUjit() {
               </span>
               <span>
                 <span className="block text-[15px] font-bold">Shiko filmin</span>
-                <span className="block text-xs text-slate-mute">37 sekonda · nga kantieret</span>
+                <span className="block text-xs text-slate-mute">33 sekonda · me muzikë</span>
               </span>
             </button>
             <Link href="/sherbimet/shpime-puse" className="btn-ghost-light px-6 py-3.5">

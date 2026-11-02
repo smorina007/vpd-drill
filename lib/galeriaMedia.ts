@@ -123,7 +123,7 @@ const vid = (id: string, t: string, kategoria: string, vertikale = true): MediaI
 
 /** Videot e dërguara më 31.10.2026 (pa zë — disa kishin muzikë TikTok). */
 const videoTeReja: MediaItem[] = [
-  { ...vid('kolazh-puse', 'Uji nga thellësia — kolazh nga shpimet e puseve', KAT_PUSE), src: '/videos/puse/kolazh-puse.mp4', poster: '/videos/puse/kolazh-puse.jpg' },
+  { ...vid('kolazh-puse', 'Uji nga thellësia — video promocionale me muzikë', KAT_PUSE), src: '/videos/puse/promo-uji.mp4', poster: '/videos/puse/promo-uji.jpg' },
   { ...vid('uji-1', 'Uji shpërthen nga pusi', KAT_PUSE), src: '/videos/puse/u1.mp4', poster: '/videos/puse/u1.jpg' },
   { ...vid('uji-2', 'Prurje e fortë uji gjatë shpimit', KAT_PUSE), src: '/videos/puse/u2.mp4', poster: '/videos/puse/u2.jpg' },
   { ...vid('uji-3', 'Avull nga uji i pusit të sapohapur', KAT_PUSE), src: '/videos/puse/u3.mp4', poster: '/videos/puse/u3.jpg' },
