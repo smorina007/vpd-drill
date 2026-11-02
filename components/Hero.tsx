@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { motion, useReducedMotion } from 'framer-motion'
-import { FaArrowDown, FaPlay, FaVolumeMute } from 'react-icons/fa'
+import { FaArrowDown, FaPlay, FaTint, FaVolumeMute } from 'react-icons/fa'
 import { useOferta } from '@/app/context/OfertaContext'
 import Lightbox from '@/components/ui/Lightbox'
 
@@ -111,13 +111,16 @@ export default function Hero() {
             </p>
             <div
               style={{ animationDelay: '0.45s' }}
-              className="anim-fade-up mt-9 flex flex-col gap-3 sm:flex-row"
+              className="anim-fade-up mt-9 grid gap-3 sm:max-w-[560px] sm:grid-cols-2"
             >
-              <button type="button" onClick={openOferta} className="btn-signal px-7 py-3.5 text-base">
+              <button type="button" onClick={openOferta} className="btn-signal px-7 py-3.5 text-base sm:col-span-2">
                 Kërko Ofertë
               </button>
-              <a href="#si-punojme" className="btn-ghost-light px-7 py-3.5 text-base">
+              <a href="#si-punojme" className="btn-ghost-light justify-center px-6 py-3.5 text-base">
                 <FaPlay className="text-xs" /> Shiko si punojmë
+              </a>
+              <a href="#uji-nga-thellesia" className="btn-ghost-light justify-center px-6 py-3.5 text-base">
+                <FaTint className="text-sm text-glacier" /> Momenti kur del uji
               </a>
             </div>
           </div>
