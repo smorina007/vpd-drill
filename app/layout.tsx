@@ -156,8 +156,8 @@ export default function RootLayout({
                   { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Pilota për Objekte (Piling Foundations)' } },
                   { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Ankera dhe Stabilizim (Ground Anchors)' } },
                   { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Germim me Diafragmë (Diaphragm Wall Excavation)' } },
-                  { '@type': 'Offer', itemOffered: { '@type': 'Product', name: 'Gypa Betoni dhe Muri L (Concrete Pipes & L-Walls)' } },
-                  { '@type': 'Offer', itemOffered: { '@type': 'Product', name: 'Kosha Armature dhe Hekur (Rebar Cages & Steel)' } },
+                  { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Prodhim dhe shitje: Gypa Betoni dhe Muri L (Concrete Pipes & L-Walls)' } },
+                  { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Prodhim dhe shitje: Kosha Armature dhe Hekur (Rebar Cages & Steel)' } },
                 ],
               },
               description:
