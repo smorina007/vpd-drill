@@ -2,7 +2,11 @@ import type { MetadataRoute } from 'next'
 import fs from 'node:fs'
 import path from 'node:path'
 import { SITE_URL } from '@/lib/site'
-import { mediaTeReja } from '@/lib/galeriaMedia'
+import { mediaTeReja, KAT_DIAFRAGME, KAT_PUSE } from '@/lib/galeriaMedia'
+
+/** Next.js nuk i kodon tekstet e videove në sitemap — `&` e prish XML-in. */
+const xml = (s: string) =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;')
 
 /** Të gjitha fotot e një dosjeje në /public (për sitemap-in e imazheve). */
 function fotot(dosja: string): string[] {
@@ -35,20 +39,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/en',
   ]
 
-  const videot = mediaTeReja
-    .filter((m) => m.lloji === 'video')
-    .map((m) => ({
-      title: `${m.titulli} — VPD DRILL`,
-      description: `${m.titulli}. Video nga kantieri i VPD DRILL — ${m.kategoria.toLowerCase()} në Kosovë.`,
-      thumbnail_loc: `${SITE_URL}${m.poster}`,
-      content_loc: `${SITE_URL}${m.src}`,
-    }))
+  const videotE = (kat?: string) =>
+    mediaTeReja
+      .filter((m) => m.lloji === 'video' && (!kat || m.kategoria === kat))
+      .map((m) => ({
+        title: xml(`${m.titulli} — VPD DRILL`),
+        description: xml(`${m.titulli}. Video nga kantieri i VPD DRILL — ${m.kategoria.toLowerCase()} në Kosovë.`),
+        thumbnail_loc: xml(`${SITE_URL}${m.poster}`),
+        content_loc: xml(`${SITE_URL}${m.src}`),
+      }))
+  const videot = videotE()
 
   const shtesa: Record<string, Partial<MetadataRoute.Sitemap[number]>> = {
     '': { images: [`${SITE_URL}/images/og-image.jpg`, ...fotot('images/hero')] },
     '/projektet': { images: fotot('images/galeria'), videos: videot },
     '/produktet': { images: fotot('images/produktet') },
-    '/sherbimet/germim-diafragme': { images: fotot('images/galeria/diafragme'), videos: videot },
+    '/sherbimet/germim-diafragme': { images: fotot('images/galeria/diafragme'), videos: videotE(KAT_DIAFRAGME) },
+    '/sherbimet/shpime-puse': { videos: videotE(KAT_PUSE) },
   }
 
   return routes.map((route) => ({
