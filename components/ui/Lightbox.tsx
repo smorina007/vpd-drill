@@ -2,6 +2,7 @@
 
 import { type MouseEvent, ReactNode, useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
+import { createPortal } from 'react-dom'
 import { AnimatePresence, motion, type PanInfo } from 'framer-motion'
 import Shperndaj from './Shperndaj'
 import { FaChevronLeft, FaChevronRight, FaTimes, FaPlay, FaPause, FaSearchPlus, FaSearchMinus } from 'react-icons/fa'
@@ -54,6 +55,11 @@ export default function Lightbox({ items, index, onClose, onIndex }: Props) {
   const open = index !== null && index >= 0 && index < items.length
   const item = open ? items[index!] : null
   const isVideo = item?.type === 'video'
+
+  // Lightbox-i vendoset direkt te <body>: përndryshe seksionet me `isolate`/transform
+  // e mbyllin poshtë header-it dhe butoni X mbulohet nga header-i.
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
 
   const [dir, setDir] = useState(1)
   const [playing, setPlaying] = useState(false)
@@ -146,7 +152,8 @@ export default function Lightbox({ items, index, onClose, onIndex }: Props) {
     setPlaying(false)
   }
 
-  return (
+  if (!mounted) return null
+  return createPortal(
     <AnimatePresence>
       {open && item && (
         <motion.div
@@ -374,6 +381,7 @@ export default function Lightbox({ items, index, onClose, onIndex }: Props) {
           )}
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   )
 }
