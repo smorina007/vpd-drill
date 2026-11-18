@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type CSSProperties, type ComponentProps } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion, useReducedMotion } from 'framer-motion'
@@ -50,6 +50,19 @@ const fotot: (LightboxItem & { alt: string })[] = [
     meta: 'Transport me rimorkio speciale',
   },
 ]
+
+/** Foto që shfaqet butë (fade) sapo të ngarkohet. */
+function FotoFade({ className = '', ...props }: ComponentProps<typeof Image>) {
+  const [gati, setGati] = useState(false)
+  return (
+    <Image
+      {...props}
+      alt={props.alt}
+      onLoad={() => setGati(true)}
+      className={`${className} ${gati ? 'opacity-100' : 'opacity-0'}`}
+    />
+  )
+}
 
 /** Video vertikale (reel) — luan pa zë kur del në ekran; butoni e ndez zërin. */
 function ReelVideo() {
@@ -131,6 +144,27 @@ export default function XCMGRisi() {
   const reduce = useReducedMotion()
   const { openOferta } = useOferta()
   const [hapur, setHapur] = useState<number | null>(null)
+  const listaRef = useRef<HTMLUListElement>(null)
+  const [aktive, setAktive] = useState(0)
+  const [skajet, setSkajet] = useState({ majtas: false, djathtas: true })
+  const perditesoLeviz = () => {
+    const el = listaRef.current
+    if (!el) return
+    const max = el.scrollWidth - el.clientWidth
+    setSkajet({ majtas: el.scrollLeft > 8, djathtas: el.scrollLeft < max - 8 })
+    const kartat = Array.from(el.querySelectorAll<HTMLElement>('[data-foto]'))
+    let afer = 0
+    let dist = Infinity
+    kartat.forEach((k, i) => {
+      const d = Math.abs(k.offsetLeft - el.scrollLeft - 16)
+      if (d < dist) {
+        dist = d
+        afer = i
+      }
+    })
+    setAktive(afer)
+  }
+  const maska = `linear-gradient(to right, ${skajet.majtas ? 'transparent 0, #000 9%' : '#000 0'}, ${skajet.djathtas ? '#000 82%, transparent 100%' : '#000 100%'})`
 
   return (
     <article id="xcmg-xr138e" className="relative isolate">
@@ -206,48 +240,82 @@ export default function XCMGRisi() {
       </div>
 
       {/* Fotot — rrjetë "bento" në desktop, rrëshqitje horizontale në celular */}
-      <ul className="no-scrollbar -mx-4 mt-14 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible sm:px-0 lg:h-[620px] lg:grid-cols-12 lg:grid-rows-2">
-        {fotot.map((f, i) => {
-          const vendi = [
-            'w-[78%] aspect-[3/4] sm:w-auto lg:col-span-5 lg:row-span-2 lg:aspect-auto',
-            'w-[78%] aspect-[3/4] sm:w-auto lg:col-span-4 lg:col-start-6 lg:row-span-2 lg:row-start-1 lg:aspect-auto',
-            'w-[70%] aspect-square sm:w-auto sm:aspect-[4/3] lg:col-span-3 lg:col-start-10 lg:row-start-1 lg:aspect-auto',
-            'w-[70%] aspect-square sm:w-auto sm:aspect-[4/3] lg:col-span-3 lg:col-start-10 lg:row-start-2 lg:aspect-auto',
-          ][i]
-          const pozicioni = ['object-[40%_25%]', 'object-[55%_30%]', 'object-[72%_60%]', 'object-[50%_40%]'][i]
-          return (
-            <li key={f.src} className={`relative shrink-0 snap-start ${vendi}`}>
-              <button
-                type="button"
-                onClick={() => setHapur(i)}
-                data-kursor="Shiko"
-                aria-label={`Hap foton: ${f.title}`}
-                className="group absolute inset-0 overflow-hidden rounded-2xl bg-bedrock ring-1 ring-white/10"
+      <div className="relative -mx-4 mt-14 sm:mx-0">
+        <ul
+          ref={listaRef}
+          onScroll={perditesoLeviz}
+          style={
+            {
+              WebkitMaskImage: maska,
+              maskImage: maska,
+            } as CSSProperties
+          }
+          className="no-scrollbar flex snap-x snap-mandatory scroll-px-4 gap-3 overflow-x-auto px-4 pb-1 sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible sm:px-0 sm:pb-0 sm:![mask-image:none] sm:![-webkit-mask-image:none] lg:h-[620px] lg:grid-cols-12 lg:grid-rows-2"
+        >
+          {fotot.map((f, i) => {
+            const vendi = [
+              'w-[80%] aspect-[3/4] sm:w-auto lg:col-span-5 lg:row-span-2 lg:aspect-auto',
+              'w-[80%] aspect-[3/4] sm:w-auto lg:col-span-4 lg:col-start-6 lg:row-span-2 lg:row-start-1 lg:aspect-auto',
+              'w-[80%] aspect-[3/4] sm:w-auto sm:aspect-[4/3] lg:col-span-3 lg:col-start-10 lg:row-start-1 lg:aspect-auto',
+              'w-[80%] aspect-[3/4] sm:w-auto sm:aspect-[4/3] lg:col-span-3 lg:col-start-10 lg:row-start-2 lg:aspect-auto',
+            ][i]
+            const pozicioni = ['object-[40%_25%]', 'object-[55%_30%]', 'object-[72%_60%]', 'object-[50%_40%]'][i]
+            return (
+              <motion.li
+                key={f.src}
+                data-foto={i}
+                className={`relative shrink-0 snap-start ${vendi}`}
+                initial={reduce ? false : { opacity: 0, y: 28, scale: 0.97, filter: 'blur(10px)' }}
+                whileInView={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 0.9, delay: reduce ? 0 : 0.08 + (i % 2) * 0.12 + Math.floor(i / 2) * 0.1, ease: [0.22, 1, 0.36, 1] }}
               >
-                <Image
-                  src={f.src}
-                  alt={f.alt}
-                  fill
-                  sizes={i < 2 ? '(max-width: 640px) 80vw, (max-width: 1024px) 50vw, 40vw' : '(max-width: 640px) 70vw, (max-width: 1024px) 50vw, 25vw'}
-                  className={`object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.06] ${pozicioni}`}
-                />
-                <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-black/5 to-transparent" />
-                <span className="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-full bg-black/45 text-xs text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
-                  <FaExpand />
-                </span>
-                <span className="absolute inset-x-0 bottom-0 p-4 text-left">
-                  {i === 3 && (
-                    <span className="mb-1 flex items-center gap-1.5 text-xs font-semibold text-signal">
-                      <FaTruck /> Transport i sigurt
-                    </span>
-                  )}
-                  <span className="block text-sm font-bold leading-snug text-white sm:text-[15px]">{f.title}</span>
-                </span>
-              </button>
-            </li>
-          )
-        })}
-      </ul>
+                <button
+                  type="button"
+                  onClick={() => setHapur(i)}
+                  data-kursor="Shiko"
+                  aria-label={`Hap foton: ${f.title}`}
+                  className="group absolute inset-0 overflow-hidden rounded-2xl bg-bedrock ring-1 ring-white/10"
+                >
+                  <FotoFade
+                    src={f.src}
+                    alt={f.alt}
+                    fill
+                    sizes={i < 2 ? '(max-width: 640px) 80vw, (max-width: 1024px) 50vw, 40vw' : '(max-width: 640px) 70vw, (max-width: 1024px) 50vw, 25vw'}
+                    className={`object-cover transition-[transform,opacity] duration-[1400ms] ease-out group-hover:scale-[1.06] ${pozicioni}`}
+                  />
+                  <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+                  <span className="pointer-events-none absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-black/30 to-transparent" />
+                  <span className="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-full bg-black/45 text-xs text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
+                    <FaExpand />
+                  </span>
+                  <span className="absolute inset-x-0 bottom-0 p-4 text-left">
+                    {i === 3 && (
+                      <span className="mb-1 flex items-center gap-1.5 text-xs font-semibold text-signal">
+                        <FaTruck /> Transport i sigurt
+                      </span>
+                    )}
+                    <span className="block text-sm font-bold leading-snug text-white sm:text-[15px]">{f.title}</span>
+                  </span>
+                </button>
+              </motion.li>
+            )
+          })}
+        </ul>
+
+        {/* Pikat e rrëshqitjes — vetëm në celular */}
+        <div className="mt-5 flex items-center justify-center gap-2 sm:hidden" aria-hidden="true">
+          {fotot.map((f, i) => (
+            <span
+              key={f.src}
+              className={`h-1.5 rounded-full transition-all duration-500 ${i === aktive ? 'w-6 bg-signal' : 'w-1.5 bg-white/30'}`}
+            />
+          ))}
+          <span className="ml-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/50">
+            {aktive + 1} / {fotot.length}
+          </span>
+        </div>
+      </div>
 
       <Lightbox
         items={[...fotot.map(({ alt: _alt, ...f }) => f), { ...VIDEO, type: 'video' as const, title: 'XCMG XR138E — e re në flotën tonë', meta: 'Video promovuese · VPD DRILL' }]}
