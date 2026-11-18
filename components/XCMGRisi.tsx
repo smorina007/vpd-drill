@@ -27,8 +27,8 @@ const specs = [
 const fotot: (LightboxItem & { alt: string })[] = [
   {
     src: `${DIR}/xr138e-direku-qielli.jpg`,
-    alt: 'XCMG XR138E e VPD Drill me direkun e shpimit të ngritur nën qiell të kaltër',
-    title: 'XCMG XR138E — direku i ngritur, gati për shpim',
+    alt: 'XCMG XR138E e VPD Drill, e gatshme për shpim, nën qiell të kaltër',
+    title: 'XCMG XR138E — e gatshme për shpim',
     meta: 'Flota VPD DRILL',
   },
   {
