@@ -134,6 +134,7 @@ const videoTeReja: MediaItem[] = [
   { ...vid('uji-8', 'Makina e shpimit të puseve në punë', KAT_PUSE), src: '/videos/puse/u8.mp4', poster: '/videos/puse/u8.jpg' },
   { ...vid('uji-9', 'Shpim pusi në terren argjilor', KAT_PUSE), src: '/videos/puse/u9.mp4', poster: '/videos/puse/u9.jpg' },
   { ...vid('uji-10', 'Vinçi dhe makina e shpimit në kantier urban', KAT_VINC), src: '/videos/puse/u10.mp4', poster: '/videos/puse/u10.jpg' },
+  { ...vid('xcmg-xr138e', 'XCMG XR138E — e re në flotën tonë (video me muzikë)', KAT_PILOTA), src: '/videos/xcmg/xr138e-promo.mp4', poster: '/videos/xcmg/xr138e-promo.jpg' },
   vid('soilmec-4k', 'Soilmec SR-30 — shpimi i pilotave', KAT_PILOTA, false),
   vid('hapja-pilotave', 'Hapja e pilotave pranë objektit', KAT_PILOTA),
   vid('pus-uji', 'Shpimi i pusit — uji shpërthen nga thellësia', KAT_PUSE, false),

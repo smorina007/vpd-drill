@@ -3,6 +3,7 @@ import { FaCog, FaTruck, FaHammer, FaArrowsAltV, FaAward, FaShieldAlt } from 're
 import { GiCrane } from 'react-icons/gi'
 import SectionHeading from './ui/SectionHeading'
 import VideoNePamje from './ui/VideoNePamje'
+import XCMGRisi from './XCMGRisi'
 
 /** Flota me media reale — çdo kartelë ka video ose foto nga kantieret tona. */
 const flota = [
@@ -45,9 +46,14 @@ const bauerSpecs = [
 
 export default function Makinerite() {
   return (
-    <section id="makinerite" data-shtresa="Makineritë" className="bg-bedrock-2 py-20 text-white sm:py-28">
+    <section id="makinerite" data-shtresa="Makineritë" className="overflow-x-clip bg-bedrock-2 py-20 text-white sm:py-28">
       <div className="shell">
         <SectionHeading tone="dark" title="Makineritë tona" lede="Flotë e pasur me makineri të specializuara për çdo lloj pune" />
+
+        {/* E re në flotë — XCMG XR138E */}
+        <XCMGRisi />
+
+        <div className="my-16 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent sm:my-20" aria-hidden="true" />
 
         {/* Makineria kryesuese — Bauer MC 32 */}
         <article className="group grid overflow-hidden rounded-xl bg-bedrock ring-1 ring-white/10 lg:grid-cols-2">

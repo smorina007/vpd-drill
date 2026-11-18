@@ -51,7 +51,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const videot = videotE()
 
   const shtesa: Record<string, Partial<MetadataRoute.Sitemap[number]>> = {
-    '': { images: [`${SITE_URL}/images/og-image.jpg`, ...fotot('images/hero')] },
+    '': { images: [`${SITE_URL}/images/og-image.jpg`, ...fotot('images/hero'), ...fotot('images/makinerite')] },
     '/projektet': { images: fotot('images/galeria'), videos: videot },
     '/produktet': { images: fotot('images/produktet') },
     '/sherbimet/germim-diafragme': { images: fotot('images/galeria/diafragme'), videos: videotE(KAT_DIAFRAGME) },
