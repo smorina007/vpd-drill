@@ -10,17 +10,17 @@ import Lightbox, { type LightboxItem } from './ui/Lightbox'
 
 /**
  * "E re në flotën tonë" — XCMG XR138E.
- * Specifikimet sipas XCMG Türkiye (xcmg.com.tr/xr138e-374): Ø1500 mm, 45 m,
- * 138 kN·m, 37 t, 133/173 kW.
+ * Ø1500 mm dhe 138 kN·m sipas XCMG (xcmg.com.tr/xr138e-374); thellësia mbi 50 m dhe
+ * pesha 42 t sipas konfigurimit të makinës së VPD DRILL (konfirmuar nga kompania).
  */
 const VIDEO = { src: '/videos/xcmg/xr138e-promo.mp4', poster: '/videos/xcmg/xr138e-promo.jpg' }
 const DIR = '/images/makinerite/xcmg-xr138e'
 
 const specs = [
   { vlera: 'Ø1500', njesia: 'mm', label: 'Diametri maksimal i pilotës' },
-  { vlera: '45', njesia: 'm', label: 'Thellësia maksimale e shpimit' },
+  { vlera: '50+', njesia: 'm', label: 'Thellësia e shpimit' },
   { vlera: '138', njesia: 'kN·m', label: 'Moment rrotullues' },
-  { vlera: '37', njesia: 't', label: 'Pesha e punës' },
+  { vlera: '42', njesia: 't', label: 'Pesha e punës' },
   { vlera: '173', njesia: 'kW', label: 'Fuqia e motorit (deri)' },
 ]
 
@@ -159,10 +159,10 @@ export default function XCMGRisi() {
               Flota e VPD DRILL sapo u forcua me <strong className="text-white">XCMG XR138E</strong>, një makinë shpimi
               rotative e gjeneratës së re. Me <strong className="text-white">138 kN·m moment rrotullues</strong> ajo hap
               pilota deri në <strong className="text-white">Ø1500 mm</strong> dhe{' '}
-              <strong className="text-white">45 metra thellësi</strong>, si në argjilë e rërë, ashtu edhe në shtresa të forta.
+              <strong className="text-white">mbi 50 metra thellësi</strong>, si në argjilë e rërë, ashtu edhe në shtresa të forta.
             </p>
             <p>
-              Me 37 tonë peshë pune, transportohet dhe vendoset shpejt, ndaj futet lehtë edhe në kantiere urbane ku hapësira
+              Me 42 tonë peshë pune, qëndron e palëkundur gjatë shpimit, ndërsa transportohet dhe vendoset shpejt, ndaj futet lehtë edhe në kantiere urbane ku hapësira
               është e kufizuar. Për projektin tuaj kjo do të thotë themele më të shpejta, pilota të sakta dhe afate që
               mbahen. <span className="font-semibold text-white">Fuqi. Precizion. Gati për çdo sfidë.</span>
             </p>
@@ -180,7 +180,7 @@ export default function XCMGRisi() {
               </div>
             ))}
           </dl>
-          <p className="mt-2 text-[11px] text-white/40">Specifikimet sipas prodhuesit XCMG.</p>
+          <p className="mt-2 text-[11px] text-white/40">Specifikimet e makinës XCMG XR138E të VPD DRILL.</p>
 
           <ul className="mt-6 flex flex-wrap gap-2 text-sm font-semibold">
             {['Pilota me diametër të madh', 'Themele të thella', 'Kantiere urbane', 'Terrene të buta dhe të forta'].map((t) => (

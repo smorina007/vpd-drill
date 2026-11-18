@@ -36,7 +36,7 @@ const knowledgeBase = {
   pilota: {
     title: '🏗️ Çka janë "pilotat"?',
     body:
-      'Pilotat janë kolona betoni (të armuara me hekur brenda) të vendosura thellë në tokë, që shërbejnë si **themel** për objekte — sidomos kur toka sipërfaqësore nuk është e fortë mjaftueshëm për të mbajtur peshën e ndërtesës direkt. Pilotat e transferojnë peshën e ndërtesës drejt shtresave më të thella e më të forta të tokës. I ndërtojmë me metodën **CFA** (shiko poshtë) dhe i përdorim për ndërtesa individuale deri te komplekse industriale. Makina më e re në flotën tonë, **XCMG XR138E**, hap pilota deri Ø1500 mm dhe 45 m thellësi.',
+      'Pilotat janë kolona betoni (të armuara me hekur brenda) të vendosura thellë në tokë, që shërbejnë si **themel** për objekte — sidomos kur toka sipërfaqësore nuk është e fortë mjaftueshëm për të mbajtur peshën e ndërtesës direkt. Pilotat e transferojnë peshën e ndërtesës drejt shtresave më të thella e më të forta të tokës. I ndërtojmë me metodën **CFA** (shiko poshtë) dhe i përdorim për ndërtesa individuale deri te komplekse industriale. Makina më e re në flotën tonë, **XCMG XR138E**, hap pilota deri Ø1500 mm dhe mbi 50 m thellësi.',
   },
   cfa: {
     title: '⚙️ Çka është shpimi CFA?',
