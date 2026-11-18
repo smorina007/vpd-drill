@@ -26,22 +26,22 @@ const specs = [
 
 const fotot: (LightboxItem & { alt: string })[] = [
   {
-    src: `${DIR}/xr138e-pamje-anesore.jpg`,
-    alt: 'XCMG XR138E e VPD Drill me krahun e shpimit të palosur, gati për kantier',
-    title: 'XCMG XR138E — gati për kantier',
+    src: `${DIR}/xr138e-direku-qielli.jpg`,
+    alt: 'XCMG XR138E e VPD Drill me direkun e shpimit të ngritur nën qiell të kaltër',
+    title: 'XCMG XR138E — direku i ngritur, gati për shpim',
     meta: 'Flota VPD DRILL',
+  },
+  {
+    src: `${DIR}/xr138e-direku-stuhia.jpg`,
+    alt: 'XCMG XR138E me shufrën Kelly dhe kokën rrotulluese, nën qiell me re',
+    title: 'Shufra Kelly dhe koka rrotulluese',
+    meta: '138 kN·m moment rrotullues',
   },
   {
     src: `${DIR}/xr138e-detaj.jpg`,
     alt: 'Kabina dhe trupi i XCMG XR138E me logon VPD Drill',
     title: 'Kabina dhe motori',
     meta: 'XCMG XR138E',
-  },
-  {
-    src: `${DIR}/xr138e-krahu-shpimit.jpg`,
-    alt: 'Krahu i shpimit dhe koka rrotulluese e XCMG XR138E',
-    title: 'Krahu i shpimit dhe koka rrotulluese',
-    meta: '138 kN·m moment rrotullues',
   },
   {
     src: `${DIR}/xr138e-transporti.jpg`,
@@ -206,15 +206,15 @@ export default function XCMGRisi() {
       </div>
 
       {/* Fotot — rrjetë "bento" në desktop, rrëshqitje horizontale në celular */}
-      <ul className="no-scrollbar -mx-4 mt-14 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible sm:px-0 lg:h-[520px] lg:grid-cols-4 lg:grid-rows-2">
+      <ul className="no-scrollbar -mx-4 mt-14 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible sm:px-0 lg:h-[620px] lg:grid-cols-12 lg:grid-rows-2">
         {fotot.map((f, i) => {
           const vendi = [
-            'w-[85%] aspect-[4/3] sm:col-span-2 sm:w-auto sm:aspect-[16/9] lg:col-span-2 lg:row-span-2 lg:aspect-auto',
-            'w-[70%] aspect-[4/3] sm:w-auto lg:col-start-3 lg:row-start-1 lg:aspect-auto',
-            'w-[70%] aspect-[4/3] sm:w-auto lg:col-start-3 lg:row-start-2 lg:aspect-auto',
-            'w-[60%] aspect-[3/4] sm:col-span-2 sm:w-auto sm:aspect-[16/7] lg:col-span-1 lg:col-start-4 lg:row-span-2 lg:row-start-1 lg:aspect-auto',
+            'w-[78%] aspect-[3/4] sm:w-auto lg:col-span-5 lg:row-span-2 lg:aspect-auto',
+            'w-[78%] aspect-[3/4] sm:w-auto lg:col-span-4 lg:col-start-6 lg:row-span-2 lg:row-start-1 lg:aspect-auto',
+            'w-[70%] aspect-square sm:w-auto sm:aspect-[4/3] lg:col-span-3 lg:col-start-10 lg:row-start-1 lg:aspect-auto',
+            'w-[70%] aspect-square sm:w-auto sm:aspect-[4/3] lg:col-span-3 lg:col-start-10 lg:row-start-2 lg:aspect-auto',
           ][i]
-          const pozicioni = ['object-center', 'object-[72%_60%]', 'object-[78%_45%]', 'object-[50%_45%]'][i]
+          const pozicioni = ['object-[40%_25%]', 'object-[55%_30%]', 'object-[72%_60%]', 'object-[50%_40%]'][i]
           return (
             <li key={f.src} className={`relative shrink-0 snap-start ${vendi}`}>
               <button
@@ -228,7 +228,7 @@ export default function XCMGRisi() {
                   src={f.src}
                   alt={f.alt}
                   fill
-                  sizes={i === 0 ? '(max-width: 640px) 85vw, 50vw' : '(max-width: 640px) 70vw, 25vw'}
+                  sizes={i < 2 ? '(max-width: 640px) 80vw, (max-width: 1024px) 50vw, 40vw' : '(max-width: 640px) 70vw, (max-width: 1024px) 50vw, 25vw'}
                   className={`object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.06] ${pozicioni}`}
                 />
                 <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-black/5 to-transparent" />
